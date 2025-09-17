@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./direnv.nix
-    ./nnn.nix
     ./shell.nix
     ./alias.nix
     ./dunst.nix
@@ -79,7 +78,7 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/zsh
+          /home/jonboh/.flakes/nixos-config/extra_configs/zsh
         else ../extra_configs/zsh;
     };
     xdg.configFile."wezterm" = {
@@ -88,7 +87,7 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/wezterm
+          /home/jonboh/.flakes/nixos-config/extra_configs/wezterm
         else ../extra_configs/wezterm;
     };
     xdg.configFile."kitty" = {
@@ -97,7 +96,7 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/kitty
+          /home/jonboh/.flakes/nixos-config/extra_configs/kitty
         else ../extra_configs/kitty;
     };
     xdg.configFile."kitty-scrollback-loading" = {
@@ -111,7 +110,7 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/newsboat
+          /home/jonboh/.flakes/nixos-config-extra-private/newsboat
         else ../extra_configs/newsboat;
     };
     xdg.configFile."zfunc_rustcompletions" = {
@@ -120,7 +119,7 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/zfunc_rustcompletions
+          /home/jonboh/.flakes/nixos-config/extra_configs/zfunc_rustcompletions
         else ../extra_configs/zfunc_rustcompletions;
     };
     xdg.configFile."xdg-desktop-portal-termfilechooser" = {
@@ -135,7 +134,7 @@
       enable = true;
       source =
         if config.home.symlink_flake
-        then config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/system/extra_configs/bacon
+        then config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/bacon
         else ../extra_configs/bacon;
     };
     xdg.configFile."shai" = {
@@ -146,19 +145,19 @@
       enable = true;
       source =
         if config.home.symlink_flake
-        then config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/system/extra_configs/zathura
+        then config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/zathura
         else ../extra_configs/zathura;
     };
     xdg.configFile."OpenSCAD" = {
       enable = true;
-      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/system/extra_configs/OpenSCAD;
+      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/OpenSCAD;
     };
     xdg.configFile."starship.toml" = {
       source =
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/starship/starship.toml
+          /home/jonboh/.flakes/nixos-config/extra_configs/starship/starship.toml
         else ../extra_configs/starship/starship.toml;
     };
     xdg.configFile."rofi-pass" = {
@@ -166,16 +165,16 @@
         if config.home.symlink_flake
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/system/extra_configs/rofi-pass
+          /home/jonboh/.flakes/nixos-config/extra_configs/rofi-pass
         else ../extra_configs/rofi-pass;
     };
     home.file.".julia/config/" = {
       enable = true;
-      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/system/extra_configs/julia_config;
+      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/julia_config;
     };
     home.file.".local/share/applications/" = {
       enable = true;
-      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/system/extra_configs/desktop_entries;
+      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/desktop_entries;
     };
 
     programs.git = {

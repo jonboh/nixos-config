@@ -330,7 +330,7 @@ in {
               # remove the numbers used to reorder the workspaces
               strip_workspace_numbers yes
 
-              status_command i3status-rs $HOME/.flakes/system/extra_configs/i3/${i3status_file}
+              status_command i3status-rs $HOME/.flakes/nixos-config/extra_configs/i3/${i3status_file}
               # Disable all tray icons
               tray_output none
               # tray_output primary

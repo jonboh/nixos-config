@@ -1,5 +1,4 @@
 [Desktop Entry]
 Name=Typing Words
-Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty -c ~/.flakes/system/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy word-practice --corpus-file ./corpus_only.txt --length-corpus=1000 --words-per-test 10 --show-results --no-slower-than 75'
+Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty -c ~/.flakes/nixos-config/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy word-practice --corpus-file ./corpus_only.txt --length-corpus=1000 --words-per-test 10 --show-results --no-slower-than 75'
 Type=Application
-

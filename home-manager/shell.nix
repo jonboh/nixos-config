@@ -45,14 +45,14 @@
       bindkey '^Z' fancy-ctrl-z
 
       # yazi
-      source $HOME/.flakes/system/extra_configs/yazi/yazi_wrapper.zsh
+      source $HOME/.flakes/nixos-config/extra_configs/yazi/yazi_wrapper.zsh
       bindkey -s '^b' 'y\n'
 
-      fpath=($HOME/.flakes/system/extra_configs/zsh $fpath)
+      fpath=($HOME/.flakes/nixos-config/extra_configs/zsh $fpath)
       fpath+=~/.config/zfunc_rustcompletions
-      source $HOME/.flakes/system/extra_configs/zsh/cursor_mode.zsh
+      source $HOME/.flakes/nixos-config/extra_configs/zsh/cursor_mode.zsh
       _comp_options+=(globdots)
-      source $HOME/.flakes/system/extra_configs/zsh/completion.zsh # Phantas0s completion options
+      source $HOME/.flakes/nixos-config/extra_configs/zsh/completion.zsh # Phantas0s completion options
 
       # initialize starship
       eval "$(starship init zsh)"

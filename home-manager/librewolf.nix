@@ -9,7 +9,7 @@
       if config.home.symlink_flake
       then
         config.lib.file.mkOutOfStoreSymlink
-        /home/jonboh/.flakes/system/extra_configs/tridactyl/tridactylrc
+        /home/jonboh/.flakes/nixos-config/extra_configs/tridactyl/tridactylrc
       else ../extra_configs/tridactyl/tridactylrc;
   };
 

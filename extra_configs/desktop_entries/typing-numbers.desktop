@@ -1,5 +1,4 @@
 [Desktop Entry]
 Name=Typing Numbers
-Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty --detach -c ~/.flakes/system/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy number-practice --ngrams-per-test 3 --ngram-repetition 2'
+Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty --detach -c ~/.flakes/nixos-config/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy number-practice --ngrams-per-test 3 --ngram-repetition 2'
 Type=Application
-

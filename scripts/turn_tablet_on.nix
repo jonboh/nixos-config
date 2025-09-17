@@ -22,7 +22,7 @@ in
       sleep 0.1
     done
     if ! pgrep krita >/dev/null && ! pgrep drawpile >/dev/null; then
-      krita --nosplash --template /home/jonboh/.flakes/system/extra_configs/krita/share/templates/Vault/.source/VaultTemplate.kra &
+      krita --nosplash --template /home/jonboh/.flakes/nixos-config-extra-private/krita/share/templates/Vault/.source/VaultTemplate.kra &
       app="krita"
     elif pgrep krita >/dev/null; then
       app="krita"

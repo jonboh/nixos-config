@@ -17,7 +17,7 @@ bad_fg = "#f7768e"
 # Mouse Modal indicator
 [[block]]
 block = "custom"
-command = "python /home/jonboh/.flakes/system/extra_configs/i3/keyboard_status_client.py"
+command = "python /home/jonboh/.flakes/nixos-config/extra_configs/i3/keyboard_status_client.py"
 json = true
 hide_when_empty = true
 interval = "once"
@@ -30,7 +30,7 @@ warning_fg = "#ffffff"
 
 [[block]]
 block = "custom"
-command = "python /home/jonboh/.flakes/system/extra_configs/i3/steam_running.py"
+command = "python /home/jonboh/.flakes/nixos-config/extra_configs/i3/steam_running.py"
 json = true
 hide_when_empty = true
 interval = 5
@@ -42,7 +42,7 @@ warning_fg = "#f7768e" # red
 
 [[block]]
 block = "custom"
-command = "python /home/jonboh/.flakes/system/extra_configs/i3/vault_syncconflict.py"
+command = "python /home/jonboh/.flakes/nixos-config/extra_configs/i3/vault_syncconflict.py"
 json = true
 hide_when_empty = true
 interval = 5

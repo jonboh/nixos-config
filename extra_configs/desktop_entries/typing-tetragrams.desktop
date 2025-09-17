@@ -1,5 +1,4 @@
 [Desktop Entry]
 Name=Typing Tetragrams
-Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty -c ~/.flakes/system/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy ngram-practice --corpus-file ./1ngrams_english_only.csv --length-corpus=1000 --ngrams-per-test=2 --ngram-repetition 3 --practice-elements tetragrams --show-results --no-slower-than 60'
+Exec=bash -c 'cd /mnt/storage/devel/typing-buddy/ && kitty -c ~/.flakes/nixos-config/extra_configs/kitty/kitty.conf -c <(echo "font_size 25.0") /mnt/storage/devel/typing-buddy/target/debug/typing-buddy ngram-practice --corpus-file ./1ngrams_english_only.csv --length-corpus=1000 --ngrams-per-test=2 --ngram-repetition 3 --practice-elements tetragrams --show-results --no-slower-than 60'
 Type=Application
-

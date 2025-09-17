@@ -4,7 +4,7 @@
       if config.home.symlink_flake
       then
         config.lib.file.mkOutOfStoreSymlink
-        /home/jonboh/.flakes/system/extra_configs/OrcaSlicer
+        /home/jonboh/.flakes/nixos-config-extra-private/OrcaSlicer
       else ../extra_configs/OrcaSlicer;
   };
 }
