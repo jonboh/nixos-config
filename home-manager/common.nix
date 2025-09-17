@@ -14,11 +14,6 @@
     ./unclutter.nix
     ./xresources.nix
     ./anki.nix
-    ./krita.nix
-    ./drawpile.nix
-    ./okular.nix
-    ./orca-slicer.nix
-    ./librewolf.nix
   ];
 
   options.home.symlink_flake = lib.mkOption {
