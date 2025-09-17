@@ -1,0 +1,235 @@
+{
+  self,
+  pkgs,
+  config,
+  sensitive,
+  ...
+}: let
+  minimal_packagse = import ../common/minimal_packages.nix pkgs;
+  common_packages = import ../common/packages.nix pkgs;
+in {
+  # TODO: add grub.configurationLimit to avoid filling up /boot
+  imports = [
+    ../common/configuration.nix
+    ../common/timers.nix
+    ./hardware-configuration.nix
+    ./filesystems.nix
+    ./sops.nix
+    ./samba-mounts.nix
+    ./builders.nix
+  ];
+
+  # system.nixos.label = "GrubStyle";
+  # Bootloader.
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+      fsIdentifier = "label";
+    };
+  };
+
+  nix.settings = {
+    secret-key-files = ["/var/secrets/workstation-key"];
+    auto-optimise-store = true;
+    min-free = 512 * 1024 * 1024;
+    max-free = 1024 * 1024 * 1024;
+  };
+
+  networking = {
+    hostName = "workstation";
+    wireless.enable = false;
+    interfaces = {
+      eno1 = {
+        useDHCP = true;
+      };
+    };
+    networkmanager.enable = true;
+    # Steamlink
+    firewall.allowedTCPPorts = [27036 27037];
+    firewall.allowedUDPPorts = [27031 27036 10400 10401];
+  };
+
+  services.ntpd-rs = {
+    enable = true;
+    settings = {
+      source = [
+        {
+          address = sensitive.network.ntp-server "lab";
+          mode = "server";
+        }
+      ];
+      synchronization = {
+        minimum-agreeing-sources = 1;
+        single-step-panic-threshold = 1000;
+        startup-step-panic-threshold = {
+          forward = "inf";
+          backward = 86400;
+        };
+      };
+    };
+    useNetworkingTimeServers = false;
+  };
+
+  # syncthing
+  services = {
+    mullvad-vpn = {
+      enable = true;
+      enableExcludeWrapper = false;
+    };
+
+    usbmuxd.enable = true;
+
+    syncthing = {
+      enable = true;
+      openDefaultPorts = true;
+      user = "jonboh";
+      dataDir = "/home/jonboh/.syncthingDataDir";
+      configDir = "/home/jonboh/.config/syncthing";
+      overrideDevices = true;
+      overrideFolders = true;
+      settings = {
+        devices = {
+          "tars" = {
+            id = sensitive.ids.syncthing-tars;
+          };
+          "phone" = {
+            id = sensitive.ids.syncthing-phone;
+          };
+          "wsl" = {
+            id = sensitive.ids.syncthing-wsl;
+          };
+          "laptop" = {
+            id = sensitive.ids.syncthing-laptop;
+          };
+          "lab" = {
+            id = sensitive.ids.syncthing-lab;
+          };
+        };
+        folders = {
+          "newsboat-state" = {
+            path = "/home/jonboh/.local/share/newsboat";
+            devices = [
+              "tars"
+              "laptop"
+            ];
+            type = "sendreceive";
+          };
+          "zathura-state" = {
+            path = "/home/jonboh/.local/share/zathura";
+            devices = [
+              "tars"
+              "laptop"
+            ];
+            type = "sendreceive";
+          };
+          "devel" = {
+            path = "/home/jonboh/devel";
+            devices = ["tars"];
+            type = "sendreceive";
+          };
+          "vault" = {
+            path = "/mnt/storage/vault";
+            devices = ["tars" "laptop" "phone" "wsl" "lab"];
+            type = "sendreceive";
+          };
+          "archive" = {
+            path = "/mnt/storage/archive";
+            devices = ["tars"];
+            type = "sendonly";
+          };
+          "doc" = {
+            path = "/mnt/storage/doc";
+            devices = ["tars"];
+            type = "sendonly";
+          };
+          "books" = {
+            path = "/mnt/storage/books";
+            devices = ["tars" "laptop" "phone" "lab"];
+            type = "sendreceive";
+          };
+          "phone_camera" = {
+            path = "/mnt/storage/phone_camera";
+            devices = ["phone" "tars"];
+            type = "receiveonly";
+            ignoreDelete = true;
+          };
+          "phone_whatsapp" = {
+            path = "/mnt/storage/phone_camera";
+            devices = ["phone" "tars"];
+            type = "receiveonly";
+            ignoreDelete = true;
+          };
+        };
+      };
+    };
+    clamav = {
+      daemon.enable = true;
+      updater.enable = true;
+    };
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs;
+    [
+      ## Applications
+      kicad
+      qbittorrent
+      discord
+      digikam
+      exiftool # digikam needs it and its makeBinPath does not seem to work correctly
+      thunderbird
+      orca-slicer
+      self.inputs.nixpkgs-vscode-lldb.legacyPackages.x86_64-linux.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
+      # NOTE: once https://github.com/NixOS/nixpkgs/pull/383013 is merged remove this input
+      remmina
+      heroic # gog games (can add them to steam for remote play)
+      borgbackup
+    ]
+    ++ minimal_packagse
+    ++ common_packages;
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
+  services.ollama.acceleration = "cuda";
+
+  security.pki = {
+    certificateFiles = [
+      (self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)
+      (self.inputs.nixos-config-sensitive + /certificates/forge-selfsigned.crt)
+    ];
+  };
+
+  # services.teamviewer.enable = true;
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
+
+  programs.steam.enable = true;
+
+  services.nextjs-ollama-llm-ui = {
+    enable = true;
+  };
+  services.ollama = {
+    enable = true;
+  };
+
+  programs.ccache = {
+    enable = true;
+    cacheDir = "/var/cache/ccache";
+  };
+  nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "23.05"; # Did you read the comment?
+}

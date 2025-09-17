@@ -1,0 +1,137 @@
+[global]
+interval = 1
+
+[icons]
+icons = "material-nf"
+
+[theme]
+theme = "srcery"
+[theme.overrides]
+idle_fg = "#c0caf5"
+idle_bg = "#1C1C1C"
+good_fg = "#c0caf5"
+good_bg = "#1C1C1C"
+degraded_fg = "#e0af68"
+bad_fg = "#f7768e"
+
+# Mouse Modal indicator
+[[block]]
+block = "custom"
+command = "python /home/jonboh/.flakes/system/extra_configs/i3/keyboard_status_client.py"
+json = true
+hide_when_empty = true
+interval = "once"
+signal = 1
+[block.theme_overrides]
+critical_bg = "#9ece6a"
+critical_fg = "#ffffff"
+warning_bg = "#ff9e64"
+warning_fg = "#ffffff"
+
+[[block]]
+block = "custom"
+command = "python /home/jonboh/.flakes/system/extra_configs/i3/unfocused_network.py"
+json = true
+hide_when_empty = true
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "focus-network"
+[block.theme_overrides]
+warning_fg = "#f7768e" # red
+
+[[block]]
+block = "custom"
+command = "python /home/jonboh/.flakes/system/extra_configs/i3/steam_running.py"
+json = true
+hide_when_empty = true
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "killall steam"
+[block.theme_overrides]
+warning_fg = "#f7768e" # red
+
+[[block]]
+block = "custom"
+command = "python /home/jonboh/.flakes/system/extra_configs/i3/vault_syncconflict.py"
+json = true
+hide_when_empty = true
+interval = 5
+[block.theme_overrides]
+warning_fg = "#f7768e" # red
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "vpn"
+driver = "mullvad"
+#
+[[block]]
+block = "net"
+format = " $icon {$signal_strength $ssid $frequency|} $ip $device "
+
+[[block]]
+block = "load"
+format = " $icon 1m: $1m.eng(w:4)"
+interval = 1
+
+[[block]]
+block = "cpu"
+
+[[block]]
+block = "memory"
+format = " $icon $mem_used $mem_used_percents.eng(w:1) "
+format_alt = " $icon_swap $swap_free.eng(w:3,u:B,p:Mi)/$swap_total.eng(w:3,u:B,p:Mi)($swap_used_percents.eng(w:2)) "
+interval = 30
+warning_mem = 70
+critical_mem = 90
+# [[block]]
+# block = "memory"
+# [[block]]
+# block = "memory"
+# # Show swap if in use
+# format = " $icon $swap_used.eng(range:1..) |"
+
+
+[[block]]
+block = "nvidia_gpu"
+
+[[block]]
+block = "disk_space"
+warning = 500.0
+alert = 200.0
+alert_unit = "GB"
+
+[[block]]
+block = "disk_space"
+path = "/mnt/storage/"
+warning = 500.0
+alert = 200.0
+alert_unit = "GB"
+error_format = ""      # not all my computers have this mounted
+
+# TODO: add temperatures
+
+# [[block]]
+# block = "battery"
+# device = "BAT1"
+# format = "{percentage}% {state} {time}"
+# full_format = "{percentage}%"
+# show = "percentage"
+# interval = 10
+
+[[block]]
+block = "time"
+timezone = "UTC"
+[block.format]
+full = " $icon $timestamp.datetime(f:'%R %Z', l:es_ES) "
+short = " $icon $timestamp.datetime(f:%R) "
+[[block]]
+block = "time"
+timezone = "CET"
+interval = 1
+[block.format]
+full = " $icon $timestamp.datetime(f:'%Y-%m-%d %R:%S %Z', l:es_ES) "
+short = " $icon $timestamp.datetime(f:%R) "

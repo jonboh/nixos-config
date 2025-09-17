@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OpenSCAD
+Exec=/home/jonboh/.local/bin/OpenSCAD
+Path=/home/jonboh/.local/bin
+Comment=OpenSCAD AppImage
+Terminal=false
+Categories=CAD;
+

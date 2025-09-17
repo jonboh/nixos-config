@@ -1,0 +1,9 @@
+set selection-clipboard clipboard
+
+set adjust-open "width"
+
+set page-padding 10
+
+set database sqlite
+
+map <C-o> feedkeys ":exec okular $FILE --page $PAGE<Return>"

@@ -1,0 +1,16 @@
+[shell]
+bash_indicator = "BSH"
+zsh_indicator = ""
+disabled = false
+[git_status]
+conflicted = '🏳'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+up_to_date = '[✓](bold green)'
+untracked = '[?$count](blue)'
+stashed = '[📦$count](yellow)'
+modified = '[*$count](red)'
+staged = '[+$count](green)'
+renamed = '[>$count](green)'
+deleted = '[-$count](red)'

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=nsxiv
+GenericName=Simple X Image Viewer
+Comment=Lightweight image viewer
+Exec=nsxiv %F
+Terminal=false
+Type=Application
+Icon=nsxiv
+Categories=Graphics;Viewer;
+MimeType=image/jpeg;image/png;image/gif;image/x-xpixmap;

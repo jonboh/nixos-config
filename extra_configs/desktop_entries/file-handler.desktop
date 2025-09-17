@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=CustomFileSchemeHandler
+Comment=Custom script to handle file scheme based on MIME type
+Exec=pdf_handler %u
+Icon=system-file-manager
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/file;
+

@@ -1,0 +1,63 @@
+[[mgr.prepend_keymap]]
+on = "T"
+run = "plugin toggle-pane min-preview"
+desc = "Show or hide the preview pane"
+
+[[mgr.prepend_keymap]]
+on = "!"
+for = "unix"
+run = 'shell "$SHELL" --block'
+desc = "Open $SHELL here"
+
+[[mgr.prepend_keymap]]
+on = "<C-n>"
+run = 'shell -- xdragon -x -T --all "$@"'
+
+[[mgr.prepend_keymap]]
+on = "<Enter>"
+run = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
+
+[[mgr.prepend_keymap]]
+on = "<Right>"
+run = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
+
+[[mgr.prepend_keymap]]
+on = "<Esc>"
+run = "close"
+desc = "Close"
+
+[[mgr.prepend_keymap]]
+on = "<A-Up>"
+run = "tab_switch --relative 1"
+[[mgr.prepend_keymap]]
+on = "<A-Down>"
+run = "tab_switch --relative 1"
+[[mgr.prepend_keymap]]
+on = "<A-1>"
+run = "tab_switch 0"
+[[mgr.prepend_keymap]]
+on = "<A-2>"
+run = "tab_switch 1"
+[[mgr.prepend_keymap]]
+on = "<A-3>"
+run = "tab_switch 2"
+[[mgr.prepend_keymap]]
+on = "<A-4>"
+run = "tab_switch 3"
+[[mgr.prepend_keymap]]
+on = "<A-5>"
+run = "tab_switch 4"
+[[mgr.prepend_keymap]]
+on = "<A-6>"
+run = "tab_switch 5"
+[[mgr.prepend_keymap]]
+on = "<A-7>"
+run = "tab_switch 6"
+[[mgr.prepend_keymap]]
+on = "<A-8>"
+run = "tab_switch 7"
+[[mgr.prepend_keymap]]
+on = "<A-9>"
+run = "tab_switch 8"

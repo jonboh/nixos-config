@@ -1,0 +1,174 @@
+pkgs: let
+  focus-network = pkgs.callPackage ../../scripts/focus-network-wrapped.nix {};
+  unfocus-network = pkgs.callPackage ../../scripts/unfocus-network-wrapped.nix {};
+  focus-network-entry = pkgs.makeDesktopItem {
+    name = "focus-network";
+    exec = ''${focus-network}/bin/focus-network''; # Points to the location of the binary
+    type = "Application";
+    desktopName = "Focus Network";
+    genericName = "Focus Network";
+    comment = "Block domains";
+    categories = ["Utility"];
+    icon = "utilities-terminal"; # Make sure this icon name is valid or provide a path to an icon file
+  };
+  unfocus-network-entry = pkgs.makeDesktopItem {
+    name = "unfocus-network";
+    exec = ''${unfocus-network}/bin/unfocus-network''; # Points to the location of the binary
+    type = "Application";
+    desktopName = "Unfocus Network";
+    genericName = "Unfocus Network";
+    comment = "Unblock domains";
+    categories = ["Utility"];
+    icon = "utilities-terminal"; # Make sure this icon name is valid or provide a path to an icon file
+  };
+in
+  with pkgs; [
+    ## Audio
+    audacity
+    wireplumber
+    helvum
+    playerctl # for play/pause media keys
+
+    ## Security
+    (pkgs.callPackage ../../scripts/rofi-password-store.nix {keyname = "jon@jonboh.dev";})
+    (pkgs.callPackage ../../scripts/pass-password.nix {keyname = "jon@jonboh.dev";})
+    gnupg
+    pinentry-curses
+    openssl
+    age
+    sops
+
+    ## System Utilities
+    xdragon
+    sysz
+    libnotify
+    sshfs
+    dnsutils
+    usbutils
+    pv
+
+    picocom # for uart
+
+    ## Networking
+    nmap
+    ldns
+
+    ## Browsing
+    firefox
+    ungoogled-chromium
+
+    ## Development
+    gcc
+    clang
+    gnumake
+    ninja
+    cmake
+    llvm
+    neovim
+    nixvim
+    nixvim-light
+    wezterm
+    rr
+    pkg-config
+    alejandra
+
+    ## Debugging
+    gdb
+    unstable.vscode-extensions.ms-vscode.cpptools # for neovim dap
+    # unstable.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
+
+    ### Python
+    (python3.withPackages (ps: [
+      ps.adblock
+      ps.debugpy
+      ps.ipython
+      ps.pandas
+      ps.matplotlib
+      ps.numpy
+      ps.scipy
+      ps.scikit-learn
+    ]))
+    pyright
+
+    julia
+
+    ## Utilities
+    gzip
+    jq
+    fq
+    nix-tree
+    (pkgs.callPackage ../../scripts/ffnnn.nix {})
+    (pkgs.callPackage ../../scripts/zen-mode.nix {})
+    (pkgs.callPackage ../../scripts/killselect.nix {})
+    (pkgs.callPackage ../../scripts/pdf_handler.nix {})
+    man-pages
+    man-pages-posix
+    tldr
+    bat
+    bat-extras.batdiff
+    bat-extras.batman
+    bat-extras.prettybat
+    bat-extras.batpipe
+    bat-extras.batwatch
+    du-dust
+    fd
+    ripgrep
+    lsof
+    p7zip
+    zip
+    tree
+    unrar
+    unzip
+    rofimoji
+    trash-cli
+    direnv
+    viu
+    nsxiv
+    shai
+    distrobox
+    nnn
+    lm_sensors
+    sqlite
+    focus-network
+    unfocus-network
+    focus-network-entry
+    unfocus-network-entry
+
+    # for yazi lsar
+    unar
+
+    ## News
+    newsboat
+
+    ## Documents
+    libreoffice
+    texlive.combined.scheme-full
+
+    ## Video & Image
+    ffcast
+    ffmpeg
+    unstable.mpv # unstable to fix yt-dlp version with incorrect format requests
+    pavucontrol
+    alsa-utils
+
+    ## PDF
+    poppler_utils
+    zathura
+    kdePackages.okular
+
+    ## Applications
+    spotify
+    anki-bin
+    drawpile
+    krita
+    (pkgs.callPackage ../../scripts/krita-fzf.nix {})
+    (pkgs.callPackage ../../scripts/single_display.nix {})
+    (pkgs.callPackage ../../scripts/dual_display.nix {})
+    (pkgs.callPackage ../../scripts/single_display_and_tablet.nix {})
+    (pkgs.callPackage ../../scripts/dual_display_and_tablet.nix {})
+    (pkgs.callPackage ../../scripts/turn_tablet_off.nix {})
+    (pkgs.callPackage ../../scripts/turn_tablet_on.nix {})
+    (pkgs.callPackage ../../scripts/turn_tablet_on_mirror_main.nix {})
+    (pkgs.callPackage ../../scripts/atuin-export-zsh.nix {})
+    (pkgs.callPackage ../../scripts/git-init-tars.nix {})
+  ]

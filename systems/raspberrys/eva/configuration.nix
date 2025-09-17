@@ -1,0 +1,62 @@
+{
+  self,
+  pkgs,
+  sensitive,
+  ...
+}: {
+  imports = [
+    ../common/configuration.nix
+    ../common/telegraf-environment.nix
+    ../common/hardware-metrics.nix
+    ../common/sops.nix
+    ./sops.nix
+    ./rp-configtxt.nix
+  ];
+  # bcm2711 for rpi 3, 3+, 4, zero 2 w
+  # bcm2712 for rpi 5
+  # See the docs at:
+  # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
+  raspberry-pi-nix.board = "bcm2712";
+
+  boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
+  boot.initrd.enable = true;
+  boot.initrd.postDeviceCommands = ''
+    info "Repairing all filesystems"
+    fsck -A -y -V
+  '';
+
+  networking = {
+    hostName = "eva";
+    firewall = {
+      enable = true;
+    };
+    interfaces = {
+      end0 = {
+        useDHCP = true;
+        ipv4.addresses = [
+          {
+            address = sensitive.network.ip.eva;
+            prefixLength = 24;
+          }
+        ];
+      };
+    };
+    timeServers = [(sensitive.network.ntp-server "lab")];
+    defaultGateway = sensitive.network.gateway "lab";
+    extraHosts = ''
+      ${sensitive.network.ip.tars} tars.lan
+    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway
+  };
+
+  environment.systemPackages = with pkgs; [
+    emacs
+    git
+    wget
+    tcpdump
+  ];
+  security.pki = {
+    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
+  };
+
+  system.stateVersion = "24.11";
+}
