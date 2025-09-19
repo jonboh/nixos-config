@@ -43,6 +43,7 @@ in {
     experimental-features = ["nix-command" "flakes"];
     require-sigs = true;
     trusted-public-keys = [
+      sensitive.keys.nix.workstation
       sensitive.keys.nix.brick
       sensitive.keys.nix.tars
       sensitive.keys.nix.forge

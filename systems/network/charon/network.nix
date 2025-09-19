@@ -87,6 +87,14 @@
     charonVlanId = sensitive.network.vlan2id.charon;
     riftVlanId = sensitive.network.vlan2id.rift;
     warpVlanId = sensitive.network.vlan2id.warp;
+    staticDhcpLeasesLab = let
+      hosts = ["tars" "forge" "brick" "sentinel" "eva" "workstation"];
+    in
+      builtins.map (name: {
+        mac = sensitive.network.mac.${name}.ether;
+        ip = sensitive.network.ip.${name};
+      })
+      hosts;
   in {
     wait-online = {
       enable = true;
@@ -166,7 +174,17 @@
       vlan-dhcp-configuration = {
         name,
         vlan,
-      }: {
+        staticDhcpLeases ? [],
+      }: let
+        dhcpStaticLeasesConfig = builtins.concatStringsSep "\n" (map (
+            lease: ''
+              [DHCPServerStaticLease]
+              MACAddress=${lease.mac}
+              Address=${lease.ip}
+            ''
+          )
+          staticDhcpLeases);
+      in {
         "30-vlan-${name}" = {
           matchConfig.Name = "vlan-${name}";
           address = [
@@ -175,16 +193,19 @@
           networkConfig = {
             DHCPServer = true;
           };
-          extraConfig = ''
-            [DHCPServer]
-            DefaultLeaseTimeSec = 86400
-            MaxLeaseTimeSec = 86400
-            PoolOffset = 50
-            EmitDNS = true
-            DNS = ${sensitive.network.dns-server vlan}
-            EmitNTP = true
-            NTP = ${sensitive.network.ntp-server vlan}
-          '';
+          extraConfig =
+            ''
+              [DHCPServer]
+              DefaultLeaseTimeSec = 86400
+              MaxLeaseTimeSec = 86400
+              PoolOffset = 50
+              EmitDNS = true
+              DNS = ${sensitive.network.dns-server vlan}
+              EmitNTP = true
+              NTP = ${sensitive.network.ntp-server vlan}
+            ''
+            + "\n"
+            + dhcpStaticLeasesConfig;
         };
       };
     in
@@ -272,6 +293,7 @@
       // vlan-dhcp-configuration {
         name = "lab";
         vlan = "lab";
+        staticDhcpLeases = staticDhcpLeasesLab;
       }
       // vlan-dhcp-configuration {
         name = "charon";
