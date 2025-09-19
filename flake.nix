@@ -207,6 +207,8 @@
           bacon
           hyperfine
           samply
+          pkg-config
+          openssl
         ];
         shellHook = ''
           export PATH=/home/jonsboh/.cargo/bin:$PATH
