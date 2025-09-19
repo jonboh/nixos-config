@@ -82,15 +82,6 @@
           /home/jonboh/.flakes/nixos-config/extra_configs/zsh
         else ../extra_configs/zsh;
     };
-    xdg.configFile."wezterm" = {
-      enable = true;
-      source =
-        if config.home.symlink_flake
-        then
-          config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-config/extra_configs/wezterm
-        else ../extra_configs/wezterm;
-    };
     xdg.configFile."kitty" = {
       enable = true;
       source =

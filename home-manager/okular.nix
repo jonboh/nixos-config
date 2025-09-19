@@ -15,7 +15,7 @@
         if config.home.mutable_okular
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/okular/config/okularrc
+          /home/jonboh/.flakes/nixos-config-extra-private/okular/config/okularrc
         else self.inputs.nixos-config-extra-private + /okular/config/okularrc;
     };
     xdg.configFile."okularpartrc" = {
@@ -24,7 +24,7 @@
         if config.home.mutable_okular
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/okular/config/okularpartrc
+          /home/jonboh/.flakes/nixos-config-extra-private/okular/config/okularpartrc
         else self.inputs.nixos-config-extra-private + /okular/config/okularpartrc;
     };
     home.file.".local/share/kxmlgui5" = {
@@ -33,7 +33,7 @@
         if config.home.mutable_okular
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/okular/share/kxmlgui5
+          /home/jonboh/.flakes/nixos-config-extra-private/okular/share/kxmlgui5
         else self.inputs.nixos-config-extra-private + /okular/share/kxmlgui5;
     };
   };

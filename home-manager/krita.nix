@@ -33,7 +33,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/config/kritashortcutsrc
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/config/kritashortcutsrc
         else self.inputs.nixos-config-extra-private + /krita/config/kritashortcutsrc;
     };
     home.file.".local/share/krita/workspaces" = {
@@ -42,7 +42,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/share/workspaces
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/share/workspaces
         else self.inputs.nixos-config-extra-private + /krita/share/workspaces;
     };
     home.file.".local/share/krita/paintoppresets" = {
@@ -51,7 +51,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/share/paintoppresets
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/share/paintoppresets
         else self.inputs.nixos-config-extra-private + /krita/share/paintoppresets;
     };
     home.file.".local/share/krita/palettes" = {
@@ -60,7 +60,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/share/palettes
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/share/palettes
         else self.inputs.nixos-config-extra-private + /krita/share/palettes;
     };
     home.file.".local/share/krita/templates" = {
@@ -69,7 +69,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/share/templates
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/share/templates
         else self.inputs.nixos-config-extra-private + /krita/share/templates;
     };
     home.file.".local/share/krita/brushes" = {
@@ -78,7 +78,7 @@
         if config.home.mutable_krita
         then
           config.lib.file.mkOutOfStoreSymlink
-          /home/jonboh/.flakes/nixos-configs-private/krita/share/brushes
+          /home/jonboh/.flakes/nixos-config-extra-private/krita/share/brushes
         else self.inputs.nixos-config-extra-private + /krita/share/brushes;
     };
 
@@ -130,7 +130,7 @@
 
     xdg.configFile."OpenTabletDriver" = {
       enable = true;
-      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/extra_configs/OpenTabletDriver;
+      source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/OpenTabletDriver;
       # NOTE: opentabletdriver.service crashes when linked to the inmutable configuration
     };
   };
