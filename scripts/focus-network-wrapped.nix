@@ -3,6 +3,6 @@
   restart-librewolf = pkgs.callPackage ./restart-librewolf.nix {};
 in
   pkgs.writeShellScriptBin "focus-network" ''
-    kitty --class="FloatingTermDialog" --title "Unfocus Network" sh -c "sudo ${pkgs.lib.getExe focus-network}" \
-    && ${pkgs.lib.getExe restart-librewolf}
+    rg youtube /etc/hosts || (kitty --class="FloatingTermDialog" --title "Focus Network" sh -c "sudo ${pkgs.lib.getExe focus-network}" \
+    && rg youtube /etc/hosts && ${pkgs.lib.getExe restart-librewolf})
   ''
