@@ -1,4 +1,7 @@
-require("git"):setup { order = 0 }
+local ok, git = pcall(require, "git")
+if ok and git and type(git.setup) == "function" then
+  git:setup { order = 0 }
+end
 
 
 -- Show user/group of files in status bar
@@ -24,7 +27,9 @@ Header:children_add(function()
 	return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
 end, 500, Header.LEFT)
 
-require("allmytoes"):setup {
-    -- By default, all sizes are generated. Remove the ones you don't need.
-    sizes = {"n", "l", "x", "xx"},
-}
+local ok, allmytoes = pcall(require, "allmytoes")
+if ok and allmytoes and type(allmytoes.setup) == "function" then
+    allmytoes:setup {
+        sizes = {"n", "l", "x", "xx"},
+    }
+end

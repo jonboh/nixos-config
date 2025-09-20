@@ -13,6 +13,7 @@
     ./unclutter.nix
     ./xresources.nix
     ./anki.nix
+    ./yazi.nix
   ];
 
   options.home.symlink_flake = lib.mkOption {
@@ -247,23 +248,6 @@
       activeOpacity = 1.0;
       inactiveOpacity = 0.75;
       opacityRules = ["100:class_g = 'Rofi'" "100:class_g = 'xlock'" "100:class_g = 'i3lock'"];
-    };
-
-    programs.yazi = {
-      enable = true;
-      enableZshIntegration = true;
-      plugins = {
-        git = pkgs.yaziPlugins.git;
-        toggle-pane = pkgs.yaziPlugins.toggle-pane;
-        smart-enter = pkgs.yaziPlugins.smart-enter;
-        lsar = pkgs.yaziPlugins.lsar;
-        # also allmytoes
-      };
-      initLua = ../extra_configs/yazi/init.lua;
-      settings = builtins.fromTOML (builtins.readFile ../extra_configs/yazi/yazi.toml);
-      keymap = builtins.fromTOML (builtins.readFile ../extra_configs/yazi/keymap.toml);
-      theme = builtins.fromTOML (builtins.readFile ../extra_configs/yazi/theme.toml);
-      # use https://github.com/aguirre-matteo/nix-yazi-flavors?tab=readme-ov-file
     };
   };
 }
