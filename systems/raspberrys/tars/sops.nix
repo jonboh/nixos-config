@@ -57,4 +57,8 @@
     mode = "0440";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/tars-selfsigned.key;
   };
+  sops.secrets.firefox-syncserver = {
+    format = "dotenv";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/firefox-syncstorage.env;
+  };
 }

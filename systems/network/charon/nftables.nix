@@ -79,9 +79,6 @@ in {
             iifname "lan3" counter log prefix "nftables, forward, drop, lan3" level warn flags all drop
 
             # lan0: lab
-            ## lab services
-            ip saddr { ${sensitive.network.ip.tars}, ${sensitive.network.ip.forge} } oifname { "wan" } drop comment "Block traffic from services to wan"
-            ip daddr { ${sensitive.network.ip.tars}, ${sensitive.network.ip.forge} } iifname { "wan" } drop comment "Block traffic to services from wan"
             ## lab itself
             iifname { "vlan-lab" } accept comment "Allow traffic coming from lan0"
             oifname { "vlan-lab" } ct state { established, related } accept comment "Allow established back to lab"

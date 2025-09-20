@@ -53,8 +53,6 @@
         Fingerprinting = true;
       };
       DisablePocket = true;
-      DisableFirefoxAccounts = true;
-      # DisableAccounts = true;
       DisableFirefoxScreenshots = true;
       # OverrideFirstRunPage = "";
       # OverridePostUpdatePage = "";
@@ -200,7 +198,8 @@
         "browser.quitShortcut.disabled" = true; # disable ctrl+q
         "browser.download.panel.shown" = true; # show download panel
         "signon.rememberSignons" = false; # disable saving passwords
-        "identity.fxaccounts.enabled" = false; # disable librewolf accounts
+        "identity.fxaccounts.enabled" = true; # disable librewolf accounts
+        "identity.sync.tokenserver.uri" = "https://firefox.tars.lan/1.0/sync/1.5";
         "app.shield.optoutstudies.enabled" = false; # disable shield studies
         "browser.shell.checkDefaultBrowser" = false; # don't check if default browser
         "browser.bookmarks.restore_default_bookmarks" = false; # don't restore default bookmarks

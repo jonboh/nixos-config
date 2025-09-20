@@ -58,6 +58,7 @@ in {
     extraHosts = ''
       ${sensitive.network.ip.tars} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
+    defaultGateway = sensitive.network.ip.charon.lab;
   };
 
   services = {
@@ -352,6 +353,16 @@ in {
         forceSSL = true;
         sslCertificate = self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt;
         sslCertificateKey = config.sops.secrets.tars-cert-key.path;
+        # https://github.com/influxdata/influxdb/issues/15721#issuecomment-3148425970
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString influxdbPort}";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+          '';
+        };
         locations."/grafana/" = {
           proxyPass = "http://127.0.0.1:${toString grafanaPort}";
           extraConfig = ''
@@ -370,14 +381,34 @@ in {
             proxy_set_header X-Forwarded-Proto $scheme;
           '';
         };
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString influxdbPort}";
+        locations."/firefox/" = {
+          proxyPass = "http://127.0.0.1:${toString syncserverPort}";
+          recommendedProxySettings = true;
           extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+            rewrite ^/firefox/(.*)$ /$1 break;
           '';
+        };
+      };
+      virtualHosts."firefox.tars.lan" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 80;
+            ssl = false;
+          }
+          {
+            port = 443;
+            addr = "0.0.0.0";
+            ssl = true;
+          }
+        ];
+        forceSSL = true;
+        sslCertificate = self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt;
+        sslCertificateKey = config.sops.secrets.tars-cert-key.path;
+        # https://github.com/influxdata/influxdb/issues/15721#issuecomment-3148425970
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString syncserverPort}";
+          recommendedProxySettings = true;
         };
       };
       # TODO: use radicale_client_key/cert.pem
@@ -498,6 +529,32 @@ in {
       openRegistration = true;
       database.createLocally = true;
     };
+    firefox-syncserver = {
+      # NOTE: probably due to my cert being a self-signed one, I have to first try
+      # to access https://firefox.tars.lan, accept the risk, and then sync works!
+      enable = true;
+      logLevel = "debug";
+      database = {
+        createLocally = true;
+      };
+      singleNode = {
+        enable = true;
+        url = "https://firefox.tars.lan";
+        capacity = 4;
+        hostname = "127.0.0.1";
+      };
+      secrets = config.sops.secrets.firefox-syncserver.path;
+      settings = {
+        host = "127.0.0.1";
+        port = syncserverPort;
+        syncstorage = {
+          enabled = true;
+          enable_quota = 0;
+          limits.max_total_records = 1666; # See issues #298/#333
+        };
+      };
+    };
+    mysql.package = pkgs.mariadb;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = "/run/secrets_derived/influxdb.env";
   systemd.services.influxdb2.serviceConfig.ExecStart = lib.mkForce "${pkgs.influxdb2}/bin/influxd --bolt-path /mnt/storage/influxdb2/influxd.bolt --engine-path /mnt/storage/influxdb2/engine --sqlite-path /mnt/storage/influxdb2/influxd.sqlite";
