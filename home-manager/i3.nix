@@ -8,7 +8,7 @@
     then "i3status.toml"
     else if config.home.computer == "laptop"
     then "i3status-laptop.toml"
-    else "";
+    else "i3status.toml";
   primaryDisplay =
     if config.home.computer == "workstation"
     # then "HDMI-0" // hdmi-port (currently on Kanbas13)
