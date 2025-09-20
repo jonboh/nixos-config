@@ -23,3 +23,8 @@ Header:children_add(function()
 	end
 	return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
 end, 500, Header.LEFT)
+
+require("allmytoes"):setup {
+    -- By default, all sizes are generated. Remove the ones you don't need.
+    sizes = {"n", "l", "x", "xx"},
+}

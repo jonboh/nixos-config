@@ -1,0 +1,110 @@
+- mimes:
+    - model/stl
+  commands:
+    - |
+      simple-thumbnailer-stl -i %(file)s -o %(outfile)s -s %(size)s
+- mimes: [application/pdf]
+  commands:
+    # evince is more than three times faster than convert and installed on many machines
+    - evince-thumbnailer -s %(size)s "%(file)s" %(outfile)s
+    - convert -thumbnail %(size)sx%(size)s -background white %(file)s[0] PNG:%(outfile)s
+  meta:
+    'Thumb::Document::Pages':
+      - |
+        which exiftool || exit 1
+        exiftool "%(file)s" | awk '/^Page Count/ {print $4}' | sed 's/[^0-9]*//g'
+      - |
+        which pdfinfo || exit 1
+        pdfinfo "%(file)s" | awk '/^Pages:/ {print $2}' | sed 's/[^0-9]*//g'
+      - |
+        which gs || exit 1
+        gs -o /dev/null -sDEVICE=bbox "%(file)s" 2>&1 | grep HiResBoundingBox | wc -l
+  revision: 1
+- mimes: [application/postscript]
+  commands:
+    - evince-thumbnailer -s %(size)s "%(file)s" %(outfile)s
+    - convert -thumbnail %(size)sx%(size)s -background white %(file)s[0] PNG:%(outfile)s
+  meta:
+    'Thumb::Document::Pages':
+      - |
+        which exiftool || exit 1
+        exiftool "%(file)s" | awk '/^Pages/ {print $3}' | sed 's/[^0-9]*//g'
+      - |
+        which gs || exit 1
+        gs -o /dev/null -sDEVICE=bbox "%(file)s" 2>&1 | grep HiResBoundingBox | wc -l
+  revision: 1
+- mimes:
+    - image/svg+xml
+  commands:
+    - |
+      which inkscape || exit 1
+      w=$(inkscape -W "%(file)s" | sed 's/\..*//')
+      h=$(inkscape -H "%(file)s" | sed 's/\..*//')
+      test $w -gt $h && size_arg="-w %(size)s" || size_arg="-h %(size)s"
+      inkscape --export-area-page --export-type=png $size_arg -o "%(tmpdir)s/outfile.png" "%(file)s" && \
+        mv "%(tmpdir)s/outfile.png" "%(outfile)s"
+    - |
+      convert -background none -resize %(size)sx%(size)s "%(file)s" "%(tmpdir)s/outfile.png" && \
+        mv "%(tmpdir)s/outfile.png" "%(outfile)s"
+- mimes:
+    - "application/x-matroska"
+    - "application/x-riff"
+    - "application/vnd.ms-asf"
+    - "video/x-matroska"
+    - "video/mp4"
+    - "video/ogg"
+    - "video/webm"
+    - "video/mpeg"
+    - "video/avi"
+    - "video/vnd.avi"
+  commands:
+    # Note: Generating 4 thumbnails with ffmpeg takes long time, use ffmpegthumbnailer if available.
+    - |
+      which ffmpegthumbnailer || exit 1
+      ffmpegthumbnailer -m -i "%(file)s" -o "%(tmpdir)s/outfile.png" -s "%(size)s" && \
+      mv "%(tmpdir)s/outfile.png" "%(outfile)s"
+    # Note: A “fps=1/x” option like `ffmpeg -nostdin -i input.mkv -vf "fps=1/$fraction, thumbnail" -vframes:v $number -fps_mode vfr thumb_%02d.png`
+    # takes very very long and is no option here.
+    - |
+      which ffmpeg || exit 1
+      which ffprobe || exit 1
+      which magick || exit 1
+      which bc || exit 1
+      cd %(tmpdir)s
+      duration=$(ffprobe -i "%(file)s" -show_entries format=duration -v quiet -of csv="p=0")
+      if test "%(size)s" -gt 500; then
+        number=4
+        fraction=$(echo "$duration / $number" | bc)
+        test "$duration" -gt "16" && f1=3 || f1=0
+        f2=$fraction
+        f3=$(echo "$fraction * 2" | bc)
+        f4=$(echo "$fraction * 3" | bc)
+        ffmpeg -ss "$f1" -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 t1.png
+        ffmpeg -ss "$f2" -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 t2.png
+        ffmpeg -ss "$f3" -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 t3.png
+        ffmpeg -ss "$f4" -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 t4.png
+        magick montage t1.png t2.png t3.png t4.png -background 'transparent' -geometry +2+2 result.png
+      else
+        fraction=$(echo "$duration / 10" | bc)
+        ffmpeg -ss "$fraction" -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 result.png
+      fi
+      mv result.png %(outfile)s
+    - |
+      ffmpeg -ss 3 -nostdin -i "%(file)s" -vf "thumbnail" -frames:v 1 result.png && \
+      mv result.png %(outfile)s
+  meta:
+    'Thumb::Movie::Length':
+      - ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "%(file)s"
+      - |
+        which mediainfo || exit 1
+        which bc || exit 1
+        duration=$(mediainfo --Inform="General;%Duration%" "%(file)s")
+        echo "$duration / 1000" | bc
+      - |
+        which exiftool || exit 1
+        which bc || exit 1
+        output=$(exiftool -duration# "%(file)s")
+        time=$(echo $output | sed 's/^[^:]*: //')
+        IFS=: read hours minutes seconds <<< "$time"
+        echo "$hours * 3600 + $minutes * 60 + $seconds" | bc
+  revision: 1

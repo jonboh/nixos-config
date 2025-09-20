@@ -160,6 +160,14 @@
           /home/jonboh/.flakes/nixos-config/extra_configs/rofi-pass
         else ../extra_configs/rofi-pass;
     };
+    xdg.configFile."allmytoes" = {
+      source =
+        if config.home.symlink_flake
+        then
+          config.lib.file.mkOutOfStoreSymlink
+          /home/jonboh/.flakes/nixos-config/extra_configs/allmytoes
+        else ../extra_configs/allmytoes;
+    };
     home.file.".julia/config/" = {
       enable = true;
       source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/julia_config;
@@ -249,6 +257,7 @@
         toggle-pane = pkgs.yaziPlugins.toggle-pane;
         smart-enter = pkgs.yaziPlugins.smart-enter;
         lsar = pkgs.yaziPlugins.lsar;
+        # also allmytoes
       };
       initLua = ../extra_configs/yazi/init.lua;
       settings = builtins.fromTOML (builtins.readFile ../extra_configs/yazi/yazi.toml);

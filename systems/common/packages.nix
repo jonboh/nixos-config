@@ -136,6 +136,8 @@ in
 
     # for yazi lsar
     unar
+    (pkgs.callPackage ../../packages/allmytoes.nix {}) # for thumbnail generation in yazi
+    (pkgs.callPackage ../../packages/simple-thumbnailer-stl/package.nix {})
 
     ## News
     newsboat

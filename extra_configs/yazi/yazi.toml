@@ -23,16 +23,6 @@ edit = [
   { run = 'nixvim-light "$@"', block = true, for = "unix" },
 ]
 
-[[plugin.prepend_fetchers]]
-id = "git"
-name = "*"
-run = "git"
-
-[[plugin.prepend_fetchers]]
-id = "git"
-name = "*/"
-run = "git"
-
 # use nixvim-light for bulk rename
 [[opener.bulk-rename]]
 run = 'nixvim-light "$@"'
@@ -42,18 +32,37 @@ block = true
 name = "bulk-rename.txt"
 use = "bulk-rename"
 
-# archive view
-[[plugin.prepend_previewers]]
-mime = "application/{,g}zip"
-run = "lsar"
 
-[[plugin.prepend_previewers]]
-mime = "application/octet-stream" # zip ??
-run = "lsar"
+[plugin]
+prepend_previewers = [
+  { name = "*.stl", run = "allmytoes" },
+  # Show archive contents
+  { mime = "application/{,g}zip", run = "lsar" },
+  { mime = "application/octet-stream", run = "lsar" },                       # zip ??
+  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "lsar" },
+  # Allmytoes doesn't handle these by default
+  { mime = "image/svg+xml", run = "magick" },
+  { mime = "image/heic", run = "magick" },
+  { mime = "image/jxl", run = "magick" },
+  # Handle other image types with allmytoes
+  { mime = "image/*", run = "allmytoes" },
+  # NOTE: you might need to remove /tmp/yazi- folders if some previews were already generated (maybe incorrectly or blank)
+]
 
-[[plugin.prepend_previewers]]
-mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}"
-run = "lsar"
+prepend_preloaders = [
+  { name = "*.stl", run = "allmytoes" },
+  # Allmytoes doesn't handle these by default
+  { mime = "image/svg+xml", run = "magick" },
+  { mime = "image/heic", run = "magick" },
+  { mime = "image/jxl", run = "magick" },
+  # Handle other image types with allmytoes
+  { mime = "image/*", run = "allmytoes" },
+]
+
+prepend_fetchers = [
+  { id = "git", name = "*", run = "git" },
+  { id = "git", name = "*/", run = "git" },
+]
 
 [input]
 find_origin = "bottom-left"
