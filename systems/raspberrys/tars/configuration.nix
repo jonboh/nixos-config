@@ -444,7 +444,7 @@ in {
               {
                 name = "InfluxDB";
                 type = "influxdb";
-                url = "https://${sensitive.network.ip.tars}/";
+                url = "https://tars.lan/";
                 jsonData = {
                   version = "Flux";
                   organization = "jonboh";
