@@ -157,7 +157,7 @@ in {
         global = {
           "guest account" = "nobody";
           "smb ports" = "${toString sambaPort}";
-          "hosts allow" = "${sensitive.network.vlan-range "lab"}/24 ${sensitive.network.vlan-range "rift"}/24 127.0.0.1 localhost";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
           "hosts deny" = "0.0.0.0/0";
         };
         media = {
