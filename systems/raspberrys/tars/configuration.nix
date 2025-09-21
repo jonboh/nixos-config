@@ -381,13 +381,6 @@ in {
             proxy_set_header X-Forwarded-Proto $scheme;
           '';
         };
-        locations."/firefox/" = {
-          proxyPass = "http://127.0.0.1:${toString syncserverPort}";
-          recommendedProxySettings = true;
-          extraConfig = ''
-            rewrite ^/firefox/(.*)$ /$1 break;
-          '';
-        };
       };
       virtualHosts."firefox.tars.lan" = {
         listen = [
