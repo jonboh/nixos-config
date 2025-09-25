@@ -160,7 +160,27 @@ in
 
     ## Applications
     spotify
-    anki-bin
+    (pkgs.unstable.anki.withAddons [
+      pkgs.unstable.ankiAddons.anki-connect
+      ((
+          pkgs.unstable.anki-utils.buildAnkiAddon
+          (finalAttrs: {
+            pname = "open_in_anki_nvim";
+            version = "aef8d5bc734fedc2d4e38e8027b8558cfee47c45";
+            src = pkgs.fetchFromGitHub {
+              owner = "jonboh";
+              repo = "open_in_anki_nvim";
+              rev = finalAttrs.version;
+              hash = "sha256-IU9HLAsVQVx1fE5dlyFo1b+IrBvGoY27OkrZf2BWMgM=";
+            };
+          })
+        ).withConfig {
+          config = {
+            terminal = "kitty";
+            editor = "${pkgs.nixvim}/bin/nixvim";
+          };
+        })
+    ])
     drawpile
     krita
     (pkgs.callPackage ../../scripts/krita-fzf.nix {})
