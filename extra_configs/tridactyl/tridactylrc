@@ -23,6 +23,8 @@ bind --mode=visual <ArrowUp> js document.getSelection().modify("extend","backwar
 bind --mode=visual <ArrowRight> js document.getSelection().modify("extend","forward","character")
 bind <S-ArrowUp> tabprev
 bind <S-ArrowDown> tabnext
+bind --mode=ex <ArrowDown> ex.next_completion
+bind --mode=ex <ArrowUp> ex.prev_completion
 
 " Use sensitive case. Smart case would be nice here, but it doesn't work.
 " set findcase sensitive
