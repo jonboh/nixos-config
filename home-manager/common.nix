@@ -12,7 +12,6 @@
     ./udiskie.nix
     ./unclutter.nix
     ./xresources.nix
-    ./anki.nix
     ./yazi.nix
   ];
 
