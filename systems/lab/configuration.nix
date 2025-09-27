@@ -61,7 +61,10 @@ in {
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs;
-    [obs-studio]
+    [
+      obs-studio
+      kicad
+    ]
     ++ minimal_packagse
     ++ common_packages;
 
