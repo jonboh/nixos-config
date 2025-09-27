@@ -192,6 +192,18 @@ in
       #       sha256 = "sha256-TNAcbckhdDE8P35uMW48zIg4uB4JISdMQ3TT2Qu47Ig=";
       #     };
       #   }))
+      (pkgs.unstable.anki-utils.buildAnkiAddon
+        (finalAttrs: {
+          pname = "Anki-StylusDraw";
+          version = "a197a6da0f2fc31e2f1117378a95e003fe5c644f";
+          src = fetchFromGitHub {
+            owner = "Rytisgit";
+            repo = "Anki-StylusDraw";
+            rev = finalAttrs.version;
+            sha256 = "sha256-XHB0AvFG2UYBvCM9y4wupkHekoOQWvancLdBcasoG5Q=";
+          };
+          sourceRoot = "source/AnkiDraw";
+        }))
     ])
     drawpile
     krita
