@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   config = pkgs.neovimUtils.makeNeovimConfig {
     extraLuaPackages = p: [p.magick];
     extraPackages = p: [p.imagemagick];
@@ -29,11 +33,15 @@ in {
     "gd" = "git diff";
     "gw" = "git worktree";
     "gr" = "git reset";
-    "gla" = "gl1-specific --all";
-    "gl" = "gl1-specific";
-    "gl1-specific" = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-    "gl2-specific" = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
-    "gl3-specific" = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
+    "gla" = "gl1-specific --all | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})}| less -FX +G";
+    "gla2" = "gl2-specific --all  | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G";
+    "gla3" = "gl3-specific --all | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G";
+    "gl" = "gl1-specific | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G";
+    "gl2" = "gl2-specific | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G";
+    "gl3" = "gl3-specific | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G";
+    "gl1-specific" = "git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+    "gl2-specific" = "git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
+    "gl3-specific" = "git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
 
     # modern utilities
     "diff" = "batdiff --delta";
