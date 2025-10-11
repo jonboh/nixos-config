@@ -10,7 +10,7 @@ run = 'shell "$SHELL" --block'
 desc = "Open $SHELL here"
 
 [[mgr.prepend_keymap]]
-on = "<C-n>"
+on = [",", "d"]
 run = 'shell -- xdragon -x -T --all "$@"'
 
 [[mgr.prepend_keymap]]
