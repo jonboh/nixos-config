@@ -43,6 +43,10 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
           installation_mode = "force_installed";
         };
+        "redirector@einaregilsson.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/redirector/latest.xpi";
+          installation_mode = "force_installed";
+        };
       };
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
