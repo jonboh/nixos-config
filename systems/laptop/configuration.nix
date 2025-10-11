@@ -113,13 +113,6 @@ in {
     ++ minimal_packagse
     ++ common_packages;
 
-  security.pki = {
-    certificateFiles = [
-      (self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)
-      (self.inputs.nixos-config-sensitive + /certificates/forge-selfsigned.crt)
-    ];
-  };
-
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = ["jonboh"];
   boot.kernelParams = ["kvm.enable_virt_at_load=0"];
