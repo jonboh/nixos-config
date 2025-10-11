@@ -202,6 +202,7 @@ in {
           assign [class="Spotify"] $media
           assign [class="Chromium-browser"] $comm
           assign [class="thunderbird" instance="Mail"] $comm
+          assign [class="thunderbird" instance="Calendar"] $comm
           assign [class="OrcaSlicer" instance="orca-slicer"] $3d
           assign [class="Gazebo GUI" instance="gz-sim-gui"] $3d
           assign [class="rviz2" instance="rviz2"] $ws10
