@@ -8,14 +8,14 @@
     #     Unit = "move-it.service";
     #   };
     # };
-    # "anki" = {
-    #   wantedBy = ["timers.target"];
-    #   timerConfig = {
-    #     OnBootSec = "150m";
-    #     OnUnitActiveSec = "300m";
-    #     Unit = "anki.service";
-    #   };
-    # };
+    "anki" = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnBootSec = "150m";
+        OnUnitActiveSec = "300m";
+        Unit = "anki.service";
+      };
+    };
 
     update-tldr = {
       description = "Weekly TLDR pages update timer";
@@ -40,17 +40,17 @@
     #   };
     # };
 
-    # "anki" = {
-    #   script = ''
-    #     export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus"
-    #     /run/current-system/sw/bin/notify-send "ANKI" -t 1000000000
-    #   '';
-    #   serviceConfig = {
-    #     Type = "oneshot";
-    #     # Environment = "DISPLAY=:0";
-    #     User = "jonboh";
-    #   };
-    # };
+    "anki" = {
+      script = ''
+        export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus"
+        /run/current-system/sw/bin/notify-send "ANKI" -t 1000000000
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        # Environment = "DISPLAY=:0";
+        User = "jonboh";
+      };
+    };
 
     focus-network = let
       focus-network-pkg = pkgs.callPackage ../../scripts/focus-network.nix {};
