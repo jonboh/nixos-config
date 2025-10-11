@@ -51,8 +51,4 @@
       };
     };
   };
-
-  security.pki = {
-    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
-  };
 }
