@@ -42,7 +42,6 @@ in {
 
     nftables = {
       enable = true;
-      # TODO: rules for all networks
       ruleset = ''
         table inet filter {
 
@@ -88,10 +87,12 @@ in {
             iifname { "wan" } oifname { "lan1" } ct state { established, related } accept comment "Allow established traffic from WAN back to albas"
 
             # # charon wifi
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.tars} } accept comment "Allow charon to tars services"
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.forge} } accept comment "Allow charon to forge services"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.tars} } ct state { established, related } comment "Allow established connection from tars services back to charon"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.forge} } ct state { established, related } comment "Allow established connection from forge services back to charon"
+            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.tars.lab} } accept comment "Allow charon to tars services"
+            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.bragi.lab} } accept comment "Allow charon to bragi services"
+            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.forge.lab} } accept comment "Allow charon to forge services"
+            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.tars.lab} } ct state { established, related } comment "Allow established connection from tars services back to charon"
+            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.bragi.lab} } ct state { established, related } comment "Allow established connection from bragi services back to charon"
+            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.forge.lab} } ct state { established, related } comment "Allow established connection from forge services back to charon"
             iifname { "vlan-charon" } oifname { "wan" } accept comment "Allow charon to WAN"
             iifname { "wan" } oifname { "vlan-charon" } ct state { established, related } accept comment "Allow established traffic from WAN back to charon wifi"
 
@@ -99,17 +100,17 @@ in {
             iifname { "vlan-rift" } oifname { "wan" } accept comment "Allow rift to WAN"
             iifname { "wan" } oifname { "vlan-rift" } ct state { established, related } accept comment "Allow established traffic from WAN back to rift wifi"
             # allow samba
-            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.tars} } tcp dport {445} accept comment "Allow charon to tars services"
-            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.tars} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.bragi.lab} } tcp dport {445} accept comment "Allow charon to tars services"
+            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.bragi.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
             # allow steamlink to workstation
-            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.workstation} } tcp dport {27036, 27037} accept comment "Allow rift to workstation steam"
-            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.workstation} } tcp sport {27036, 27037} ct state { established, related } comment "Allow established connection from rift back to workstation"
-            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.workstation} } udp dport {27031, 27036, 10400, 10401} accept comment "Allow rift to workstation steam"
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.workstation.lab} } tcp dport {27036, 27037} accept comment "Allow rift to workstation steam"
+            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.workstation.lab} } tcp sport {27036, 27037} ct state { established, related } comment "Allow established connection from rift back to workstation"
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.workstation.lab} } udp dport {27031, 27036, 10400, 10401} accept comment "Allow rift to workstation steam"
 
             # warp wifi forwarding will be blocked by default policy
             # allow mqtt
-            iifname { "vlan-warp" } ip daddr { ${sensitive.network.ip.tars} } tcp dport 1883 accept comment "Allow warp to tars services"
-            oifname { "vlan-warp" } ip saddr { ${sensitive.network.ip.tars} } tcp sport 1883 ct state { established, related } comment "Allow established connection from services back to warp"
+            iifname { "vlan-warp" } ip daddr { ${sensitive.network.ip.tars.lab} } tcp dport 1883 accept comment "Allow warp to tars services"
+            oifname { "vlan-warp" } ip saddr { ${sensitive.network.ip.tars.lab} } tcp sport 1883 ct state { established, related } comment "Allow established connection from services back to warp"
 
             log prefix "nftables, input, drop, unmatched, " level warn flags all;
             counter drop

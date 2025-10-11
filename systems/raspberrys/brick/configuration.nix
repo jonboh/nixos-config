@@ -58,7 +58,7 @@
         useDHCP = true;
         ipv4.addresses = [
           {
-            address = sensitive.network.ip.brick;
+            address = sensitive.network.ip.brick.lab;
             prefixLength = 24;
           }
         ];
@@ -68,7 +68,7 @@
       # };
     };
     extraHosts = ''
-      ${sensitive.network.ip.tars} tars.lan
+      ${sensitive.network.ip.tars.lab} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
@@ -76,9 +76,6 @@
     git
     wget
   ];
-  security.pki = {
-    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
-  };
 
   system.stateVersion = "24.11";
 }

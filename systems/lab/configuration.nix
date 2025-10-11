@@ -46,7 +46,7 @@ in {
         useDHCP = false;
         ipv4.addresses = [
           {
-            address = sensitive.network.ip.lab;
+            address = sensitive.network.ip.lab.lab;
             prefixLength = 24;
           }
         ];

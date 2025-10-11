@@ -43,7 +43,7 @@
           rotation_max_archives = 10;
         };
         influxdb_v2 = {
-          urls = ["https://tars.lan"];
+          urls = ["https://influx.jonboh.dev"];
           token = "$INFLUXDB_TOKEN";
           organization = "jonboh";
           bucket = "sensors";

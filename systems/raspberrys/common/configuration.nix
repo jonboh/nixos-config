@@ -13,7 +13,7 @@ in {
     users."${user}" = {
       isNormalUser = true;
       hashedPassword = sensitive.passwords.jonboh-workstation;
-      extraGroups = lib.mkDefault ["wheel"];
+      extraGroups = ["wheel"];
       openssh.authorizedKeys.keys = [
         sensitive.keys.ssh.workstation
       ];
@@ -26,20 +26,12 @@ in {
     settings = {
       experimental-features = ["nix-command" "flakes"];
       require-sigs = true;
-      # TODO: factor out build keys
       trusted-public-keys = [
         sensitive.keys.nix.workstation
         sensitive.keys.nix.brick
         sensitive.keys.nix.tars
         sensitive.keys.nix.forge
       ];
-      substituters = lib.mkForce [
-        # TODO: pending to provide ssh access between them
-        # "ssh-ng://tars.lan"
-        # "ssh-ng://forge.lan"
-        # "ssh-ng://brick.lan"
-      ];
-      trusted-substituters = lib.mkForce [];
     };
   };
 
@@ -123,7 +115,7 @@ in {
           loki = {
             type = "loki";
             inputs = ["journald"];
-            endpoint = "http://tars.lan:3100";
+            endpoint = "http://loki.jonboh.dev";
             encoding = {codec = "json";};
             labels.source = "journald";
           };

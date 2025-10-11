@@ -32,18 +32,6 @@
   };
 
   # Radicale
-  sops.secrets.radicale-server-cert = {
-    format = "binary";
-    group = "radicale";
-    mode = "0440";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/radicale-server-cert.pem;
-  };
-  sops.secrets.radicale-server-key = {
-    format = "binary";
-    group = "radicale";
-    mode = "0440";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/radicale-server-key.pem;
-  };
   sops.secrets.radicale-user = {
     format = "binary";
     group = "radicale";
@@ -51,14 +39,30 @@
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/radicale-user;
   };
 
-  sops.secrets.tars-cert-key = {
-    format = "binary";
-    group = "nginx";
-    mode = "0440";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/tars-selfsigned.key;
-  };
   sops.secrets.firefox-syncserver = {
     format = "dotenv";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/firefox-syncstorage.env;
+  };
+
+  sops.secrets.wg-tars-private-key = {
+    format = "binary";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/wg-tars-private-key;
+    mode = "640";
+    owner = "systemd-network";
+    group = "systemd-network";
+  };
+  sops.secrets.wg-tars-psk = {
+    format = "binary";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/wg-tars-psk;
+    mode = "640";
+    owner = "systemd-network";
+    group = "systemd-network";
+  };
+
+  sops.secrets.certs-secrets = {
+    format = "binary";
+    owner = "acme";
+    group = "acme";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/dns-certs.secret;
   };
 }

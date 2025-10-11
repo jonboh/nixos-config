@@ -505,11 +505,11 @@
     "nixos-config-sensitive": {
       "flake": false,
       "locked": {
-        "lastModified": 1758393946,
-        "narHash": "sha256-J6u7GPSyp0WCbUcCwvMMoxMNSnSd7hrmY14IOY4BAlA=",
+        "lastModified": 1760169412,
+        "narHash": "sha256-PfWATHYOmJ1CoMIqV6Q7SA7k57rJ0/7qIhuoHrW4vcg=",
         "ref": "main",
-        "rev": "a6ce26d3adf543b6906dfaa2ae751cfff94de1f2",
-        "revCount": 6,
+        "rev": "9a1def9a4d3cdfcd7ed7e1141cca565e975895d8",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixos-config-sensitive.git"
       },
@@ -575,6 +575,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-bragi": {
+      "locked": {
+        "lastModified": 1759580034,
+        "narHash": "sha256-YWo57PL7mGZU7D4WeKFMiW4ex/O6ZolUS6UNBHTZfkI=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3bcc93c5f7a4b30335d31f21e2f1281cba68c318",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-brick": {
       "locked": {
         "lastModified": 1750877742,
@@ -625,11 +641,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1754498491,
-        "narHash": "sha256-erbiH2agUTD0Z30xcVSFcDHzkRvkRXOQ3lb887bcVrs=",
+        "lastModified": 1759381078,
+        "narHash": "sha256-gTrEEp5gEspIcCOx9PD8kMaF1iEmfBcTbO0Jag2QhQs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c2ae88e026f9525daf89587f3cbee584b92b6134",
+        "rev": "7df7ff7d8e00218376575f0acdcc5d66741351ee",
         "type": "github"
       },
       "original": {
@@ -813,11 +829,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1759003535,
-        "narHash": "sha256-Xi1PbmSvUAOnV/j5HTserWrw0uxGg8NHCMu2cd92oBc=",
+        "lastModified": 1759835280,
+        "narHash": "sha256-eCjMbB1EJjt1cVgiPAhyS1pjp9ObKDkED/ffEVV5AbI=",
         "owner": "jonboh",
         "repo": "nixvim-config",
-        "rev": "72acefd7eaea7f3cbd863099211057649bc9a17a",
+        "rev": "be10d8b1d47ec5f3a83bfbd416ede289485fafe0",
         "type": "github"
       },
       "original": {
@@ -937,6 +953,7 @@
         "nixos-sbc": "nixos-sbc",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-bragi": "nixpkgs-bragi",
         "nixpkgs-brick": "nixpkgs-brick",
         "nixpkgs-charon": [
           "nixos-sbc",

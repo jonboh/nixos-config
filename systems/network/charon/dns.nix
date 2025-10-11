@@ -61,17 +61,28 @@
         cloaking_rules = pkgs.writeTextFile {
           name = "cloaking_rules.txt";
           text = ''
+            alesia.lan ${sensitive.network.ip.alesia.viae}
             charon.lan ${sensitive.network.ip.charon.lab}
             citadel.lan ${sensitive.network.ip.citadel.lab}
-            lab.lan ${sensitive.network.ip.lab}
-            tars.lan ${sensitive.network.ip.tars}
-            forge.lan ${sensitive.network.ip.forge}
-            brick.lan ${sensitive.network.ip.brick}
-            sentinel.lan ${sensitive.network.ip.sentinel}
-            eva.lan ${sensitive.network.ip.eva}
-            iaq-lab.lan ${sensitive.network.ip.iaq-lab}
-            iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom}
-            iaq-outside.lan ${sensitive.network.ip.iaq-outside}
+            lab.lan ${sensitive.network.ip.lab.lab}
+            tars.lan ${sensitive.network.ip.tars.lab}
+            bragi.lan ${sensitive.network.ip.bragi.lab}
+            viae.tars.lan ${sensitive.network.ip.tars.viae}
+            forge.lan ${sensitive.network.ip.forge.lab}
+            brick.lan ${sensitive.network.ip.brick.lab}
+            sentinel.lan ${sensitive.network.ip.sentinel.lab}
+            eva.lan ${sensitive.network.ip.eva.lab}
+            iaq-lab.lan ${sensitive.network.ip.iaq-lab.warp}
+            iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom.warp}
+            iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}
+
+            navidrome.jonboh.dev ${sensitive.network.ip.bragi.lab}
+            radicale.jonboh.dev ${sensitive.network.ip.tars.lab}
+            firefox.jonboh.dev ${sensitive.network.ip.tars.lab}
+            influx.jonboh.dev ${sensitive.network.ip.tars.lab}
+            grafana.jonboh.dev ${sensitive.network.ip.tars.lab}
+            atuin.jonboh.dev ${sensitive.network.ip.tars.lab}
+            loki.jonboh.dev ${sensitive.network.ip.tars.lab}
           '';
         };
 

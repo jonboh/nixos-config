@@ -199,7 +199,7 @@
         "browser.download.panel.shown" = true; # show download panel
         "signon.rememberSignons" = false; # disable saving passwords
         "identity.fxaccounts.enabled" = true; # disable librewolf accounts
-        "identity.sync.tokenserver.uri" = "https://firefox.tars.lan/1.0/sync/1.5";
+        "identity.sync.tokenserver.uri" = "https://firefox.jonboh.dev/1.0/sync/1.5";
         "app.shield.optoutstudies.enabled" = false; # disable shield studies
         "browser.shell.checkDefaultBrowser" = false; # don't check if default browser
         "browser.bookmarks.restore_default_bookmarks" = false; # don't restore default bookmarks

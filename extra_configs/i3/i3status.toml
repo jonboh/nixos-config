@@ -64,10 +64,23 @@ warning_fg = "#f7768e" # red
 [[block]]
 block = "sound"
 
+# VPNs
 [[block]]
-block = "vpn"
-driver = "mullvad"
-#
+# mullvad VPN
+block = "custom"
+command = "python /home/jonboh/.flakes/nixos-config/extra_configs/i3/vpn.py mullvad"
+json = true
+hide_when_empty = false
+interval = 1
+[[block]]
+# viae VPN
+block = "custom"
+command = "python /home/jonboh/.flakes/nixos-config/extra_configs/i3/vpn.py viae"
+json = true
+hide_when_empty = false
+interval = 1
+
+
 [[block]]
 block = "net"
 format = " $icon {$signal_strength $ssid $frequency|} $ip $device "

@@ -5,10 +5,7 @@
   modulesPath,
   sensitive,
   ...
-}: let
-  fluiddPort = 443;
-  moonrakerPort = 7125;
-in {
+}: {
   imports = [
     ../common/configuration.nix
     ../common/hardware-metrics.nix
@@ -23,14 +20,17 @@ in {
     hostName = "forge";
     firewall = {
       enable = true;
-      allowedTCPPorts = [fluiddPort moonrakerPort];
+      allowedTCPPorts = with sensitive.network.port.tcp.forge; [
+        fluidd
+        moonraker
+      ];
     };
     interfaces = {
       end0 = {
         useDHCP = true;
         ipv4.addresses = [
           {
-            address = sensitive.network.ip.forge;
+            address = sensitive.network.ip.forge.lab;
             prefixLength = 24;
           }
         ];
@@ -38,8 +38,21 @@ in {
     };
     timeServers = [(sensitive.network.ntp-server "lab")];
     extraHosts = ''
-      ${sensitive.network.ip.tars} tars.lan
+      ${sensitive.network.ip.tars.lab} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "jon.bosque.hernando@gmail.com";
+    certs."jonboh.dev" = {
+      domain = "*.jonboh.dev";
+      dnsProvider = "rfc2136";
+      environmentFile = config.sops.secrets.certs-secrets.path;
+      dnsPropagationCheck = false;
+      # server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
+      validMinDays = 90;
+    };
   };
 
   environment.etc = {
@@ -127,8 +140,8 @@ in {
       enable = true;
       nginx = {
         forceSSL = true;
-        sslCertificate = self.inputs.nixos-config-sensitive + /certificates/forge-selfsigned.crt;
-        sslCertificateKey = config.sops.secrets.forge-cert-key.path;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
       };
     };
     nginx = {
@@ -196,10 +209,6 @@ in {
     pkg-config
     wxGTK32
   ];
-
-  security.pki = {
-    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
-  };
 
   zramSwap = {
     enable = true;

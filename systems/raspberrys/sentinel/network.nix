@@ -8,7 +8,7 @@
     nameservers = [(sensitive.network.dns-server "lab")];
     usePredictableInterfaceNames = true;
     extraHosts = ''
-      ${sensitive.network.ip.tars} tars.lan
+      ${sensitive.network.ip.tars.lab} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
@@ -113,7 +113,7 @@
         "30-vlan-lab" = {
           matchConfig.Name = "vlan-lab";
           address = [
-            "${sensitive.network.ip.sentinel}/24"
+            "${sensitive.network.ip.sentinel.lab}/24"
           ];
           gateway = [(sensitive.network.gateway "lab")];
         };

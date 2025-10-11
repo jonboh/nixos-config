@@ -3,6 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-vscode-lldb.url = "github:FraGag/nixpkgs/vscode-extensions.vadimcn.vscode-lldb";
+    nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-24.11";
@@ -60,17 +61,17 @@
     nixos-wsl,
     ...
   } @ inputs: let
-    system = "x86_64-linux";
-    pkgs = import inputs.nixpkgs {
-      inherit system;
+    unstable-overlay = system: final: prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config = prev.config;
+      };
+    };
+    pkgs = import inputs.nixpkgs rec {
+      system = "x86_64-linux";
       config.allowUnfree = true;
       overlays = [
-        (final: prev: {
-          unstable = import inputs.nixpkgs-unstable {
-            inherit system;
-            config = prev.config;
-          };
-        })
+        (unstable-overlay system)
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
           xdg-desktop-portal-termfilechooser =
@@ -229,7 +230,7 @@
       sensitive = import inputs.nixos-config-sensitive;
     in {
       "lab" = lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         inherit pkgs;
         specialArgs = {
           inherit self;
@@ -251,7 +252,7 @@
         ];
       };
       "workstation" = lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         inherit pkgs;
         specialArgs = {
           inherit self;
@@ -274,7 +275,7 @@
       };
 
       "laptop" = lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         inherit pkgs;
         specialArgs = {
           inherit self;
@@ -306,10 +307,11 @@
             inherit sensitive;
           };
           pkgs = import nixpkgs {
-            system = "aarch64-linux";
+            inherit system;
             overlays = [
               sun4i-drm-overlay-fix
               ccache-overlay
+              (unstable-overlay system)
               (final: prev: {
                 grafanaPlugin = pkgs.callPackage (nixpkgs + "/pkgs/servers/monitoring/grafana/plugins/grafana-plugin.nix") {};
                 logs-drilldown = pkgs.callPackage ./packages/logs-drilldown.nix {};
@@ -319,20 +321,41 @@
           modules = [
             ./systems/raspberrys/tars/configuration.nix
             inputs.sops.nixosModules.sops
-            {}
           ];
         };
-      "forge" = let
-        nixpkgs = inputs.nixpkgs-forge;
+      "bragi" = let
+        nixpkgs = inputs.nixpkgs-tars;
       in
-        nixpkgs.lib.nixosSystem {
+        nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
           specialArgs = {
             inherit self;
             inherit sensitive;
           };
           pkgs = import nixpkgs {
-            system = "aarch64-linux";
+            inherit system;
+            overlays = [
+              sun4i-drm-overlay-fix
+              ccache-overlay
+              (unstable-overlay system)
+            ];
+          };
+          modules = [
+            ./systems/raspberrys/bragi/configuration.nix
+            inputs.sops.nixosModules.sops
+          ];
+        };
+      "forge" = let
+        nixpkgs = inputs.nixpkgs-forge;
+      in
+        nixpkgs.lib.nixosSystem rec {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit self;
+            inherit sensitive;
+          };
+          pkgs = import nixpkgs {
+            inherit system;
             overlays = [
               sun4i-drm-overlay-fix
               ccache-overlay
@@ -343,14 +366,14 @@
             inputs.sops.nixosModules.sops
           ];
         };
-      "brick" = inputs.nixpkgs-brick.lib.nixosSystem {
+      "brick" = inputs.nixpkgs-brick.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
         pkgs = import inputs.nixpkgs-brick {
-          system = "aarch64-linux";
+          inherit system;
           overlays = [
             ccache-overlay
             (final: prev: {
@@ -365,14 +388,14 @@
           ./systems/raspberrys/brick/configuration.nix
         ];
       };
-      "sentinel" = inputs.nixpkgs-brick.lib.nixosSystem {
+      "sentinel" = inputs.nixpkgs-brick.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
         pkgs = import inputs.nixpkgs-brick {
-          system = "aarch64-linux";
+          inherit system;
           overlays = [
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
@@ -386,14 +409,14 @@
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
-      "eva" = inputs.nixpkgs-brick.lib.nixosSystem {
+      "eva" = inputs.nixpkgs-brick.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
         pkgs = import inputs.nixpkgs-brick {
-          system = "aarch64-linux";
+          inherit system;
           overlays = [
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
@@ -407,14 +430,14 @@
           ./systems/raspberrys/eva/configuration.nix
         ];
       };
-      "charon" = inputs.nixpkgs-charon.lib.nixosSystem {
+      "charon" = inputs.nixpkgs-charon.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
         pkgs = import inputs.nixpkgs-charon {
-          system = "aarch64-linux";
+          inherit system;
           overlays = [ccache-overlay];
         };
         modules = [
@@ -431,14 +454,14 @@
           ./systems/network/charon/configuration.nix
         ];
       };
-      "citadel" = inputs.nixpkgs-charon.lib.nixosSystem {
+      "citadel" = inputs.nixpkgs-charon.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
         pkgs = import inputs.nixpkgs-charon {
-          system = "aarch64-linux";
+          inherit system;
           overlays = [ccache-overlay];
         };
         modules = [
@@ -455,7 +478,7 @@
           ./systems/network/citadel/configuration.nix
         ];
       };
-      "wsl" = inputs.nixpkgs-wsl.lib.nixosSystem {
+      "wsl" = inputs.nixpkgs-wsl.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = {
           inherit self;

@@ -89,14 +89,6 @@ in {
             ];
             type = "sendreceive";
           };
-          "zathura-state" = {
-            path = "/home/jonboh/.local/share/zathura";
-            devices = [
-              "tars"
-              "workstation"
-            ];
-            type = "sendreceive";
-          };
           "books" = {
             path = "/home/jonboh/books";
             devices = ["tars" "workstation" "phone"];

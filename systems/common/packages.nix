@@ -111,6 +111,7 @@ in
     bat-extras.batpipe
     bat-extras.batwatch
     du-dust
+    just
     fd
     ripgrep
     lsof

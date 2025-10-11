@@ -35,7 +35,7 @@
         useDHCP = true;
         ipv4.addresses = [
           {
-            address = sensitive.network.ip.eva;
+            address = sensitive.network.ip.eva.lab;
             prefixLength = 24;
           }
         ];
@@ -44,7 +44,7 @@
     timeServers = [(sensitive.network.ntp-server "lab")];
     defaultGateway = sensitive.network.gateway "lab";
     extraHosts = ''
-      ${sensitive.network.ip.tars} tars.lan
+      ${sensitive.network.ip.tars.lab} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway
   };
 
@@ -54,9 +54,6 @@
     wget
     tcpdump
   ];
-  security.pki = {
-    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
-  };
 
   system.stateVersion = "24.11";
 }

@@ -17,6 +17,7 @@ in {
     ./sops.nix
     ./samba-mounts.nix
     ./builders.nix
+    ./network.nix
   ];
 
   # system.nixos.label = "GrubStyle";
@@ -36,41 +37,6 @@ in {
     auto-optimise-store = true;
     min-free = 512 * 1024 * 1024;
     max-free = 1024 * 1024 * 1024;
-  };
-
-  networking = {
-    hostName = "workstation";
-    wireless.enable = false;
-    interfaces = {
-      eno1 = {
-        useDHCP = true;
-      };
-    };
-    networkmanager.enable = true;
-    # Steamlink
-    firewall.allowedTCPPorts = [27036 27037];
-    firewall.allowedUDPPorts = [27031 27036 10400 10401];
-  };
-
-  services.ntpd-rs = {
-    enable = true;
-    settings = {
-      source = [
-        {
-          address = sensitive.network.ntp-server "lab";
-          mode = "server";
-        }
-      ];
-      synchronization = {
-        minimum-agreeing-sources = 1;
-        single-step-panic-threshold = 1000;
-        startup-step-panic-threshold = {
-          forward = "inf";
-          backward = 86400;
-        };
-      };
-    };
-    useNetworkingTimeServers = false;
   };
 
   # syncthing
@@ -117,14 +83,6 @@ in {
             ];
             type = "sendreceive";
           };
-          "zathura-state" = {
-            path = "/home/jonboh/.local/share/zathura";
-            devices = [
-              "tars"
-              "laptop"
-            ];
-            type = "sendreceive";
-          };
           "devel" = {
             path = "/home/jonboh/devel";
             devices = ["tars"];
@@ -134,11 +92,6 @@ in {
             path = "/mnt/storage/vault";
             devices = ["tars" "laptop" "phone" "wsl" "lab"];
             type = "sendreceive";
-          };
-          "archive" = {
-            path = "/mnt/storage/archive";
-            devices = ["tars"];
-            type = "sendonly";
           };
           "doc" = {
             path = "/mnt/storage/doc";
@@ -188,6 +141,10 @@ in {
       remmina
       heroic # gog games (can add them to steam for remote play)
       borgbackup
+      supersonic
+      picard
+      feishin
+      wireguard-tools
     ]
     ++ minimal_packagse
     ++ common_packages;
@@ -195,13 +152,6 @@ in {
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   services.ollama.acceleration = "cuda";
-
-  security.pki = {
-    certificateFiles = [
-      (self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)
-      (self.inputs.nixos-config-sensitive + /certificates/forge-selfsigned.crt)
-    ];
-  };
 
   # services.teamviewer.enable = true;
 

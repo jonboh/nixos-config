@@ -63,7 +63,7 @@
       settings = {
         auto_sync = true;
         sync_frequency = "5m";
-        sync_address = "https://tars.lan/atuin";
+        sync_address = "https://atuin.jonboh.dev";
         prefers_reduced_motion = true;
         style = "compact";
         search_mode = "skim";

@@ -6,24 +6,14 @@
   modulesPath,
   sensitive,
   ...
-}: let
-  nginxPort = 80;
-  nginxPortSSL = 443;
-  sambaPort = 445; # samba (without NETBIOS)
-  mqttPort = 1883;
-  radicalePort = 5232;
-  grafanaPort = 3000;
-  lokiPort = 3100;
-  influxdbPort = 8086;
-  atuinPort = 8888;
-  syncserverPort = 5000;
-in {
+}: {
   imports = [
     ../common/configuration.nix
     ../common/hardware-metrics.nix
     ../common/hardware-rpi4.nix
     ../common/sops.nix
     ./daily-backup.nix
+    ./network.nix
     ./builder.nix
     ./sops.nix
     ./telegraf-environment.nix
@@ -31,35 +21,20 @@ in {
   ];
   networking.hostName = "tars";
 
-  networking = {
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-        nginxPort
-        nginxPortSSL
-        sambaPort
-        mqttPort
-        radicalePort # TODO: mask behind nginx
-        lokiPort # TODO: mask behind nginx
-      ];
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "jon.bosque.hernando@gmail.com";
+    defaults.enableDebugLogs = true;
+    certs."jonboh.dev" = {
+      domain = "*.jonboh.dev";
+      dnsProvider = "rfc2136";
+      environmentFile = config.sops.secrets.certs-secrets.path;
+      dnsPropagationCheck = false;
+      # server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
+      validMinDays = 90;
     };
-    interfaces = {
-      end0 = {
-        useDHCP = true;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.tars;
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    extraHosts = ''
-      ${sensitive.network.ip.tars} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
-    defaultGateway = sensitive.network.ip.charon.lab;
   };
+  users.users.nginx.extraGroups = ["acme"];
 
   services = {
     syncthing = {
@@ -96,14 +71,6 @@ in {
               "laptop"
             ];
           };
-          "zathura-state" = {
-            path = "/mnt/storage/.local/share/zathura";
-            devices = [
-              "workstation"
-              "laptop"
-            ];
-            type = "sendreceive";
-          };
           "devel" = {
             path = "/mnt/storage/devel";
             devices = ["workstation"];
@@ -115,11 +82,6 @@ in {
             type = "sendreceive";
           };
 
-          "archive" = {
-            path = "/mnt/storage/archive";
-            devices = ["workstation"];
-            type = "receiveonly";
-          };
           "doc" = {
             path = "/mnt/storage/doc";
             devices = ["workstation"];
@@ -156,28 +118,12 @@ in {
       settings = {
         global = {
           "guest account" = "nobody";
-          "smb ports" = "${toString sambaPort}";
-          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
+          "smb ports" = "${toString sensitive.network.port.tcp.tars.samba}";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
           "hosts deny" = "0.0.0.0/0";
         };
-        media = {
-          path = "/mnt/storage/shared_media";
-          "read only" = true;
-          browseable = true;
-          public = true;
-          comment = "Shared Media";
-        };
-        writable_media = {
-          path = "/mnt/storage/shared_media";
-          "read only" = false;
-          writable = true;
-          browseable = true;
-          public = false;
-          comment = "Writable Shared Media";
-          "valid users" = "jonboh";
-        };
         writable_file_exchange = {
-          path = "/mnt/file_exchange";
+          path = "/mnt/storage/file_exchange";
           "read only" = false;
           writable = true;
           browseable = true;
@@ -199,14 +145,14 @@ in {
         };
       };
       settings = {
-        http-bind-address = "127.0.0.1:${toString influxdbPort}";
+        http-bind-address = "127.0.0.1:${toString sensitive.network.port.tcp.tars.influx}";
       };
     };
     telegraf = {
       extraConfig = {
         inputs = {
           mqtt_consumer = {
-            servers = ["tcp://tars.lan:${toString mqttPort}"];
+            servers = ["tcp://influx.jonboh.dev:${toString sensitive.network.port.tcp.tars.mqtt}"];
             topics = [
               "iaq-lab/sensor/+/state"
               "iaq-bedroom/sensor/+/state"
@@ -249,7 +195,7 @@ in {
       # logType = ["all"];
       listeners = [
         {
-          port = mqttPort;
+          port = sensitive.network.port.tcp.tars.mqtt;
           users = {
             iaq-lab = {
               acl = [
@@ -287,10 +233,8 @@ in {
       enable = true;
       settings = {
         server = {
-          hosts = ["0.0.0.0:${toString radicalePort}"];
-          ssl = true;
-          certificate = "/run/secrets/radicale-server-cert";
-          key = "/run/secrets/radicale-server-key";
+          hosts = ["127.0.0.1:${toString sensitive.network.port.tcp.tars.radicale}"];
+          ssl = false;
         };
         auth = {
           type = "htpasswd";
@@ -329,6 +273,7 @@ in {
         };
       };
     };
+
     nginx = {
       enable = true;
       recommendedGzipSettings = true;
@@ -337,7 +282,7 @@ in {
       # recommendedProxySettings = true; # NOTE: breaks requests with 400 Bad Request
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
-      virtualHosts."tars.lan" = {
+      virtualHosts."influx.jonboh.dev" = {
         listen = [
           {
             addr = "0.0.0.0";
@@ -351,29 +296,11 @@ in {
           }
         ];
         forceSSL = true;
-        sslCertificate = self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt;
-        sslCertificateKey = config.sops.secrets.tars-cert-key.path;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         # https://github.com/influxdata/influxdb/issues/15721#issuecomment-3148425970
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString influxdbPort}";
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-          '';
-        };
-        locations."/grafana/" = {
-          proxyPass = "http://127.0.0.1:${toString grafanaPort}";
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-          '';
-        };
-        locations."/atuin/" = {
-          proxyPass = "http://127.0.0.1:${toString atuinPort}";
+          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.influx}";
           extraConfig = ''
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -382,7 +309,7 @@ in {
           '';
         };
       };
-      virtualHosts."firefox.tars.lan" = {
+      virtualHosts."atuin.jonboh.dev" = {
         listen = [
           {
             addr = "0.0.0.0";
@@ -396,16 +323,97 @@ in {
           }
         ];
         forceSSL = true;
-        sslCertificate = self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt;
-        sslCertificateKey = config.sops.secrets.tars-cert-key.path;
-        # https://github.com/influxdata/influxdb/issues/15721#issuecomment-3148425970
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString syncserverPort}";
+          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.atuin}";
           recommendedProxySettings = true;
         };
       };
-      # TODO: use radicale_client_key/cert.pem
-      # TODO: unify all services in nginx reverse-proxy
+      virtualHosts."grafana.jonboh.dev" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 80;
+            ssl = false;
+          }
+          {
+            port = 443;
+            addr = "0.0.0.0";
+            ssl = true;
+          }
+        ];
+        forceSSL = true;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.grafana}";
+          recommendedProxySettings = true;
+        };
+      };
+      virtualHosts."firefox.jonboh.dev" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 80;
+            ssl = false;
+          }
+          {
+            port = 443;
+            addr = "0.0.0.0";
+            ssl = true;
+          }
+        ];
+        forceSSL = true;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.syncserver}";
+          recommendedProxySettings = true;
+        };
+      };
+      virtualHosts."radicale.jonboh.dev" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 80;
+            ssl = false;
+          }
+          {
+            port = 443;
+            addr = "0.0.0.0";
+            ssl = true;
+          }
+        ];
+        forceSSL = true;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.radicale}";
+          recommendedProxySettings = true;
+        };
+      };
+      virtualHosts."loki.jonboh.dev" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 80;
+            ssl = false;
+          }
+          {
+            port = 443;
+            addr = "0.0.0.0";
+            ssl = true;
+          }
+        ];
+        forceSSL = true;
+        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:3100";
+          recommendedProxySettings = true;
+        };
+      };
     };
     grafana = {
       enable = true;
@@ -437,7 +445,7 @@ in {
               {
                 name = "InfluxDB";
                 type = "influxdb";
-                url = "https://tars.lan/";
+                url = "https://influx.jonboh.dev/";
                 jsonData = {
                   version = "Flux";
                   organization = "jonboh";
@@ -451,7 +459,7 @@ in {
               {
                 name = "loki";
                 type = "loki";
-                url = "http://localhost:3100";
+                url = "http://loki.jonboh.dev";
               }
             ];
           };
@@ -459,11 +467,10 @@ in {
       };
       settings = {
         server = {
-          domain = "tars.lan";
+          domain = "jonboh.dev";
           http_addr = "127.0.0.1";
-          http_port = grafanaPort;
-          root_url = "https://tars.lan/grafana/";
-          serve_from_sub_path = true;
+          http_port = sensitive.network.port.tcp.tars.grafana;
+          root_url = "https://grafana.jonboh.dev";
         };
         dashboards.default_home_dashboard_path = "${./dashboards/hardware.json}";
       };
@@ -485,7 +492,7 @@ in {
 
         common = {
           ring = {
-            instance_addr = "0.0.0.0";
+            instance_addr = "127.0.0.1";
             kvstore = {
               store = "inmemory";
             };
@@ -523,8 +530,6 @@ in {
       database.createLocally = true;
     };
     firefox-syncserver = {
-      # NOTE: probably due to my cert being a self-signed one, I have to first try
-      # to access https://firefox.tars.lan, accept the risk, and then sync works!
       enable = true;
       logLevel = "debug";
       database = {
@@ -532,14 +537,14 @@ in {
       };
       singleNode = {
         enable = true;
-        url = "https://firefox.tars.lan";
+        url = "https://firefox.jonboh.dev";
         capacity = 4;
         hostname = "127.0.0.1";
       };
       secrets = config.sops.secrets.firefox-syncserver.path;
       settings = {
         host = "127.0.0.1";
-        port = syncserverPort;
+        port = sensitive.network.port.tcp.tars.syncserver;
         syncstorage = {
           enabled = true;
           enable_quota = 0;
@@ -583,7 +588,7 @@ in {
 
   fileSystems = {
     "/mnt/storage" = {
-      device = "/dev/disk/by-label/sync_drive";
+      device = "/dev/disk/by-label/sync-drive";
       fsType = "ext4";
     };
   };
@@ -592,6 +597,7 @@ in {
     influxdb2-cli
     htop
     bindfs
+    wireguard-tools
   ];
 
   zramSwap = {

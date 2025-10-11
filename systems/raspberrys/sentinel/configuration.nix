@@ -158,7 +158,7 @@
   services.vector.settings.sinks.loki_eve = {
     type = "loki";
     inputs = ["eve_json"];
-    endpoint = "http://tars.lan:3100";
+    endpoint = "http://loki.jonboh.dev";
     encoding = {codec = "json";};
     labels.source = "eve_json";
   };
@@ -169,9 +169,6 @@
     wget
     tcpdump
   ];
-  security.pki = {
-    certificateFiles = [(self.inputs.nixos-config-sensitive + /certificates/tars-selfsigned.crt)];
-  };
 
   system.stateVersion = "24.11";
 }

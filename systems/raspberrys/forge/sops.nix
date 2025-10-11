@@ -1,9 +1,9 @@
 {self, ...}: {
   sops.age.keyFile = "/var/secrets/forge.txt";
-  sops.secrets.forge-cert-key = {
+  sops.secrets.certs-secrets = {
     format = "binary";
-    group = "nginx";
-    mode = "0440";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/forge-selfsigned.key;
+    owner = "acme";
+    group = "acme";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/dns-certs.secret;
   };
 }
