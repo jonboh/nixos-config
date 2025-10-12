@@ -145,7 +145,7 @@
         };
       };
       settings = {
-        http-bind-address = "127.0.0.1:${toString sensitive.network.port.tcp.tars.influx}";
+        http-bind-address = "127.0.0.1:8086";
       };
     };
     telegraf = {
@@ -233,7 +233,7 @@
       enable = true;
       settings = {
         server = {
-          hosts = ["127.0.0.1:${toString sensitive.network.port.tcp.tars.radicale}"];
+          hosts = ["127.0.0.1:5232"];
           ssl = false;
         };
         auth = {
@@ -300,7 +300,7 @@
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         # https://github.com/influxdata/influxdb/issues/15721#issuecomment-3148425970
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.influx}";
+          proxyPass = "http://${config.services.influxdb2.settings.http-bind-address}";
           extraConfig = ''
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -326,7 +326,7 @@
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.atuin}";
+          proxyPass = "http://${config.services.atuin.host}:${toString config.services.atuin.port}";
           recommendedProxySettings = true;
         };
       };
@@ -347,7 +347,7 @@
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.grafana}";
+          proxyPass = "http://${config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}";
           recommendedProxySettings = true;
         };
       };
@@ -368,7 +368,7 @@
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.syncserver}";
+          proxyPass = "http://${config.services.firefox-syncserver.settings.host}:${toString config.services.firefox-syncserver.settings.port}";
           recommendedProxySettings = true;
         };
       };
@@ -389,7 +389,7 @@
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.tars.radicale}";
+          proxyPass = "http://${builtins.elemAt config.services.radicale.settings.server.hosts 0}";
           recommendedProxySettings = true;
         };
       };
@@ -469,7 +469,7 @@
         server = {
           domain = "jonboh.dev";
           http_addr = "127.0.0.1";
-          http_port = sensitive.network.port.tcp.tars.grafana;
+          http_port = 3000;
           root_url = "https://grafana.jonboh.dev";
         };
         dashboards.default_home_dashboard_path = "${./dashboards/hardware.json}";
@@ -525,6 +525,7 @@
     atuin = {
       enable = true;
       host = "127.0.0.1";
+      port = 8888;
       path = "/atuin/";
       openRegistration = true;
       database.createLocally = true;
@@ -544,7 +545,7 @@
       secrets = config.sops.secrets.firefox-syncserver.path;
       settings = {
         host = "127.0.0.1";
-        port = sensitive.network.port.tcp.tars.syncserver;
+        port = 5000;
         syncstorage = {
           enabled = true;
           enable_quota = 0;

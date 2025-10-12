@@ -21,7 +21,7 @@
       DataFolder = "/mnt/storage/navidrome";
       CacheFolder = "/mnt/storage/navidrome/cache";
       Address = "127.0.0.1";
-      Port = sensitive.network.port.tcp.bragi.navidrome;
+      Port = 4533;
       Scanner.PurgeMissing = "full";
       BaseUrl = "https://navidrome.jonboh.dev";
     };

@@ -58,7 +58,7 @@
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString sensitive.network.port.tcp.bragi.navidrome}";
+          proxyPass = "http://${config.services.navidrome.settings.Address}:${toString config.services.navidrome.settings.Port}";
           recommendedProxySettings = true;
         };
       };
