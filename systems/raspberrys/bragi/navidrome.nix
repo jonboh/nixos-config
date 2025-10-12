@@ -29,6 +29,9 @@
     # TODO: setup navidrome backups
   };
   # NOTE: additional libraries need to be read by navidrome
-  systemd.services.navidrome.serviceConfig.BindReadOnlyPaths = ["/mnt/storage/music/private"];
+  systemd.services.navidrome.serviceConfig.BindReadOnlyPaths = [
+    "/mnt/storage/music/private"
+    "/mnt/storage/music/hartaman"
+  ];
   users.users.jonboh.extraGroups = ["navidrome"];
 }

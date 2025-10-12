@@ -12,7 +12,7 @@ in {
     mutableUsers = false;
     users."${user}" = {
       isNormalUser = true;
-      hashedPassword = sensitive.passwords.jonboh-workstation;
+      hashedPassword = sensitive.passwords.jonboh-raspberries;
       extraGroups = ["wheel"];
       openssh.authorizedKeys.keys = [
         sensitive.keys.ssh.workstation
