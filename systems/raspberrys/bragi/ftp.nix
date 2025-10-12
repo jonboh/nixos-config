@@ -11,6 +11,8 @@
       listen_port=${toString sensitive.network.port.tcp.bragi.ftp.main}
       pasv_min_port=${toString sensitive.network.port.tcp.bragi.ftp.passive.min}
       pasv_max_port=${toString sensitive.network.port.tcp.bragi.ftp.passive.max}
+      file_open_mode=0644
+      local_umask=022
     '';
   };
 
