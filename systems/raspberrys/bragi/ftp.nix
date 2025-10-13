@@ -7,6 +7,8 @@
     localRoot = "/mnt/storage/music/hartaman";
     rsaCertFile = "/var/lib/acme/jonboh.dev/fullchain.pem";
     rsaKeyFile = "/var/lib/acme/jonboh.dev/key.pem";
+    allowWriteableChroot = true;
+    chrootlocalUser = true;
     extraConfig = ''
       listen_port=${toString sensitive.network.port.tcp.bragi.ftp.main}
       pasv_min_port=${toString sensitive.network.port.tcp.bragi.ftp.passive.min}
