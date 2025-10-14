@@ -123,5 +123,9 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    bindfs
+  ];
+
   system.stateVersion = "25.05";
 }
