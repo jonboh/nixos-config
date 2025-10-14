@@ -48,6 +48,9 @@
       source $HOME/.flakes/nixos-config/extra_configs/yazi/yazi_wrapper.zsh
       bindkey -s '^b' 'y\n'
 
+      # open editor
+      bindkey -s '^e' 'v\n'
+
       fpath=($HOME/.flakes/nixos-config/extra_configs/zsh $fpath)
       fpath+=~/.config/zfunc_rustcompletions
       source $HOME/.flakes/nixos-config/extra_configs/zsh/cursor_mode.zsh
