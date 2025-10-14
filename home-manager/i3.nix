@@ -200,6 +200,8 @@ in {
           assign [class="krita" instance="krita"] $draw
           assign [class="drawpile" instance="drawpile"] $draw
           assign [class="Spotify"] $media
+          assign [class="feishin"] $media
+          assign [class="Supersonic"] $media
           assign [class="Chromium-browser"] $comm
           assign [class="thunderbird" instance="Mail"] $comm
           assign [class="thunderbird" instance="Calendar"] $comm
