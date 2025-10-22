@@ -244,7 +244,7 @@
     info.enable = true;
     man = {
       enable = true;
-      generateCaches = true;
+      generateCaches = false; # i dont use apropos
     };
   };
   environment.pathsToLink = [
