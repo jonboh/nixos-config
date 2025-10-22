@@ -49,7 +49,7 @@
       bindkey -s '^b' 'y\n'
 
       # open editor
-      bindkey -s '^e' 'v\n'
+      bindkey -s '^e' 'e\n'
 
       fpath=($HOME/.flakes/nixos-config/extra_configs/zsh $fpath)
       fpath+=~/.config/zfunc_rustcompletions

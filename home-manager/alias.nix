@@ -71,7 +71,7 @@ in {
     "o" = "xdg-open";
 
     # editor
-    "v" = "${pkgs.nixvim}/bin/nixvim";
+    "e" = "${pkgs.nixvim}/bin/nixvim";
     "nvim" = "${neovim-custom}/bin/nvim -u $HOME/.config/nvim/init.lua";
 
     "j" = "julia";

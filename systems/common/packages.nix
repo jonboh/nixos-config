@@ -219,4 +219,5 @@ in
     (pkgs.callPackage ../../scripts/turn_tablet_on_mirror_main.nix {})
     (pkgs.callPackage ../../scripts/atuin-export-zsh.nix {})
     (pkgs.callPackage ../../scripts/git-init-tars.nix {})
+    (pkgs.callPackage ../../scripts/is_vault_unlocked.nix {})
   ]
