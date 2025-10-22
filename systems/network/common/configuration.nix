@@ -134,7 +134,7 @@ in {
           loki = {
             type = "loki";
             inputs = ["journald"];
-            endpoint = "http://loki.jonboh.dev";
+            endpoint = "https://loki.jonboh.dev";
             encoding = {codec = "json";};
             labels.source = "journald";
           };

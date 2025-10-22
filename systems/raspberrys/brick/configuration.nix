@@ -1,5 +1,6 @@
 {
   self,
+  config,
   pkgs,
   sensitive,
   ...

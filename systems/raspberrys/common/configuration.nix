@@ -115,7 +115,7 @@ in {
           loki = {
             type = "loki";
             inputs = ["journald"];
-            endpoint = "http://loki.jonboh.dev";
+            endpoint = "https://loki.jonboh.dev";
             encoding = {codec = "json";};
             labels.source = "journald";
           };
@@ -124,7 +124,7 @@ in {
     };
   };
 
-  systemd.services.ntpd-rs.serviceConfig = {
+  systemd.services.ntpd-rs.serviceConfig = lib.mkDefault {
     Restart = "on-failure";
     RestartSec = "5min";
   };
@@ -138,6 +138,11 @@ in {
     du-dust
     ntp
   ]; # NOTE: vcgencmd needs sudo to run
+
+  boot.initrd.postDeviceCommands = ''
+    info "Repairing all filesystems"
+    fsck -A -y -V
+  '';
 
   systemd.sleep.extraConfig = ''
     AllowSuspend=no

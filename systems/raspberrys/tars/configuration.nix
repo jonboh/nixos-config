@@ -459,7 +459,7 @@
               {
                 name = "loki";
                 type = "loki";
-                url = "http://loki.jonboh.dev";
+                url = "https://loki.jonboh.dev";
               }
             ];
           };
