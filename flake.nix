@@ -46,6 +46,7 @@
     };
     nixos-config-sensitive = {
       # Extra values for configuration, mostly network specific
+      # url = "/home/jonboh/.flakes/nixos-config-sensitive";
       url = "git+ssh://git@tars.lan/home/git/nixos-config-sensitive.git?ref=main";
       flake = false;
     };
