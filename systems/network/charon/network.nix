@@ -88,7 +88,7 @@
     riftVlanId = sensitive.network.vlan2id.rift;
     warpVlanId = sensitive.network.vlan2id.warp;
     staticDhcpLeasesLab = let
-      hosts = ["tars" "forge" "brick" "sentinel" "eva" "workstation" "bragi"];
+      hosts = ["tars" "forge" "palantir" "sentinel" "eva" "workstation" "bragi"];
     in
       builtins.map (name: {
         mac = sensitive.network.mac.${name}.ether;
@@ -250,9 +250,9 @@
       }
       // brvlan-core-attachment {
         interface = "lan2";
-        allowed_vlans = [riftVlanId];
-        pvid = riftVlanId;
-        egress_untagged = riftVlanId;
+        allowed_vlans = [labVlanId charonVlanId riftVlanId warpVlanId];
+        pvid = labVlanId;
+        egress_untagged = labVlanId;
       }
       // brvlan-core-attachment {
         interface = "wlan0";

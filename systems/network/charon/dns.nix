@@ -64,12 +64,13 @@
             alesia.lan ${sensitive.network.ip.alesia.viae}
             charon.lan ${sensitive.network.ip.charon.lab}
             citadel.lan ${sensitive.network.ip.citadel.lab}
+            workstation.lan ${sensitive.network.ip.workstation.lab}
             lab.lan ${sensitive.network.ip.lab.lab}
             tars.lan ${sensitive.network.ip.tars.lab}
             bragi.lan ${sensitive.network.ip.bragi.lab}
             viae.tars.lan ${sensitive.network.ip.tars.viae}
             forge.lan ${sensitive.network.ip.forge.lab}
-            brick.lan ${sensitive.network.ip.brick.lab}
+            palantir.lan ${sensitive.network.ip.palantir.lab}
             sentinel.lan ${sensitive.network.ip.sentinel.lab}
             eva.lan ${sensitive.network.ip.eva.lab}
             iaq-lab.lan ${sensitive.network.ip.iaq-lab.warp}
@@ -83,6 +84,7 @@
             grafana.jonboh.dev ${sensitive.network.ip.tars.lab}
             atuin.jonboh.dev ${sensitive.network.ip.tars.lab}
             loki.jonboh.dev ${sensitive.network.ip.tars.lab}
+            forge.jonboh.dev ${sensitive.network.ip.forge.lab}
           '';
         };
 

@@ -84,6 +84,8 @@
     # 0384602eac8bc57add3227688ec242667df3ffe3the hits stable.
     nvidiaSettings = false;
 
+    # package = pkgs.nvidia-patch.patch-nvenc (pkgs.nvidia-patch.patch-fbc config.boot.kernelPackages.nvidiaPackages.stable);
+
     # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     #   version = "570.124.04";
     #   sha256_64bit = "sha256-G3hqS3Ei18QhbFiuQAdoik93jBlsFI2RkWOBXuENU8Q=";

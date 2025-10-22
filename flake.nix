@@ -7,6 +7,8 @@
     nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-24.11";
+    # follow `main` branch of this repository, considered being stable
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -53,6 +55,19 @@
       url = "git+ssh://git@tars.lan/home/git/nixos-config-extra-private.git?ref=main";
       flake = false;
     };
+    nvidia-patch = {
+      url = "github:icewind1991/nvidia-patch-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://nixos-raspberrypi.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
   };
 
   outputs = {
@@ -69,9 +84,12 @@
     };
     pkgs = import inputs.nixpkgs rec {
       system = "x86_64-linux";
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+      };
       overlays = [
         (unstable-overlay system)
+        inputs.nvidia-patch.overlays.default
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
           xdg-desktop-portal-termfilechooser =
@@ -386,6 +404,35 @@
           inputs.raspberry-pi-nix.nixosModules.raspberry-pi
           inputs.raspberry-pi-nix.nixosModules.sd-image
           ./systems/raspberrys/brick/configuration.nix
+        ];
+      };
+      "palantir" = inputs.nixos-raspberrypi.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit self;
+          inherit sensitive;
+          nixos-raspberrypi = inputs.nixos-raspberrypi;
+        };
+        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
+          inherit system;
+          overlays = [
+            (final: prev: {
+              rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
+            })
+          ];
+        };
+        modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              raspberry-pi-5.display-vc4
+              raspberry-pi-5.bluetooth
+              raspberry-pi-5.wifi
+            ];
+          }
+          inputs.sops.nixosModules.default
+          ./systems/raspberrys/palantir/configuration.nix
         ];
       };
       "sentinel" = inputs.nixpkgs-brick.lib.nixosSystem rec {

@@ -80,6 +80,14 @@
           {
             Gateway = sensitive.network.ip.charon.lab;
           }
+          {
+            Destination = sensitive.network.vlan-range "rift";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+          {
+            Destination = sensitive.network.vlan-range "warp";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
         ];
       };
       "50-wg0" = {

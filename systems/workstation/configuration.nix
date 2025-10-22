@@ -18,6 +18,7 @@ in {
     ./samba-mounts.nix
     ./builders.nix
     ./network.nix
+    ./gaming.nix
   ];
 
   # system.nixos.label = "GrubStyle";
@@ -145,6 +146,7 @@ in {
       picard
       feishin
       wireguard-tools
+      config.hardware.nvidia.package.settings
     ]
     ++ minimal_packagse
     ++ common_packages;
@@ -153,14 +155,10 @@ in {
 
   services.ollama.acceleration = "cuda";
 
-  # services.teamviewer.enable = true;
-
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
   };
-
-  programs.steam.enable = true;
 
   services.nextjs-ollama-llm-ui = {
     enable = true;

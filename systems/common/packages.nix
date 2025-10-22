@@ -210,6 +210,7 @@ in
     krita
     (pkgs.callPackage ../../scripts/krita-fzf.nix {})
     (pkgs.callPackage ../../scripts/single_display.nix {})
+    (pkgs.callPackage ../../scripts/single_display1080.nix {})
     (pkgs.callPackage ../../scripts/dual_display.nix {})
     (pkgs.callPackage ../../scripts/single_display_and_tablet.nix {})
     (pkgs.callPackage ../../scripts/dual_display_and_tablet.nix {})

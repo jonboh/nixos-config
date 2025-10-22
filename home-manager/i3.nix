@@ -199,6 +199,8 @@ in {
           assign [class="Inkscape" instance="org.inkscape.Inkscape"] $draw
           assign [class="krita" instance="krita"] $draw
           assign [class="drawpile" instance="drawpile"] $draw
+          assign [class="steam"] $media
+          assign [class="heroic"] $media
           assign [class="Spotify"] $media
           assign [class="feishin"] $media
           assign [class="Supersonic"] $media
@@ -249,11 +251,12 @@ in {
                           bindsym Escape mode "default"
                           bindsym Ctrl+c mode "default"
                   }
-          set $mode_display (1) 1-display, (2) 2-display, (t) tablet-on, (T) tablet-off, (m) tablet-mirror
+          set $mode_display (1) 1-display, (2) 2-display, (t) tablet-on, (T) tablet-off, (m) tablet-mirror, (g) gaming
                   mode "$mode_display" {
                       bindsym 1 exec --no-startup-id single_display_and_tablet, mode "default"
                       bindsym 2 exec --no-startup-id dual_display_and_tablet, mode "default"
                       bindsym t exec --no-startup-id turn_tablet_on, mode "default"
+                      bindsym g exec --no-startup-id single_display1080, mode "default"
                       bindsym Shift+t exec --no-startup-id turn_tablet_off, mode "default"
                       bindsym m exec --no-startup-id turn_tablet_on_mirror_main, mode "default"
                       # back to normal
