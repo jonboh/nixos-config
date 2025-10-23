@@ -8,7 +8,13 @@
     then "i3status.toml"
     else if config.home.computer == "laptop"
     then "i3status-laptop.toml"
+    else if config.home.computer == "hermes"
+    then "i3status-hermes.toml"
     else "i3status.toml";
+  i3status_fullpath =
+    if config.home.symlink_flake
+    then "/home/jonboh/.flakes/nixos-config/extra_configs/i3/${i3status_file}"
+    else ../extra_configs/i3/${i3status_file};
   primaryDisplay =
     if config.home.computer == "workstation"
     # then "HDMI-0" // hdmi-port (currently on Kanbas13)
@@ -43,6 +49,16 @@
     if config.home.computer != "lab"
     then "12"
     else "9";
+  bar_bg_color =
+    if config.home.computer == "hermes"
+    then "$blue1"
+    else "$black1";
+  display_init =
+    if config.home.computer == "workstation"
+    then "exec --no-startup-id dual_display && turn_tablet_off"
+    else if config.home.computer == "hermes"
+    then "exec --no-startup-id single_display1080 && turn_tablet_off"
+    else "";
 in {
   xsession.windowManager = {
     i3 = {
@@ -199,8 +215,6 @@ in {
           assign [class="Inkscape" instance="org.inkscape.Inkscape"] $draw
           assign [class="krita" instance="krita"] $draw
           assign [class="drawpile" instance="drawpile"] $draw
-          assign [class="steam"] $media
-          assign [class="heroic"] $media
           assign [class="Spotify"] $media
           assign [class="feishin"] $media
           assign [class="Supersonic"] $media
@@ -336,7 +350,7 @@ in {
               # remove the numbers used to reorder the workspaces
               strip_workspace_numbers yes
 
-              status_command i3status-rs $HOME/.flakes/nixos-config/extra_configs/i3/${i3status_file}
+              status_command i3status-rs ${i3status_fullpath}
               # Disable all tray icons
               tray_output none
               # tray_output primary
@@ -347,7 +361,7 @@ in {
               bindsym button6 nop # scroll right
               bindsym button7 nop # scroll left
               colors {
-                  background $black1
+                  background ${bar_bg_color}
                   statusline $white2
                   separator $black2
 
@@ -360,7 +374,7 @@ in {
               }
           }
 
-          exec --no-startup-id dual_display && turn_tablet_off
+          ${display_init}
         '';
     };
   };

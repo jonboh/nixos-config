@@ -1,5 +1,11 @@
 {config, ...}: {
-  imports = [./common.nix ./gui-apps.nix ./i3.nix];
+  imports = [
+    ./options.nix
+    ./common.nix
+    ./jonboh-user.nix
+    ./gui-apps.nix
+    ./i3.nix
+  ];
   # link locations from storage
   home.file."vault" = {
     enable = true;

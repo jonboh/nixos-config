@@ -140,7 +140,6 @@ in {
       self.inputs.nixpkgs-vscode-lldb.legacyPackages.x86_64-linux.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
       # NOTE: once https://github.com/NixOS/nixpkgs/pull/383013 is merged remove this input
       remmina
-      heroic # gog games (can add them to steam for remote play)
       borgbackup
       supersonic
       picard

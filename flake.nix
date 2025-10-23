@@ -285,8 +285,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jonboh = {
-              imports = [./home-manager/workstation.nix];
+            home-manager.users = {
+              jonboh = {
+                imports = [./home-manager/workstation.nix];
+              };
             };
             home-manager.extraSpecialArgs = {inherit self;};
           }
