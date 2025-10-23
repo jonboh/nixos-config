@@ -26,4 +26,23 @@
       PASSWORD_STORE_DIR = "/home/jonboh/.password-store";
     };
   };
+
+  systemd.user.services.vault-update = {
+    Unit = {
+      Description = "Vault update";
+    };
+    Service = {
+      # run vaultupdateall on startup
+      ExecStart = "${pkgs.writeShellScript "vault-update" ''
+        #!/run/current-system/sw/bin/bash
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault add . && \
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault commit -m 'update-all' && \
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault pull && \
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault push
+      ''}";
+    };
+    Install = {
+      WantedBy = ["default.target"];
+    };
+  };
 }
