@@ -8,6 +8,7 @@
   imports = [
     ./nix-ld.nix
     ./tablet.nix
+    ./clipboard-monitor.nix
     # "${modulesPath}/virtualisation/qemu-vm.nix" # activate if you want to generate vms
   ];
 
