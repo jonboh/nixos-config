@@ -59,11 +59,11 @@ def listen_for_updates():
         sys.exit(1)
     while True:
         response_report = interface.read(report_length)
-        response = chr(response_report[0])
-        with open(file_path, "w") as f:
-            f.write(response)
+        response_str = response_report.rstrip(b"\x00").decode("ascii", errors="replace")
+        with open(file_path, "w", encoding="ascii") as f:
+            f.write(response_str)
             f.flush()
-        print(f"response: {response}")
+        print(f"response: {response_report}")
         subprocess.run(["pkill", "-{}".format(signal_num), "i3status-rs"])
 
 
