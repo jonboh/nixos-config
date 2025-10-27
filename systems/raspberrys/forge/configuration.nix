@@ -50,7 +50,7 @@
       dnsProvider = "rfc2136";
       environmentFile = config.sops.secrets.certs-secrets.path;
       dnsPropagationCheck = false;
-      # server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
+      server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
       validMinDays = 90;
     };
   };
@@ -177,6 +177,7 @@
 
   security.polkit.enable = true;
 
+  users.users.nginx.extraGroups = ["acme"];
   users.groups.klipper = {};
   users = {
     users = {
