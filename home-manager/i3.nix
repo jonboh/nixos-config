@@ -224,6 +224,7 @@ in {
           assign [class="OrcaSlicer" instance="orca-slicer"] $3d
           assign [class="Gazebo GUI" instance="gz-sim-gui"] $3d
           assign [class="rviz2" instance="rviz2"] $ws10
+          assign [class="GLWindow" instance="GLWindow"] $doc # GLMakie figures
           # assign [class="prusa-slicer" instance="PrusaSlicer-alpha"] $3d # don't seem to play nicely
           # assign [class="prusa-slicer" instance="PrusaSlicer"] $3d
           # turns out spotify is its own beast dealing with workspace assigment
