@@ -22,6 +22,7 @@ def substitute_before_partition(line):
     before = before.replace(FORWARD_SLASH, PLACEHOLDER)
     before = before.replace(BACKSLASH, FORWARD_SLASH)
     before = before.replace(PLACEHOLDER, BACKSLASH)
+    before = before.replace("_", " \u0305")
 
     return before + after
 
