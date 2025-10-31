@@ -79,18 +79,19 @@
       '';
       afterConfig = lib.mkOrder 1500 ''
         gl1-specific() {
-          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)';
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' "$@";
         }
         gl2-specific() {
-          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)';
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' "$@";
         }
         gl3-specific() {
-          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset)%n'''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)';
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset)%n'''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)' "$@";
         }
 
         invert_gitgraph() {
           local cmd="$1"; shift
-          "$cmd" "$@" 2>&1 | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+          echo "" | cat <("$cmd" "$@" 2>&1) - | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+          # the echo and cat prevents tac from merging the first two lines in short stories
         }
 
         gl()   { invert_gitgraph gl1-specific "$@"; }
