@@ -78,24 +78,27 @@
 
       '';
       afterConfig = lib.mkOrder 1500 ''
-        gl() {
-          gl1-specific "$@" | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+        gl1-specific() {
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)';
         }
-        gl2() {
-          gl2-specific "$@" | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+        gl2-specific() {
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)';
         }
-        gl3() {
-          gl3-specific "$@" | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+        gl3-specific() {
+          git log --graph --color --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n'''          %C(white)%s%C(reset)%n'''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)';
         }
-        gla() {
-          gl1-specific "$@" --all | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
+
+        invert_gitgraph() {
+          local cmd="$1"; shift
+          "$cmd" "$@" 2>&1 | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
         }
-        gla2() {
-          gl2-specific "$@" --all | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
-        }
-        gla3() {
-          gl3-specific "$@" --all | tac | ${lib.getExe (pkgs.callPackage ../scripts/git_log_graph_invert_characters.nix {})} | less -FX +G
-        }
+
+        gl()   { invert_gitgraph gl1-specific "$@"; }
+        gl2()  { invert_gitgraph gl2-specific "$@"; }
+        gl3()  { invert_gitgraph gl3-specific "$@"; }
+        gla()  { invert_gitgraph gl1-specific "$@" --all; }
+        gla2() { invert_gitgraph gl2-specific "$@" --all; }
+        gla3() { invert_gitgraph gl3-specific "$@" --all; }
 
         compdef _git gl=git-log
         compdef _git gl2=git-log
