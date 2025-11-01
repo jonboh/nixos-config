@@ -22,7 +22,7 @@
       CacheFolder = "/mnt/storage/navidrome/cache";
       Address = "127.0.0.1";
       Port = 4533;
-      Scanner.PurgeMissing = "full";
+      # Scanner.PurgeMissing = "full";
       BaseUrl = "https://navidrome.jonboh.dev";
       Backup = {
         Path = "/mnt/storage/navidrome-backup";
