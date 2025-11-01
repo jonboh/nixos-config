@@ -33,6 +33,9 @@ It runs Grafana, InfluxDB, loki, MQTT, syncthing, atuin, radicale (and whatever 
 The MQTT broker is used by a set of [iaq-boards](https://github.com/nkitanov/iaq_board) I built
 to track the air quality on my home.
 
+## Bragi
+A raspberry 4 running navidrome. Its connected to my wireguard vpn for remote access.
+
 ## Forge
 A raspberry 4 connected to my SidenwinderX2 3D printer.
 Runs `fluidd` and `klipper`.
