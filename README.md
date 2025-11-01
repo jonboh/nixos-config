@@ -45,7 +45,7 @@ A Raspberry 5 I mostly use to build `aarch64-linux` packages.
 # Network
 ## Charon
 My main router. A Bananapi R3 powered by [nixos-sbc](https://github.com/nakato/nixos-sbc)
-If you want to learn how to configure it, check this [blogspot](https://github.com/ghostbuster91/blogposts/blob/main/router2023/main.md)
+If you want to learn how to configure it, check this [blogpost](https://github.com/ghostbuster91/blogposts/blob/main/router2023/main.md)
 ## Citadel
 This is a second Bananapi R3 which I use to provide good WiFi coverage to my lab.
 
