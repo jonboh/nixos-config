@@ -780,11 +780,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1761899980,
-        "narHash": "sha256-cvFzkxvrZJvti1kXr65M9o7z/fXDBWH1NAgl6CbKXaE=",
+        "lastModified": 1761996465,
+        "narHash": "sha256-grv2qY4jiKAGoiOr2nhuSNhrZAkdqVnKDuxC5TucXwg=",
         "owner": "jonboh",
         "repo": "nixvim-config",
-        "rev": "1603e8f395a925f13fa0ac2d4f752b4b92d723f3",
+        "rev": "601119173f97b2cc156977c52bd24a6515960910",
         "type": "github"
       },
       "original": {
