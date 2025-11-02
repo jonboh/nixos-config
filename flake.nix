@@ -559,5 +559,29 @@
         ];
       };
     };
+
+    hydraJobs = let
+      configNames = [
+        "workstation"
+        "lab"
+        "laptop"
+        "tars"
+        "bragi"
+        "forge"
+        "brick"
+        "palantir"
+        "sentinel"
+        "eva"
+        "charon"
+        "citadel"
+        "wsl"
+      ];
+      configs = builtins.listToAttrs (map (name: {
+          inherit name;
+          value = self.nixosConfigurations.${name}.config.system.build.toplevel;
+        })
+        configNames);
+    in
+      configs;
   };
 }
