@@ -15,8 +15,8 @@
       min-free = 32 * 1024 * 1024;
       max-free = 64 * 1024 * 1024;
 
-      max-jobs = "auto";
-      cores = 2;
+      max-jobs = 2;
+      cores = 1;
     };
   };
 
