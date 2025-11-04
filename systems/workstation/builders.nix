@@ -1,5 +1,12 @@
 {
   nix.buildMachines = [
+    {
+      hostName = "localhost";
+      protocol = null;
+      system = "x86_64-linux";
+      supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
+      maxJobs = 8;
+    }
     # NOTE: you can force the usage of the local machine by running:
     # nixos-rebuild <args> --builders ""
     # {
