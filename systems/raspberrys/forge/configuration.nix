@@ -22,7 +22,6 @@
       enable = true;
       allowedTCPPorts = with sensitive.network.port.tcp.forge; [
         fluidd
-        moonraker
       ];
     };
     interfaces = {
@@ -152,7 +151,7 @@
       user = "printer";
       group = "klipper";
       enable = true;
-      address = "0.0.0.0";
+      address = "127.0.0.1";
       allowSystemControl = true;
       settings = {
         octoprint_compat = {};
