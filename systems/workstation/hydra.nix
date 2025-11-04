@@ -17,6 +17,9 @@
     "tars.lan" = {
       publicKey = sensitive.keys.ssh-host.tars;
     };
+    "forge.lan" = {
+      publicKey = sensitive.keys.ssh-host.forge;
+    };
   };
   nix.settings.allowed-uris = [
     "github:"
