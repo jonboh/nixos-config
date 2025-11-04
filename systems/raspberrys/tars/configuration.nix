@@ -17,9 +17,28 @@
     ./builder.nix
     ./sops.nix
     ./telegraf-environment.nix
+    ./flake-updater.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   networking.hostName = "tars";
+
+  flakeUpdater = {
+    enable = true;
+    repos = [
+      {
+        repoName = "hetzner-config";
+        repoUrl = "git@tars.lan:hetzner-config";
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+      }
+      {
+        repoName = "nixvim-config";
+        repoUrl = "git@tars.lan:nixvim-config";
+      }
+    ];
+  };
 
   security.acme = {
     acceptTerms = true;
@@ -572,6 +591,8 @@
         sensitive.keys.ssh.phone
         sensitive.keys.ssh.wsl
         sensitive.keys.ssh.laptop
+        sensitive.keys.ssh.hydra
+        sensitive.keys.ssh.tars # needed for git user in tars.lan to update the flakes on a schedule
       ];
     };
   };
