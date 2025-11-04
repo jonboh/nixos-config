@@ -928,10 +928,6 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-bragi": "nixpkgs-bragi",
         "nixpkgs-brick": "nixpkgs-brick",
-        "nixpkgs-charon": [
-          "nixos-sbc",
-          "nixpkgs"
-        ],
         "nixpkgs-forge": "nixpkgs-forge",
         "nixpkgs-tars": "nixpkgs-tars",
         "nixpkgs-unstable": "nixpkgs-unstable",

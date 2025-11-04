@@ -30,10 +30,6 @@
     nixos-sbc = {
       url = "github:nakato/nixos-sbc/main";
     };
-    nixpkgs-charon = {
-      url = "github:nixos/nixpkgs/nixos-unstable";
-      follows = "nixos-sbc/nixpkgs";
-    };
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.05";
     home-manager-wsl = {
@@ -163,6 +159,7 @@
         ccache-overlay
       ];
     };
+    nixpkgs-charon = inputs.nixos-sbc.inputs.nixpkgs;
     sun4i-drm-overlay-fix = final: super: {
       # NOTE: this solves Module sun4i-drm not found in directory. see https://github.com/NixOS/nixpkgs/issues/154163
       makeModulesClosure = x:
@@ -480,13 +477,13 @@
           ./systems/raspberrys/eva/configuration.nix
         ];
       };
-      "charon" = inputs.nixpkgs-charon.lib.nixosSystem rec {
+      "charon" = nixpkgs-charon.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
-        pkgs = import inputs.nixpkgs-charon {
+        pkgs = import nixpkgs-charon {
           inherit system;
           overlays = [ccache-overlay];
         };
@@ -504,13 +501,13 @@
           ./systems/network/charon/configuration.nix
         ];
       };
-      "citadel" = inputs.nixpkgs-charon.lib.nixosSystem rec {
+      "citadel" = nixpkgs-charon.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
-        pkgs = import inputs.nixpkgs-charon {
+        pkgs = import nixpkgs-charon {
           inherit system;
           overlays = [ccache-overlay];
         };
