@@ -431,7 +431,7 @@
               raspberry-pi-5.page-size-16k
               raspberry-pi-5.display-vc4
               raspberry-pi-5.bluetooth
-              raspberry-pi-5.wifi
+              # raspberry-pi-5.wifi
             ];
           }
           inputs.sops.nixosModules.default
@@ -570,7 +570,7 @@
         "forge"
         "brick"
         "palantir"
-        "sentinel"
+        # "sentinel"
         "eva"
         "charon"
         "citadel"
