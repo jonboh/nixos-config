@@ -1,5 +1,6 @@
 {
   imports = [
+    ./options.nix
     ./common.nix
     ./jonboh-user.nix
     ./gui-apps.nix
