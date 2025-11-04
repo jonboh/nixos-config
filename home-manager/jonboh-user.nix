@@ -35,9 +35,9 @@
       # run vaultupdateall on startup
       ExecStart = "${pkgs.writeShellScript "vault-update" ''
         #!/run/current-system/sw/bin/bash
-        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault add . && \
-        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault commit -m 'update-all' && \
-        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault pull && \
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault add .
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault commit -m 'update-all'
+        /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault pull
         /etc/profiles/per-user/jonboh/bin/git -C /home/jonboh/vault push
       ''}";
     };
