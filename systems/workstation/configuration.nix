@@ -19,6 +19,7 @@ in {
     ./builders.nix
     ./network.nix
     ./gaming.nix
+    ./hydra.nix
   ];
 
   # system.nixos.label = "GrubStyle";
