@@ -33,6 +33,8 @@ in {
     "gd" = "git diff";
     "gw" = "git worktree";
     "gr" = "git reset";
+    "gf" = "git fetch";
+    "gfa" = "git fetch --all";
 
     # modern utilities
     "diff" = "batdiff --delta";
