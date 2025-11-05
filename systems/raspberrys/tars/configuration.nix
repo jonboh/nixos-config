@@ -28,14 +28,17 @@
       {
         repoName = "hetzner-config";
         repoUrl = "git@tars.lan:hetzner-config";
+        frequency = "weekly";
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
       }
       {
         repoName = "nixvim-config";
         repoUrl = "git@tars.lan:nixvim-config";
+        frequency = "weekly";
       }
     ];
   };
