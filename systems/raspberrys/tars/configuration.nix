@@ -26,19 +26,62 @@
     enable = true;
     repos = [
       {
-        repoName = "hetzner-config";
-        repoUrl = "git@tars.lan:hetzner-config";
-        frequency = "weekly";
+        repoName = "hydra-jobs";
+        repoUrl = "git@tars.lan:hydra-jobs";
+        frequency = "daily";
       }
       {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
+        repoName = "hetzner-config";
+        repoUrl = "git@tars.lan:hetzner-config";
         frequency = "weekly";
       }
       {
         repoName = "nixvim-config";
         repoUrl = "git@tars.lan:nixvim-config";
         frequency = "weekly";
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
+        outputBranch = "update-workstation";
+        inputs = ["nixpkgs" "nixpkgs-unstable"];
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
+        outputBranch = "update-all";
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
+        outputBranch = "update-workstation";
+        inputs = [
+          "nixpkgs"
+          "nixpkgs-unstable"
+          "home-manager"
+          "nix-index-database"
+          "nix-ld"
+          "nixos-config-sensitive"
+          "nixos-config-extra-private"
+          "nixvim-config"
+        ];
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
+        outputBranch = "update-network";
+        inputs = ["nixos-sbc"];
+      }
+      {
+        repoName = "nixos-config";
+        repoUrl = "git@tars.lan:nixos-config";
+        frequency = "weekly";
+        outputBranch = "update-rpi4";
+        inputs = ["nixpkgs-tars" "nixpkgs-forge" "nixpkgs-bragi"];
       }
     ];
   };

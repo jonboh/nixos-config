@@ -28,10 +28,22 @@ in
                 description = "Git URL of the repository to update";
               };
 
-              branch = mkOption {
+              baseBranch = mkOption {
                 type = types.str;
                 default = "main";
                 description = "Main branch to base flake-update on";
+              };
+
+              outputBranch = mkOption {
+                type = types.str;
+                default = "flake-update";
+                description = "Main branch to base flake-update on";
+              };
+
+              inputs = mkOption {
+                type = types.either (types.enum ["all"]) (types.listOf types.str);
+                default = "all";
+                description = "Set to \"all\" to update all inputs, or a list of input names to update specific ones.";
               };
 
               user = mkOption {
@@ -62,7 +74,12 @@ in
             repo: let
               repoName = repo.repoName;
               repoUrl = repo.repoUrl;
-              branch = repo.branch;
+              updateCommand =
+                if repo.inputs == "all"
+                then "nix flake update"
+                else "nix flake update ${builtins.concatStringsSep " " repo.inputs}";
+              baseBranch = repo.baseBranch;
+              outputBranch = repo.outputBranch;
               user = repo.user;
               frequency = repo.frequency;
               timerOnCalendar =
@@ -70,7 +87,7 @@ in
                 then "daily"
                 else frequency;
             in {
-              services."update-flake-${repoName}" = {
+              services."flake-update-${repoName}-${outputBranch}" = {
                 description = "Update the ${repoName} flake";
                 after = ["network-online.target"];
                 wants = ["network-online.target"];
@@ -85,16 +102,16 @@ in
                       git clone ${repoUrl} source
                       cd source
 
-                      git checkout origin/${branch}
+                      git checkout origin/${baseBranch}
 
-                      # Create or reset flake-update branch to main
-                      git checkout -B flake-update ${branch}
+                      # Create or reset outputBranch to baseBranch
+                      git checkout -B ${outputBranch} ${baseBranch}
 
-                      nix flake update
+                      ${updateCommand}
 
                       git add flake.lock
-                      git commit -m "Update flake.lock" || true
-                      git push origin flake-update --force
+                      git commit -m "Update flake.lock ${updateCommand} " || true
+                      git push origin ${outputBranch} --force
 
                       cd /tmp
                       rm -rf "$TMPDIR"
@@ -107,7 +124,7 @@ in
                 wantedBy = ["multi-user.target"];
               };
 
-              timers."update-flake-${repoName}" = {
+              timers."flake-update-${repoName}-${outputBranch}" = {
                 description = "Timer for update-flake-${repoName}";
                 wantedBy = ["timers.target"];
                 timerConfig = {
