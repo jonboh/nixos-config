@@ -1,4 +1,8 @@
-{sensitive, ...}: {
+{
+  config,
+  sensitive,
+  ...
+}: {
   users.users.nixremote = {
     isNormalUser = true;
     createHome = false;
@@ -30,4 +34,9 @@
   nix.settings = {
     secret-key-files = ["/var/secrets/cache-priv-key.pem"];
   };
+  programs.ccache = {
+    enable = true;
+    cacheDir = "/var/cache/ccache";
+  };
+  nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
 }
