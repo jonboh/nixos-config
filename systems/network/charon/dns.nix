@@ -90,7 +90,7 @@
 
         blocked_names.blocked_names_file = builtins.fetchurl {
           url = "https://nsfw.oisd.nl/domainswild";
-          sha256 = "sha256:0l6mxi2ky5cn1k8b68i27brqq6hmrfij9m9m5ib6d7760937d6w4";
+          sha256 = "sha256:13w1c39pjdi5aarigl020kjdx552y3w5hh58mzgbldbb17yaxwir";
         };
       };
     };
