@@ -19,9 +19,29 @@ in {
     ./builders.nix
     ./network.nix
     ./gaming.nix
-    ./hydra.nix
   ];
+  services.hydra = {
+    enable = true;
+    hydraURL = "https://hydra.jonboh.dev";
+    notificationSender = "hydra@jonboh.dev";
+    useSubstitutes = true;
+    port = 3100;
+    listenHost = "127.0.0.1";
 
+    minimumDiskFree = 20;
+    minimumDiskFreeEvaluator = 20;
+    extraConfig = ''
+      max_unsupported_time = 604800
+    '';
+  };
+
+  nix = {
+    settings = {
+      substituters = [
+        "ssh://lab.lan"
+      ];
+    };
+  };
   # system.nixos.label = "GrubStyle";
   # Bootloader.
   boot.loader = {

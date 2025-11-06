@@ -47,11 +47,7 @@ in {
       sensitive.keys.nix.brick
       sensitive.keys.nix.tars
       sensitive.keys.nix.forge
-    ];
-    substituters = lib.mkForce [
-      # "ssh-ng://tars.lan"
-      # "ssh-ng://forge.lan"
-      # "ssh-ng://brick.lan"
+      sensitive.keys.nix.hydra-lab
     ];
     trusted-substituters = lib.mkForce [];
   };

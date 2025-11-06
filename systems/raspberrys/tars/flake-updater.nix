@@ -88,6 +88,7 @@ in
                 else frequency;
             in {
               services."flake-update-${repoName}-${outputBranch}" = {
+                enable = true;
                 description = "Update the ${repoName} flake";
                 after = ["network-online.target"];
                 wants = ["network-online.target"];
@@ -120,6 +121,8 @@ in
                   PrivateTmp = true;
                   NoNewPrivileges = true;
                   User = user;
+                  # Triggers the next unit when this one finishes
+                  ExecStartPost = "${pkgs.systemd}/bin/systemctl start flake-update-hydra-jobs-main";
                 };
                 wantedBy = ["multi-user.target"];
               };

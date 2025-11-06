@@ -31,6 +31,7 @@ in {
         sensitive.keys.nix.brick
         sensitive.keys.nix.tars
         sensitive.keys.nix.forge
+        sensitive.keys.nix.hydra-lab
       ];
     };
   };

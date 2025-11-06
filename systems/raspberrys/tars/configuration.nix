@@ -28,35 +28,36 @@
       {
         repoName = "hydra-jobs";
         repoUrl = "git@tars.lan:hydra-jobs";
-        frequency = "daily";
+        frequency = "07:00";
+        outputBranch = "main";
       }
       {
         repoName = "hetzner-config";
         repoUrl = "git@tars.lan:hetzner-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
       }
       {
         repoName = "nixvim-config";
         repoUrl = "git@tars.lan:nixvim-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
         outputBranch = "update-workstation";
         inputs = ["nixpkgs" "nixpkgs-unstable"];
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
         outputBranch = "update-all";
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
         outputBranch = "update-workstation";
         inputs = [
           "nixpkgs"
@@ -72,14 +73,14 @@
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
         outputBranch = "update-network";
         inputs = ["nixos-sbc"];
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "weekly";
+        frequency = "Fri 06:00";
         outputBranch = "update-rpi4";
         inputs = ["nixpkgs-tars" "nixpkgs-forge" "nixpkgs-bragi"];
       }

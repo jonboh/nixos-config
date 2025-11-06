@@ -13,6 +13,8 @@ in {
     ./filesystems.nix
     ./samba-mounts.nix
     ./sops.nix
+    ./builders.nix
+    ./hydra.nix
   ];
 
   # Bootloader.

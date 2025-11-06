@@ -1,6 +1,7 @@
 {
   self,
   pkgs,
+  sensitive,
   lib,
   modulesPath,
   ...
@@ -16,6 +17,13 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
       trusted-users = ["root" "@wheel"];
+      trusted-public-keys = [
+        sensitive.keys.nix.workstation
+        sensitive.keys.nix.brick
+        sensitive.keys.nix.tars
+        sensitive.keys.nix.forge
+        sensitive.keys.nix.hydra-lab
+      ];
     };
     package = pkgs.nixVersions.latest;
     registry = {

@@ -85,6 +85,7 @@
             atuin.jonboh.dev ${sensitive.network.ip.tars.lab}
             loki.jonboh.dev ${sensitive.network.ip.tars.lab}
             forge.jonboh.dev ${sensitive.network.ip.forge.lab}
+            hydra.jonboh.dev ${sensitive.network.ip.lab.lab}
           '';
         };
 
