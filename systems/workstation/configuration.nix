@@ -20,24 +20,10 @@ in {
     ./network.nix
     ./gaming.nix
   ];
-  services.hydra = {
-    enable = true;
-    hydraURL = "https://hydra.jonboh.dev";
-    notificationSender = "hydra@jonboh.dev";
-    useSubstitutes = true;
-    port = 3100;
-    listenHost = "127.0.0.1";
-
-    minimumDiskFree = 20;
-    minimumDiskFreeEvaluator = 20;
-    extraConfig = ''
-      max_unsupported_time = 604800
-    '';
-  };
 
   nix = {
     settings = {
-      substituters = [
+      trusted-substituters = [
         "ssh://lab.lan"
       ];
     };
