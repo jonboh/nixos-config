@@ -46,7 +46,7 @@
         repoUrl = "git@tars.lan:nixos-config";
         frequency = "Fri 06:00";
         outputBranch = "update-workstation";
-        inputs = ["nixpkgs" "nixpkgs-unstable"];
+        inputs = ["nixpkgs"];
       }
       {
         repoName = "nixos-config";
@@ -61,7 +61,6 @@
         outputBranch = "update-workstation";
         inputs = [
           "nixpkgs"
-          "nixpkgs-unstable"
           "home-manager"
           "nix-index-database"
           "nix-ld"
