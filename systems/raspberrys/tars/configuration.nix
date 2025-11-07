@@ -26,12 +26,6 @@
     enable = true;
     repos = [
       {
-        repoName = "hydra-jobs";
-        repoUrl = "git@tars.lan:hydra-jobs";
-        frequency = "07:00";
-        outputBranch = "main";
-      }
-      {
         repoName = "hetzner-config";
         repoUrl = "git@tars.lan:hetzner-config";
         frequency = "Fri 06:00";

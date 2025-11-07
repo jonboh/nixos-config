@@ -86,6 +86,34 @@ in
                 if frequency == "daily"
                 then "daily"
                 else frequency;
+              updateScript = {
+                repoUrl,
+                baseBranch,
+                outputBranch,
+                updateCommand,
+              }: ''
+                ${pkgs.runtimeShell} ${pkgs.writeText "flake-updater.sh" ''
+                  set -euo pipefail
+                  TMPDIR=$(mktemp -d)
+                  cd "$TMPDIR"
+                  git clone ${repoUrl} source
+                  cd source
+
+                  git checkout origin/${baseBranch}
+
+                  # Create or reset outputBranch to baseBranch
+                  git checkout -B ${outputBranch} ${baseBranch}
+
+                  ${updateCommand}
+
+                  git add flake.lock
+                  git commit -m "Update flake.lock ${updateCommand} " || true
+                  git push origin ${outputBranch} --force
+
+                  cd /tmp
+                  rm -rf "$TMPDIR"
+                ''}
+              '';
             in {
               services."flake-update-${repoName}-${outputBranch}" = {
                 enable = true;
@@ -95,36 +123,29 @@ in
                 path = [pkgs.coreutils pkgs.git pkgs.openssh pkgs.nix];
                 serviceConfig = {
                   Type = "oneshot";
-                  ExecStart = ''
-                    ${pkgs.runtimeShell} ${pkgs.writeText "flake-updater.sh" ''
-                      set -euo pipefail
-                      TMPDIR=$(mktemp -d)
-                      cd "$TMPDIR"
-                      git clone ${repoUrl} source
-                      cd source
-
-                      git checkout origin/${baseBranch}
-
-                      # Create or reset outputBranch to baseBranch
-                      git checkout -B ${outputBranch} ${baseBranch}
-
-                      ${updateCommand}
-
-                      git add flake.lock
-                      git commit -m "Update flake.lock ${updateCommand} " || true
-                      git push origin ${outputBranch} --force
-
-                      cd /tmp
-                      rm -rf "$TMPDIR"
-                    ''}
-                  '';
+                  ExecStart = updateScript {inherit repoUrl baseBranch outputBranch updateCommand;};
                   PrivateTmp = true;
                   NoNewPrivileges = true;
                   User = user;
-                  # Triggers the next unit when this one finishes
-                  ExecStartPost = "${pkgs.systemd}/bin/systemctl start flake-update-hydra-jobs-main";
                 };
                 wantedBy = ["multi-user.target"];
+              };
+
+              services."flake-update-hydra-jobs-${repoName}-${outputBranch}" = {
+                after = ["flake-update-${repoName}-${outputBranch}.service"];
+                wants = ["flake-update-${repoName}-${outputBranch}.service"];
+                path = [pkgs.coreutils pkgs.git pkgs.openssh pkgs.nix];
+                serviceConfig = {
+                  Type = "oneshot";
+                  ExecStart = updateScript {
+                    repoUrl = "git@tars.lan:hydra-jobs";
+                    outputBranch = "main";
+                    inherit baseBranch updateCommand;
+                  };
+                  PrivateTmp = true;
+                  NoNewPrivileges = true;
+                  User = user;
+                };
               };
 
               timers."flake-update-${repoName}-${outputBranch}" = {
