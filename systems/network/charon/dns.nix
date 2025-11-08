@@ -86,12 +86,13 @@
             loki.jonboh.dev ${sensitive.network.ip.tars.lab}
             forge.jonboh.dev ${sensitive.network.ip.forge.lab}
             hydra.jonboh.dev ${sensitive.network.ip.lab.lab}
+            immich.jonboh.dev ${sensitive.network.ip.lab.lab}
           '';
         };
 
         blocked_names.blocked_names_file = builtins.fetchurl {
           url = "https://nsfw.oisd.nl/domainswild";
-          sha256 = "sha256:13w1c39pjdi5aarigl020kjdx552y3w5hh58mzgbldbb17yaxwir";
+          sha256 = "sha256:1mc7acw0vhxsh628vwfvrlfdp8qljx1nw83sbws6psy9m8bpqqks";
         };
       };
     };

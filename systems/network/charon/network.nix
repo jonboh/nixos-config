@@ -88,7 +88,7 @@
     riftVlanId = sensitive.network.vlan2id.rift;
     warpVlanId = sensitive.network.vlan2id.warp;
     staticDhcpLeasesLab = let
-      hosts = ["tars" "forge" "palantir" "sentinel" "eva" "workstation" "bragi"];
+      hosts = ["tars" "forge" "palantir" "sentinel" "eva" "workstation" "lab" "bragi"];
     in
       builtins.map (name: {
         mac = sensitive.network.mac.${name}.ether;

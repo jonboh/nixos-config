@@ -9,12 +9,16 @@ in {
   imports = [
     ../common/configuration.nix
     ../common/timers.nix
+    ../raspberrys/common/telegraf-environment.nix
+    ./hardware-metrics.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./samba-mounts.nix
     ./sops.nix
     ./builders.nix
     ./hydra.nix
+    ./network.nix
+    ./immich.nix
   ];
 
   # Bootloader.
@@ -38,28 +42,6 @@ in {
       randomEncryption.enable = true;
     }
   ];
-
-  # Enable networking
-  networking = {
-    hostName = "lab"; # Define your hostname.
-    wireless.enable = false;
-    interfaces = {
-      enp10s0 = {
-        useDHCP = false;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.lab.lab;
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-    defaultGateway = sensitive.network.gateway "lab";
-    nameservers = [(sensitive.network.dns-server "lab")];
-    dhcpcd.enable = false;
-
-    networkmanager.enable = true;
-  };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs;
