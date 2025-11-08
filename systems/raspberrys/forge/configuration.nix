@@ -10,8 +10,6 @@
     ../common/configuration.nix
     ../common/hardware-metrics.nix
     ../common/hardware-rpi4.nix
-    ../common/sops.nix
-    ../common/telegraf-environment.nix
     ./sops.nix
     ./builder.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"

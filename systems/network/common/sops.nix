@@ -13,8 +13,4 @@
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/wifiPasswordWarp;
   };
-  sops.secrets.influxdb-token = {
-    format = "binary";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/influxdb-token;
-  };
 }

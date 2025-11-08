@@ -1,9 +1,8 @@
 {self, ...}: {
   sops.age.keyFile = "/var/secrets/tars.txt";
-  sops.secrets.smb-password = {
-    format = "binary";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/smb-password;
-  };
+
+  secrets.smbPassword.enable = true;
+
   sops.secrets.influxdb-password = {
     format = "binary";
     group = "influx-secrets";
@@ -42,21 +41,6 @@
   sops.secrets.firefox-syncserver = {
     format = "dotenv";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/firefox-syncstorage.env;
-  };
-
-  sops.secrets.wg-tars-private-key = {
-    format = "binary";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/wg-tars-private-key;
-    mode = "640";
-    owner = "systemd-network";
-    group = "systemd-network";
-  };
-  sops.secrets.wg-tars-psk = {
-    format = "binary";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/wg-tars-psk;
-    mode = "640";
-    owner = "systemd-network";
-    group = "systemd-network";
   };
 
   sops.secrets.certs-secrets = {

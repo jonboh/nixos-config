@@ -38,28 +38,8 @@ in {
 
   hardware.enableRedistributableFirmware = true;
 
+  configure.ntpd-rs.enable = true;
   services = {
-    ntpd-rs = {
-      enable = true;
-      settings = {
-        source = [
-          {
-            address = sensitive.network.ntp-server "lab";
-            mode = "server";
-          }
-        ];
-        synchronization = {
-          minimum-agreeing-sources = 1;
-          single-step-panic-threshold = 1000;
-          startup-step-panic-threshold = {
-            forward = "inf";
-            backward = 86400;
-          };
-        };
-      };
-      useNetworkingTimeServers = false;
-    };
-
     openssh = {
       enable = true;
       allowSFTP = true;

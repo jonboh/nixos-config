@@ -21,6 +21,12 @@ in {
     ./gaming.nix
   ];
 
+  configure.wireguard = {
+    enable = true;
+    deviceName = "workstation";
+    allowedNetworks = ["viae"];
+    keepAlive = false;
+  };
   nix = {
     settings = {
       trusted-substituters = [

@@ -19,55 +19,12 @@
     firewall.allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard] ++ sensitive.network.port.udp.workstation.list.steamlink;
   };
 
-  services.ntpd-rs = {
-    enable = true;
-    settings = {
-      source = [
-        {
-          address = sensitive.network.ntp-server "lab";
-          mode = "server";
-        }
-      ];
-      synchronization = {
-        minimum-agreeing-sources = 1;
-        single-step-panic-threshold = 1000;
-        startup-step-panic-threshold = {
-          forward = "inf";
-          backward = 86400;
-        };
-      };
-    };
-    useNetworkingTimeServers = false;
-  };
+  configure.ntpd-rs.enable = true;
   networking.useNetworkd = true;
 
   systemd.network = {
     enable = true;
     wait-online.enable = true;
-
-    netdevs."50-wg0" = {
-      netdevConfig = {
-        Kind = "wireguard";
-        Name = "wg0";
-      };
-
-      wireguardConfig = {
-        ListenPort = sensitive.network.port.udp.alesia.wireguard;
-        PrivateKeyFile = config.sops.secrets.wg-workstation-private-key.path;
-        RouteTable = "main"; # To automatically create routes for everything in AllowedIPs
-        FirewallMark = 42;
-      };
-      wireguardPeers = [
-        {
-          PublicKey = sensitive.keys.wireguard.alesia.pub;
-          PresharedKeyFile = config.sops.secrets."wg-workstation-psk".path;
-          AllowedIPs = [
-            "${sensitive.network.ip.alesia.viae}/24"
-          ];
-          Endpoint = "${sensitive.network.ip.alesia.public}:${toString sensitive.network.port.udp.alesia.wireguard}";
-        }
-      ];
-    };
 
     networks = {
       "10-eno1" = {
@@ -88,12 +45,6 @@
             Destination = sensitive.network.vlan-range "warp";
             Gateway = sensitive.network.ip.charon.lab;
           }
-        ];
-      };
-      "50-wg0" = {
-        matchConfig.Name = "wg0";
-        address = [
-          "${sensitive.network.ip.workstation.viae}/32"
         ];
       };
     };

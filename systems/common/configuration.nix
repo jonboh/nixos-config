@@ -2,8 +2,6 @@
   self,
   pkgs,
   sensitive,
-  lib,
-  modulesPath,
   ...
 }: {
   imports = [

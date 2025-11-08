@@ -9,8 +9,6 @@ in {
   imports = [
     ../common/configuration.nix
     ../common/timers.nix
-    ../raspberrys/common/telegraf-environment.nix
-    ./hardware-metrics.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./samba-mounts.nix
@@ -20,6 +18,15 @@ in {
     ./network.nix
     ./immich.nix
   ];
+
+  configure.hardware-metrics.enable = true;
+  configure.ntpd-rs.enable = true;
+  configure.wireguard = {
+    enable = true;
+    deviceName = "lab";
+    allowedNetworks = ["viae" "hodos"];
+    keepAlive = true;
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -92,11 +99,6 @@ in {
           };
         };
         folders = {
-          # "devel" = {
-          #   path = "/home/jonboh/devel";
-          #   devices = ["tars"];
-          #   type = "sendreceive";
-          # };
           "vault" = {
             path = "/home/jonboh/vault";
             devices = ["tars" "laptop" "phone" "wsl" "workstation"];

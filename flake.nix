@@ -254,7 +254,6 @@
         };
         modules = [
           inputs.sops.nixosModules.sops
-          ./systems/lab/configuration.nix
           inputs.nix-index-database.nixosModules.nix-index
           inputs.home-manager.nixosModules.home-manager
           {
@@ -265,6 +264,8 @@
             };
             home-manager.extraSpecialArgs = {inherit self;};
           }
+          ./modules
+          ./systems/lab/configuration.nix
         ];
       };
       "workstation" = lib.nixosSystem {
@@ -276,7 +277,6 @@
         };
         modules = [
           inputs.sops.nixosModules.sops
-          ./systems/workstation/configuration.nix
           inputs.nix-index-database.nixosModules.nix-index
           inputs.home-manager.nixosModules.home-manager
           {
@@ -289,6 +289,8 @@
             };
             home-manager.extraSpecialArgs = {inherit self;};
           }
+          ./modules
+          ./systems/workstation/configuration.nix
         ];
       };
 
@@ -301,7 +303,6 @@
         };
         modules = [
           inputs.sops.nixosModules.sops
-          ./systems/laptop/configuration.nix
           inputs.nix-index-database.nixosModules.nix-index
           inputs.home-manager.nixosModules.home-manager
           {
@@ -312,6 +313,8 @@
             };
             home-manager.extraSpecialArgs = {inherit self;};
           }
+          ./modules
+          ./systems/laptop/configuration.nix
         ];
       };
 
@@ -337,8 +340,9 @@
             ];
           };
           modules = [
-            ./systems/raspberrys/tars/configuration.nix
             inputs.sops.nixosModules.sops
+            ./modules
+            ./systems/raspberrys/tars/configuration.nix
           ];
         };
       "bragi" = let
@@ -359,8 +363,9 @@
             ];
           };
           modules = [
-            ./systems/raspberrys/bragi/configuration.nix
             inputs.sops.nixosModules.sops
+            ./modules
+            ./systems/raspberrys/bragi/configuration.nix
           ];
         };
       "forge" = let
@@ -380,8 +385,9 @@
             ];
           };
           modules = [
-            ./systems/raspberrys/forge/configuration.nix
             inputs.sops.nixosModules.sops
+            ./modules
+            ./systems/raspberrys/forge/configuration.nix
           ];
         };
       "brick" = inputs.nixpkgs-brick.lib.nixosSystem rec {
@@ -403,6 +409,7 @@
           inputs.sops.nixosModules.default
           inputs.raspberry-pi-nix.nixosModules.raspberry-pi
           inputs.raspberry-pi-nix.nixosModules.sd-image
+          ./modules
           ./systems/raspberrys/brick/configuration.nix
         ];
       };
@@ -432,6 +439,7 @@
             ];
           }
           inputs.sops.nixosModules.default
+          ./modules
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
@@ -453,6 +461,7 @@
           inputs.sops.nixosModules.default
           inputs.raspberry-pi-nix.nixosModules.raspberry-pi
           inputs.raspberry-pi-nix.nixosModules.sd-image
+          ./modules
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
@@ -474,6 +483,7 @@
           inputs.sops.nixosModules.default
           inputs.raspberry-pi-nix.nixosModules.raspberry-pi
           inputs.raspberry-pi-nix.nixosModules.sd-image
+          ./modules
           ./systems/raspberrys/eva/configuration.nix
         ];
       };
@@ -491,13 +501,13 @@
           nixos-sbc.nixosModules.default
           nixos-sbc.nixosModules.boards.bananapi.bpir3
           inputs.sops.nixosModules.default
-
           {
             sbc = {
               version = "0.3";
               wireless.wifi.acceptRegulatoryResponsibility = true;
             };
           }
+          ./modules
           ./systems/network/charon/configuration.nix
         ];
       };
@@ -515,13 +525,13 @@
           nixos-sbc.nixosModules.default
           nixos-sbc.nixosModules.boards.bananapi.bpir3
           inputs.sops.nixosModules.default
-
           {
             sbc = {
               version = "0.3";
               wireless.wifi.acceptRegulatoryResponsibility = true;
             };
           }
+          ./modules
           ./systems/network/citadel/configuration.nix
         ];
       };
@@ -544,7 +554,7 @@
         };
         modules = [
           nixos-wsl.nixosModules.default
-          ./systems/wsl/configuration.nix
+          inputs.sops.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -553,6 +563,8 @@
               imports = [./home-manager/wsl.nix];
             };
           }
+          ./modules
+          ./systems/wsl/configuration.nix
         ];
       };
     };

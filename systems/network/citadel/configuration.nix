@@ -8,30 +8,13 @@
     ./network.nix
 
     ../common/sops.nix
-    ../common/telegraf.nix
-    ../common/telegraf-environment.nix
     ../common/configuration.nix
   ];
 
-  services.ntpd-rs = {
+  configure.ntpd-rs.enable = true;
+  configure.hardware-metrics = {
     enable = true;
-    settings = {
-      source = [
-        {
-          address = sensitive.network.ntp-server "lab";
-          mode = "server";
-        }
-      ];
-      synchronization = {
-        minimum-agreeing-sources = 1;
-        single-step-panic-threshold = 1000;
-        startup-step-panic-threshold = {
-          forward = "inf";
-          backward = 86400;
-        };
-      };
-    };
-    useNetworkingTimeServers = false;
+    thermal_zone0-temperature.enable = true;
   };
 
   environment.systemPackages = with pkgs; [

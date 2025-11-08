@@ -7,10 +7,7 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/telegraf-environment.nix
-    ../common/hardware-metrics.nix
     ../common/hardware-rpi4.nix
-    ../common/sops.nix
     ./sops.nix
     ./network.nix
     ./navidrome.nix
@@ -18,6 +15,16 @@
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   networking.hostName = "bragi";
+  configure.wireguard = {
+    enable = true;
+    deviceName = "bragi";
+    allowedNetworks = ["viae" "hodos"];
+    keepAlive = true;
+  };
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
 
   security.acme = {
     acceptTerms = true;

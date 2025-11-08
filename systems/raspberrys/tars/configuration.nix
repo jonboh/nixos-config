@@ -9,18 +9,43 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ../common/hardware-rpi4.nix
-    ../common/sops.nix
     ./daily-backup.nix
     ./network.nix
     ./builder.nix
     ./sops.nix
-    ./telegraf-environment.nix
     ./flake-updater.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   networking.hostName = "tars";
+
+  configure.wireguard = {
+    enable = true;
+    deviceName = "tars";
+    allowedNetworks = ["viae"];
+    keepAlive = true;
+  };
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
+
+  systemd.services.derived-secrets-mqtt = {
+    # TODO: handle this inside hardware-metrics
+    description = "Create a dotenv file for Telegraf to consume";
+    wantedBy = ["multi-user.target" "telegraf.service"];
+    path = [pkgs.coreutils];
+    script = ''
+      set -e
+      mqttPassword=$(cat ${config.sops.secrets.influx-mqtt-password.path})
+      mkdir -p /run/secrets_derived/
+      echo "INFLUX_MQTT_PASSWORD=$mqttPassword" >> /run/secrets_derived/influxdb.env
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
 
   flakeUpdater = {
     enable = true;

@@ -7,9 +7,7 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/telegraf-environment.nix
     ../common/hardware-metrics.nix
-    ../common/sops.nix
     ./sops.nix
     ./builder.nix
     ./rp-configtxt.nix
