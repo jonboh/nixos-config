@@ -13,7 +13,16 @@ in {
     ../common/timers.nix
     ./hardware-configuration.nix
     ./filesystems.nix
+    ./sops.nix
   ];
+
+  configure = {
+    wireguard = {
+      enable = true;
+      deviceName = "laptop";
+      allowedNetworks = ["viae"];
+    };
+  };
 
   nix.gc = {
     automatic = true;
