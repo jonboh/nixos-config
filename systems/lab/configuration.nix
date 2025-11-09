@@ -19,13 +19,18 @@ in {
     ./immich.nix
   ];
 
-  configure.hardware-metrics.enable = true;
-  configure.ntpd-rs.enable = true;
-  configure.wireguard = {
-    enable = true;
-    deviceName = "lab";
-    allowedNetworks = ["viae" "hodos"];
-    keepAlive = true;
+  configure = {
+    ntpd-rs.enable = true;
+    hardware-metrics = {
+      enable = true;
+      temperature.enable = true;
+    };
+    wireguard = {
+      enable = true;
+      deviceName = "lab";
+      allowedNetworks = ["viae" "hodos"];
+      keepAlive = true;
+    };
   };
 
   # Bootloader.

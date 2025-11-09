@@ -21,11 +21,17 @@ in {
     ./gaming.nix
   ];
 
-  configure.wireguard = {
-    enable = true;
-    deviceName = "workstation";
-    allowedNetworks = ["viae"];
-    keepAlive = false;
+  configure = {
+    wireguard = {
+      enable = true;
+      deviceName = "workstation";
+      allowedNetworks = ["viae"];
+      keepAlive = false;
+    };
+    hardware-metrics = {
+      enable = true;
+      temperature.enable = true;
+    };
   };
   nix = {
     settings = {

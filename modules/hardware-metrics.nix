@@ -19,6 +19,13 @@
           description = "Enable Raspberry Pi temperature metrics";
         };
       };
+      temperature = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Enables telegraf temp input";
+        };
+      };
     };
   };
 
@@ -40,6 +47,9 @@
             diskio = {};
             swap = {};
             system = {};
+          }
+          // lib.optionalAttrs config.configure.hardware-metrics.temperature.enable {
+            temp = {};
           }
           // lib.optionalAttrs config.configure.hardware-metrics.thermal_zone0-temperature.enable {
             exec = [
