@@ -23,6 +23,14 @@ in {
       allowedNetworks = ["viae"];
     };
   };
+  networking.useNetworkd = true;
+  networking.hostName = "laptop";
+  networking.networkmanager = {
+    enable = true;
+    unmanaged = [
+      "wg0"
+    ];
+  };
 
   nix.gc = {
     automatic = true;
@@ -42,10 +50,6 @@ in {
       fsIdentifier = "label";
     };
   };
-
-  # Enable networking
-  networking.hostName = "laptop";
-  networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;

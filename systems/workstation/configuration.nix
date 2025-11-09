@@ -163,7 +163,6 @@ in {
       supersonic
       picard
       feishin
-      wireguard-tools
       config.hardware.nvidia.package.settings
     ]
     ++ minimal_packagse
