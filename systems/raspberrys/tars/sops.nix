@@ -3,6 +3,7 @@
 
   secrets.smbPassword.enable = true;
 
+  users.groups.influx-secrets = {};
   sops.secrets.influxdb-password = {
     format = "binary";
     group = "influx-secrets";

@@ -30,15 +30,16 @@
     thermal_zone0-temperature.enable = true;
   };
 
-  systemd.services.derived-secrets-mqtt = {
-    # TODO: handle this inside hardware-metrics
+  systemd.services.derived-secrets = lib.mkForce {
     description = "Create a dotenv file for Telegraf to consume";
     wantedBy = ["multi-user.target" "telegraf.service"];
     path = [pkgs.coreutils];
     script = ''
       set -e
+      token=$(cat ${config.sops.secrets.influxdb-token.path})
       mqttPassword=$(cat ${config.sops.secrets.influx-mqtt-password.path})
       mkdir -p /run/secrets_derived/
+      echo "INFLUXDB_TOKEN=$token" > /run/secrets_derived/influxdb.env
       echo "INFLUX_MQTT_PASSWORD=$mqttPassword" >> /run/secrets_derived/influxdb.env
     '';
     serviceConfig = {
