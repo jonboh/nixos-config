@@ -49,7 +49,7 @@
             system = {};
           }
           // lib.optionalAttrs config.configure.hardware-metrics.temperature.enable {
-            temp = {};
+            temp = {}; # TODO: add a name_override to match against existing cpu_temp
           }
           // lib.optionalAttrs config.configure.hardware-metrics.thermal_zone0-temperature.enable {
             exec = [
