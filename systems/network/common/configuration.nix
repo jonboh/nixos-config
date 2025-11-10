@@ -51,6 +51,10 @@ in {
     ];
     trusted-substituters = lib.mkForce [];
   };
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
 
   time.timeZone = "Europe/Madrid";
 

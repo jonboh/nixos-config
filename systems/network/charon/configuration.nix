@@ -12,8 +12,6 @@
     ../common/configuration.nix
   ];
 
-  configure.hardware-metrics.enable = true;
-
   # Time server for local nework
   services.ntpd-rs = {
     enable = true;

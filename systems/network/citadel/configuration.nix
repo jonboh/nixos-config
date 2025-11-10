@@ -12,10 +12,6 @@
   ];
 
   configure.ntpd-rs.enable = true;
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
 
   environment.systemPackages = with pkgs; [
     vim
