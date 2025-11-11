@@ -161,6 +161,7 @@ in
 
     ## Applications
     spotify
+    feishin
     (pkgs.unstable.anki.withAddons [
       pkgs.unstable.ankiAddons.anki-connect
       ((

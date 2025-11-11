@@ -158,10 +158,7 @@ in {
       orca-slicer
       remmina
       borgbackup
-      supersonic
       picard
-      feishin
-      config.hardware.nvidia.package.settings
     ]
     ++ minimal_packagse
     ++ common_packages;
