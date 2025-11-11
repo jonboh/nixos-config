@@ -156,8 +156,6 @@ in {
       exiftool # digikam needs it and its makeBinPath does not seem to work correctly
       thunderbird
       orca-slicer
-      self.inputs.nixpkgs-vscode-lldb.legacyPackages.x86_64-linux.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
-      # NOTE: once https://github.com/NixOS/nixpkgs/pull/383013 is merged remove this input
       remmina
       borgbackup
       supersonic

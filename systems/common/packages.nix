@@ -75,7 +75,7 @@ in
     ## Debugging
     gdb
     unstable.vscode-extensions.ms-vscode.cpptools # for neovim dap
-    # unstable.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
+    unstable.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
 
     ### Python
     (python3.withPackages (ps: [

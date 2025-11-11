@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-vscode-lldb.url = "github:FraGag/nixpkgs/vscode-extensions.vadimcn.vscode-lldb";
     nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-24.11";

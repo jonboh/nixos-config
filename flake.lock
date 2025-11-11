@@ -590,22 +590,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-vscode-lldb": {
-      "locked": {
-        "lastModified": 1743398772,
-        "narHash": "sha256-+d6roS4fNil+DJrgQf+POg3qUPVQUJslBx4UTOj9hbA=",
-        "owner": "FraGag",
-        "repo": "nixpkgs",
-        "rev": "4991dd4adf2f3c08cf904097df05f136f3a1e42b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "FraGag",
-        "ref": "vscode-extensions.vadimcn.vscode-lldb",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-wsl": {
       "locked": {
         "lastModified": 1757020766,
@@ -931,7 +915,6 @@
         "nixpkgs-forge": "nixpkgs-forge",
         "nixpkgs-tars": "nixpkgs-tars",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixpkgs-vscode-lldb": "nixpkgs-vscode-lldb",
         "nixpkgs-wsl": "nixpkgs-wsl",
         "nixvim-config": "nixvim-config",
         "nvidia-patch": "nvidia-patch",
