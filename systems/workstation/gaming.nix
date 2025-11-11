@@ -42,7 +42,6 @@
         environment.systemPackages = with pkgs; [
           heroic
           mangohud
-          config.hardware.nvidia.package.settings
         ];
       };
     };

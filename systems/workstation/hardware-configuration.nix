@@ -78,11 +78,7 @@
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
-    # nvidiaSettings = true;
-    # The nvidia-settings build is currently broken due to a missing
-    # vulkan header; re-enable whenever
-    # 0384602eac8bc57add3227688ec242667df3ffe3the hits stable.
-    nvidiaSettings = false;
+    nvidiaSettings = true;
 
     # package = pkgs.nvidia-patch.patch-nvenc (pkgs.nvidia-patch.patch-fbc config.boot.kernelPackages.nvidiaPackages.stable);
 
