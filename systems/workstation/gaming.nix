@@ -43,6 +43,7 @@
           heroic
           mangohud
         ];
+        systemd.services.focus-network.enable = lib.mkForce false;
       };
     };
   };
