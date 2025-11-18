@@ -123,18 +123,6 @@ in {
             devices = ["tars" "laptop" "phone" "lab"];
             type = "sendreceive";
           };
-          "phone_camera" = {
-            path = "/mnt/storage/phone_camera";
-            devices = ["phone" "tars"];
-            type = "receiveonly";
-            ignoreDelete = true;
-          };
-          "phone_whatsapp" = {
-            path = "/mnt/storage/phone_camera";
-            devices = ["phone" "tars"];
-            type = "receiveonly";
-            ignoreDelete = true;
-          };
         };
       };
     };

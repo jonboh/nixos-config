@@ -177,18 +177,6 @@
             devices = ["workstation" "laptop" "phone" "lab"];
             type = "receiveonly";
           };
-          "phone_camera" = {
-            path = "/mnt/storage/phone_camera";
-            devices = ["phone" "workstation"];
-            type = "receiveonly";
-            ignoreDelete = true;
-          };
-          "phone_whatsapp" = {
-            path = "/mnt/storage/phone_whatsapp";
-            devices = ["phone" "workstation"];
-            type = "receiveonly";
-            ignoreDelete = true;
-          };
           "aegis_vault_backups" = {
             path = "/mnt/storage/aegis_vault_backups";
             devices = ["phone"];
