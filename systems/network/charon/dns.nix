@@ -89,14 +89,11 @@
             immich.jonboh.dev ${sensitive.network.ip.lab.lab}
           '';
         };
-
-        blocked_names.blocked_names_file = builtins.fetchurl {
-          url = "https://nsfw.oisd.nl/domainswild";
-          sha256 = "sha256:1mc7acw0vhxsh628vwfvrlfdp8qljx1nw83sbws6psy9m8bpqqks";
-        };
+        blocked_names.blocked_names_file = "/var/oisd/domainswild";
       };
     };
   };
+  configure.oisdDnsBlocklist.enable = true;
   systemd.services.dnscrypt-proxy2.serviceConfig = {
     StateDirectory = "dnscrypt-proxy";
   };

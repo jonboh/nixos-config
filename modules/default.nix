@@ -4,5 +4,6 @@
     ./wireguard-network.nix
     ./timeserver.nix
     ./smb-secrets.nix
+    ./oisd-blocklist.nix
   ];
 }
