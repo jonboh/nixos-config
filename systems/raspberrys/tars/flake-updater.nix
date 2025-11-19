@@ -48,7 +48,7 @@ in
 
               user = mkOption {
                 type = types.str;
-                default = "git";
+                default = "jonboh";
                 description = "User to run the updater as";
               };
 
@@ -76,8 +76,8 @@ in
               repoUrl = repo.repoUrl;
               updateCommand =
                 if repo.inputs == "all"
-                then "nix flake update"
-                else "nix flake update ${builtins.concatStringsSep " " repo.inputs}";
+                then "nix flake --accept-flake-config update"
+                else "nix flake --accept-flake-config update ${builtins.concatStringsSep " " repo.inputs}";
               baseBranch = repo.baseBranch;
               outputBranch = repo.outputBranch;
               user = repo.user;
@@ -86,7 +86,28 @@ in
                 if frequency == "daily"
                 then "daily"
                 else frequency;
-              updateScript = {
+              flakeUpdateScript = {
+                repoUrl,
+                baseBranch,
+                outputBranch,
+                updateCommand,
+              }: ''
+                git clone ${repoUrl} source
+                cd source
+
+                git checkout origin/${baseBranch}
+
+                # Create or reset outputBranch to baseBranch
+                git checkout -B ${outputBranch} ${baseBranch}
+
+                ${updateCommand}
+
+                git add flake.lock
+                git commit -m "Update flake.lock ${updateCommand} " || true
+                git push origin ${outputBranch} --force
+                cd ../
+              '';
+              projectFlakeUpdateScript = {
                 repoUrl,
                 baseBranch,
                 outputBranch,
@@ -96,19 +117,15 @@ in
                   set -euo pipefail
                   TMPDIR=$(mktemp -d)
                   cd "$TMPDIR"
-                  git clone ${repoUrl} source
-                  cd source
 
-                  git checkout origin/${baseBranch}
-
-                  # Create or reset outputBranch to baseBranch
-                  git checkout -B ${outputBranch} ${baseBranch}
-
-                  ${updateCommand}
-
-                  git add flake.lock
-                  git commit -m "Update flake.lock ${updateCommand} " || true
-                  git push origin ${outputBranch} --force
+                  ${flakeUpdateScript {inherit repoUrl baseBranch outputBranch updateCommand;}}
+                  rm -rf source
+                  ${flakeUpdateScript {
+                    repoUrl = "git@tars.lan:hydra-jobs";
+                    outputBranch = "main";
+                    baseBranch = "main";
+                    updateCommand = "nix flake update";
+                  }}
 
                   cd /tmp
                   rm -rf "$TMPDIR"
@@ -123,29 +140,12 @@ in
                 path = [pkgs.coreutils pkgs.git pkgs.openssh pkgs.nix];
                 serviceConfig = {
                   Type = "oneshot";
-                  ExecStart = updateScript {inherit repoUrl baseBranch outputBranch updateCommand;};
+                  ExecStart = projectFlakeUpdateScript {inherit repoUrl baseBranch outputBranch updateCommand;};
                   PrivateTmp = true;
                   NoNewPrivileges = true;
                   User = user;
                 };
                 wantedBy = ["multi-user.target"];
-              };
-
-              services."flake-update-hydra-jobs-${repoName}-${outputBranch}" = {
-                after = ["flake-update-${repoName}-${outputBranch}.service"];
-                wants = ["flake-update-${repoName}-${outputBranch}.service"];
-                path = [pkgs.coreutils pkgs.git pkgs.openssh pkgs.nix];
-                serviceConfig = {
-                  Type = "oneshot";
-                  ExecStart = updateScript {
-                    repoUrl = "git@tars.lan:hydra-jobs";
-                    outputBranch = "main";
-                    inherit baseBranch updateCommand;
-                  };
-                  PrivateTmp = true;
-                  NoNewPrivileges = true;
-                  User = user;
-                };
               };
 
               timers."flake-update-${repoName}-${outputBranch}" = {
