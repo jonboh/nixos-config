@@ -51,10 +51,6 @@
       url = "git+ssh://git@tars.lan/home/git/nixos-config-extra-private.git?ref=main";
       flake = false;
     };
-    nvidia-patch = {
-      url = "github:icewind1991/nvidia-patch-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   nixConfig = {
@@ -85,7 +81,6 @@
       };
       overlays = [
         (unstable-overlay system)
-        inputs.nvidia-patch.overlays.default
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
           xdg-desktop-portal-termfilechooser =

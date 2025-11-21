@@ -38,7 +38,6 @@
           package = pkgs.sunshine.override {cudaSupport = true;};
         };
 
-        hardware.nvidia.package = pkgs.nvidia-patch.patch-nvenc (pkgs.nvidia-patch.patch-fbc config.boot.kernelPackages.nvidiaPackages.stable);
         environment.systemPackages = with pkgs; [
           heroic
           mangohud
