@@ -225,7 +225,7 @@
       extraConfig = {
         inputs = {
           mqtt_consumer = {
-            servers = ["tcp://influx.jonboh.dev:${toString sensitive.network.port.tcp.tars.mqtt}"];
+            servers = ["tcp://127.0.0.1:${toString sensitive.network.port.tcp.tars.mqtt}"];
             topics = [
               "iaq-lab/sensor/+/state"
               "iaq-bedroom/sensor/+/state"
