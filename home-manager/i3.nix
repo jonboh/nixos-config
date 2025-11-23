@@ -57,7 +57,7 @@
     if config.home.computer == "workstation"
     then "exec --no-startup-id dual_display && turn_tablet_off"
     else if config.home.computer == "hermes"
-    then "exec --no-startup-id single_display1080 && turn_tablet_off"
+    then "exec --no-startup-id single_display && turn_tablet_off"
     else "";
 in {
   xsession.windowManager = {
