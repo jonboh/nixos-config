@@ -34,6 +34,17 @@
       enable = true;
       environmentFiles = ["/run/secrets_derived/influxdb.env"];
       extraConfig = {
+        agent = {
+          interval = "30s";
+          round_interval = true;
+          metric_batch_size = 1000;
+          metric_buffer_limit = 10000;
+          collection_jitter = "3s";
+          flush_interval = "60s";
+          flush_jitter = "5s";
+          debug = false;
+          skip_processors_after_aggregators = false;
+        };
         inputs =
           {
             internal = {};

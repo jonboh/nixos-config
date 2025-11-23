@@ -7,7 +7,6 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ./sops.nix
     ./builder.nix
     ./rp-configtxt.nix
@@ -17,6 +16,11 @@
   # See the docs at:
   # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
   raspberry-pi-nix.board = "bcm2712";
+
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
 
   boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
   boot.initrd.enable = true;

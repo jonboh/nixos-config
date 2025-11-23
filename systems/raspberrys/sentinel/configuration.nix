@@ -6,7 +6,6 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ./sops.nix
     ./rp-configtxt.nix
     ./network.nix

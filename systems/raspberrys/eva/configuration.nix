@@ -6,7 +6,6 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ./sops.nix
     ./rp-configtxt.nix
   ];
@@ -23,6 +22,10 @@
     fsck -A -y -V
   '';
 
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
   networking = {
     hostName = "eva";
     firewall = {

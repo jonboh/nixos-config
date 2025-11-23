@@ -221,47 +221,41 @@
         http-bind-address = "127.0.0.1:8086";
       };
     };
-    telegraf = {
-      extraConfig = {
-        inputs = {
-          mqtt_consumer = {
-            servers = ["tcp://127.0.0.1:${toString sensitive.network.port.tcp.tars.mqtt}"];
-            topics = [
-              "iaq-lab/sensor/+/state"
-              "iaq-bedroom/sensor/+/state"
-              "iaq-outside/sensor/+/state"
-              "iaq-livingroom/sensor/+/state"
-            ];
-            topic_parsing = [
-              {
-                topic = "iaq-bedroom/sensor/+/state";
-                measurement = "_/_/measurement/_";
-                tags = "iaq-board/_/_/_";
-              }
-              {
-                topic = "iaq-lab/sensor/+/state";
-                measurement = "_/_/measurement/_";
-                tags = "iaq-board/_/_/_";
-              }
-              {
-                topic = "iaq-outside/sensor/+/state";
-                measurement = "_/_/measurement/_";
-                tags = "iaq-board/_/_/_";
-              }
-              {
-                topic = "iaq-livingroom/sensor/+/state";
-                measurement = "_/_/measurement/_";
-                tags = "iaq-board/_/_/_";
-              }
-            ];
-            username = "influx";
-            password = "$INFLUX_MQTT_PASSWORD";
-            data_format = "value";
-            data_type = "float";
-          };
-        };
-      };
-    };
+    # telegraf.extraConfig.inputs.mqtt_consumer = {
+    #   servers = ["tcp://127.0.0.1:${toString sensitive.network.port.tcp.tars.mqtt}"];
+    #   topics = [
+    #     "iaq-lab/sensor/+/state"
+    #     "iaq-bedroom/sensor/+/state"
+    #     "iaq-outside/sensor/+/state"
+    #     "iaq-livingroom/sensor/+/state"
+    #   ];
+    #   topic_parsing = [
+    #     {
+    #       topic = "iaq-bedroom/sensor/+/state";
+    #       measurement = "_/_/measurement/_";
+    #       tags = "iaq-board/_/_/_";
+    #     }
+    #     {
+    #       topic = "iaq-lab/sensor/+/state";
+    #       measurement = "_/_/measurement/_";
+    #       tags = "iaq-board/_/_/_";
+    #     }
+    #     {
+    #       topic = "iaq-outside/sensor/+/state";
+    #       measurement = "_/_/measurement/_";
+    #       tags = "iaq-board/_/_/_";
+    #     }
+    #     {
+    #       topic = "iaq-livingroom/sensor/+/state";
+    #       measurement = "_/_/measurement/_";
+    #       tags = "iaq-board/_/_/_";
+    #     }
+    #   ];
+    #   username = "influx";
+    #   password = "$INFLUX_MQTT_PASSWORD";
+    #   data_format = "value";
+    #   data_type = "auto_float";
+    # };
     mosquitto = {
       enable = true;
       logType = ["error" "warning" "information" "notice"];

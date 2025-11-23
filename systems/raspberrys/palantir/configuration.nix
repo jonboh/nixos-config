@@ -7,7 +7,6 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ./sops.nix
     ./builder.nix
     ./rp-configtxt.nix
@@ -22,6 +21,10 @@
     fsck -A -y -V
   '';
 
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;

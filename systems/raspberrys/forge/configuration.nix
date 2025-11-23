@@ -8,12 +8,15 @@
 }: {
   imports = [
     ../common/configuration.nix
-    ../common/hardware-metrics.nix
     ../common/hardware-rpi4.nix
     ./sops.nix
     ./builder.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
   networking = {
     hostName = "forge";
     firewall = {
