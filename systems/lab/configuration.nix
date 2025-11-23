@@ -8,7 +8,6 @@
 in {
   imports = [
     ../common/configuration.nix
-    ../common/timers.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./samba-mounts.nix
