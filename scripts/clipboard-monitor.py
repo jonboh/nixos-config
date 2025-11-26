@@ -9,9 +9,7 @@ CLEAR_TIMEOUT = 30  # seconds with unchanged clipboard before clearing
 
 def get_clipboard():
     try:
-        return subprocess.check_output(
-            ["xclip", "-selection", "clipboard", "-o"]
-        ).decode("utf-8")
+        return subprocess.check_output(["xclip", "-selection", "clipboard", "-o"])
     except subprocess.CalledProcessError:
         return ""
 
