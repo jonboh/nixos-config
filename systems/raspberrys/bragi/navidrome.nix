@@ -14,7 +14,7 @@
 
   services.navidrome = {
     enable = true;
-    package = pkgs.unstable.navidrome;
+    package = pkgs.navidrome;
     settings = {
       Agents = "lastfm,deezer";
       MusicFolder = "/mnt/storage/music/main";
@@ -42,5 +42,5 @@
   ];
   users.users.jonboh.extraGroups = ["navidrome"];
 
-  environment.systemPackages = [pkgs.unstable.navidrome];
+  environment.systemPackages = [pkgs.navidrome];
 }

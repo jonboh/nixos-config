@@ -116,7 +116,7 @@ in {
     git
     vim
     htop
-    du-dust
+    dust
     ntp
   ]; # NOTE: vcgencmd needs sudo to run
 

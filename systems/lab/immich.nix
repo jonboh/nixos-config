@@ -5,7 +5,7 @@
 }: {
   services.immich = {
     enable = true;
-    package = pkgs.unstable.immich;
+    package = pkgs.immich;
     host = "127.0.0.1";
     accelerationDevices = null; # `null` will give access to all devices.
   };

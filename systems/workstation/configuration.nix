@@ -1,5 +1,4 @@
 {
-  self,
   pkgs,
   config,
   sensitive,
@@ -153,19 +152,18 @@ in {
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
-  services.ollama.acceleration = "cuda";
-
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
   };
 
-  services.nextjs-ollama-llm-ui = {
-    enable = true;
-  };
-  services.ollama = {
-    enable = true;
-  };
+  #   services.nextjs-ollama-llm-ui = {
+  #     enable = true;
+  #   };
+  #   services.ollama = {
+  #     enable = true;
+  # acceleration = "cuda";
+  #   };
 
   programs.ccache = {
     enable = true;

@@ -140,11 +140,13 @@
     source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/desktop_entries;
   };
 
+  programs.delta.enable = true;
   programs.git = {
     enable = true;
-    delta.enable = true;
-    userName = "jonboh";
-    userEmail = "jon.bosque.hernando@gmail.com";
+    settings = {
+      user.name = "jonboh";
+      user.email = "jon.bosque.hernando@gmail.com";
+    };
     extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = true;
@@ -196,7 +198,8 @@
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
+    enableDefaultConfig = true;
+    matchBlocks."*".addKeysToAgent = "yes";
     extraConfig = ''
       Host *
           ServerAliveInterval 10

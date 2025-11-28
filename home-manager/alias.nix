@@ -55,7 +55,7 @@ in {
     "icat" = "kitten icat";
 
     # other
-    "dragon" = "${pkgs.xdragon}/bin/xdragon --and-exit --all";
+    "dragon" = "${pkgs.dragon-drop}/bin/xdragon --and-exit --all";
     "drag" = "dragon";
     "clip" = "xclip -sel clipboard";
     "lsblk" = "lsblk -o NAME,RM,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINT";

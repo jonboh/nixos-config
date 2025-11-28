@@ -1,16 +1,20 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-24.11";
+    # app pins
+    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-navidrome.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
+    nixpkgs-immich.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # follow `main` branch of this repository, considered being stable
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim-config = {url = "github:jonboh/nixvim-config";};
@@ -68,8 +72,20 @@
     nixos-wsl,
     ...
   } @ inputs: let
+    navidrome-pin-overlay = final: prev: {
+      navidrome = inputs.nixpkgs-navidrome.legacyPackages.x86_64-linux.navidrome;
+    };
+    immich-pin-overlay = final: prev: {
+      immich = inputs.nixpkgs-immich.legacyPackages.x86_64-linux.immich;
+    };
     unstable-overlay = system: final: prev: {
       unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config = prev.config;
+      };
+    };
+    stable-2505-overlay = system: final: prev: {
+      stable-2505 = import inputs.nixpkgs-2505 {
         inherit system;
         config = prev.config;
       };
@@ -80,7 +96,9 @@
         allowUnfree = true;
       };
       overlays = [
+        immich-pin-overlay
         (unstable-overlay system)
+        (stable-2505-overlay system)
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
           xdg-desktop-portal-termfilechooser =
@@ -154,7 +172,7 @@
       ];
     };
     nixpkgs-charon = inputs.nixos-sbc.inputs.nixpkgs;
-    sun4i-drm-overlay-fix = final: super: {
+    sun4i-drm-fix-overlay = final: super: {
       # NOTE: this solves Module sun4i-drm not found in directory. see https://github.com/NixOS/nixpkgs/issues/154163
       makeModulesClosure = x:
         super.makeModulesClosure (x // {allowMissing = true;});
@@ -190,7 +208,7 @@
         '';
       };
     };
-  in {
+  in rec {
     formatter.x86_64-linux =
       inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -225,15 +243,18 @@
           export PATH=/home/jonsboh/.cargo/bin:$PATH
         '';
       };
-      julia = pkgs.mkShell {
-        # use `]pkg add <package>` to install packages
-        packages = [pkgs.julia-bin];
-        name = "julia";
-        shellHook = ''
-          export LD_LIBRARY_PATH="${pkgs.julia-bin}/lib":$LD_LIBRARY_PATH
-          export LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib":$LD_LIBRARY_PATH
-        '';
-      };
+      julia = let
+        julia-pkg = pkgs.julia_111-bin;
+      in
+        pkgs.mkShell {
+          # use `]pkg add <package>` to install packages
+          packages = [julia-pkg];
+          name = "julia";
+          shellHook = ''
+            export LD_LIBRARY_PATH="${julia-pkg}/lib":$LD_LIBRARY_PATH
+            export LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib":$LD_LIBRARY_PATH
+          '';
+        };
     };
 
     nixosConfigurations = let
@@ -276,11 +297,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users = {
-              jonboh = {
-                imports = [./home-manager/workstation.nix];
-              };
-            };
+            home-manager.users.jonboh = ./home-manager/workstation.nix;
             home-manager.extraSpecialArgs = {inherit self;};
           }
           ./modules
@@ -324,7 +341,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              sun4i-drm-overlay-fix
+              sun4i-drm-fix-overlay
               ccache-overlay
               (unstable-overlay system)
               (final: prev: {
@@ -340,7 +357,7 @@
           ];
         };
       "bragi" = let
-        nixpkgs = inputs.nixpkgs-tars;
+        nixpkgs = inputs.nixpkgs-bragi;
       in
         nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
@@ -351,7 +368,8 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              sun4i-drm-overlay-fix
+              navidrome-pin-overlay
+              sun4i-drm-fix-overlay
               ccache-overlay
               (unstable-overlay system)
             ];
@@ -374,7 +392,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              sun4i-drm-overlay-fix
+              sun4i-drm-fix-overlay
               ccache-overlay
             ];
           };

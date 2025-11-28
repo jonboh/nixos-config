@@ -11,7 +11,7 @@ desc = "Open $SHELL here"
 
 [[mgr.prepend_keymap]]
 on = [",", "d"]
-run = 'shell -- xdragon -x -T --all "$@"'
+run = 'shell -- dragon-drop -x -T --all "$@"'
 
 [[mgr.prepend_keymap]]
 on = "<Enter>"

@@ -39,7 +39,7 @@ in
     sops
 
     ## System Utilities
-    xdragon
+    dragon-drop
     sysz
     libnotify
     sshfs
@@ -110,7 +110,7 @@ in
     bat-extras.prettybat
     bat-extras.batpipe
     bat-extras.batwatch
-    du-dust
+    dust
     just
     fd
     ripgrep
@@ -155,7 +155,7 @@ in
     alsa-utils
 
     ## PDF
-    poppler_utils
+    poppler-utils
     zathura
     kdePackages.okular
 
@@ -207,7 +207,7 @@ in
           sourceRoot = "source/AnkiDraw";
         }))
     ])
-    drawpile
+    stable-2505.drawpile
     krita
     (pkgs.callPackage ../../scripts/krita-fzf.nix {})
     (pkgs.callPackage ../../scripts/single_display.nix {})

@@ -152,7 +152,7 @@
     bat-extras.prettybat
     bat-extras.batpipe
     bat-extras.batwatch
-    du-dust
+    dust
     fd
     ripgrep
     lsof

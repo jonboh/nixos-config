@@ -6,7 +6,7 @@ import time
 import urllib.parse
 from typing import Optional
 
-# NOTE: this script needs poppler_utils, so that pdfinfo is available in PATH
+# NOTE: this script needs poppler-utils, so that pdfinfo is available in PATH
 
 
 def get_pdf_named_dest_page(file_path, named_dest):
