@@ -38,7 +38,6 @@
     nginx = {
       enable = true;
       recommendedGzipSettings = true;
-      recommendedZstdSettings = true;
       recommendedBrotliSettings = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;

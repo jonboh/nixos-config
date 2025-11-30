@@ -113,6 +113,8 @@
   services = {
     klipper = {
       enable = true;
+      package = self.inputs.nixpkgs-2411.legacyPackages.aarch64-linux.klipper;
+      # later versions require MCU update, which is broken, I'll wait
       user = "printer";
       group = "klipper";
 
@@ -122,14 +124,16 @@
       '';
       mutableConfig = true;
       firmwares = {
+        # NOTE: the firmware build tends to break frequently, you only need this when you are
+        # going to update the firmware of the MCUs
         printer = {
-          enable = true;
+          enable = false;
           enableKlipperFlash = true;
           configFile = ./printer-firmware.cfg; # generated with klipper-genconf
           serial = "/dev/serial/by-id/usb-Klipper_stm32f401xc_22004D000850435435373520-if00";
         };
         resonance = {
-          enable = true;
+          enable = false;
           enableKlipperFlash = true;
           configFile = ./resonance-firmware.cfg; # generated with klipper-genconf
           serial = "/dev/serial/by-id/usb-Klipper_stm32f042x6_000024001543565537353020-if00";

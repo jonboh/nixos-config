@@ -345,7 +345,6 @@
     nginx = {
       enable = true;
       recommendedGzipSettings = true;
-      recommendedZstdSettings = true;
       recommendedBrotliSettings = true;
       # recommendedProxySettings = true; # NOTE: breaks requests with 400 Bad Request
       recommendedOptimisation = true;
@@ -619,6 +618,9 @@
           enable_quota = 0;
           limits.max_total_records = 1666; # See issues #298/#333
         };
+        # NOTE: 25.11 broke this, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
+        syncstorage.database_url = "mysql://firefox-syncserver@localhost/firefox_syncserver?socket=%2Frun%2Fmysqld%2Fmysqld.sock";
+        tokenserver.database_url = "mysql://firefox-syncserver@localhost/firefox_syncserver?socket=%2Frun%2Fmysqld%2Fmysqld.sock";
       };
     };
     mysql.package = pkgs.mariadb;

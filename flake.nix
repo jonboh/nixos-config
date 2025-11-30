@@ -2,12 +2,14 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-24.11";
-    # app pins
+    nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-25.11";
+    # prev nixpkgs releases
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
+    # app pins
     nixpkgs-navidrome.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     nixpkgs-immich.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # follow `main` branch of this repository, considered being stable
@@ -368,7 +370,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              navidrome-pin-overlay
+              # navidrome-pin-overlay
               sun4i-drm-fix-overlay
               ccache-overlay
               (unstable-overlay system)
