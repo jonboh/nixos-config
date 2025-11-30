@@ -13,17 +13,25 @@
     ./builder.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
+  configure.wireguard = {
+    enable = true;
+    deviceName = "forge";
+    allowedNetworks = ["viae"];
+    keepAlive = true;
+  };
   configure.hardware-metrics = {
     enable = true;
     thermal_zone0-temperature.enable = true;
   };
   networking = {
-    hostName = "forge";
+    useNetworkd = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = with sensitive.network.port.tcp.forge; [
-        fluidd
+      allowedTCPPorts = [
+        sensitive.network.port.tcp.forge.fluidd
+        config.services.moonraker.port
       ];
+      allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard];
     };
     interfaces = {
       end0 = {
@@ -37,9 +45,26 @@
       };
     };
     timeServers = [(sensitive.network.ntp-server "lab")];
-    extraHosts = ''
-      ${sensitive.network.ip.tars.lab} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway
+    nameservers = [(sensitive.network.dns-server "lab")];
+  };
+  systemd.network = {
+    enable = true;
+    wait-online.enable = false;
+
+    networks = {
+      "10-end0" = {
+        matchConfig.Name = "end0";
+        networkConfig.DHCP = "yes";
+        address = [
+          "${sensitive.network.ip.forge.lab}/24"
+        ];
+        routes = [
+          {
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+        ];
+      };
+    };
   };
 
   security.acme = {
@@ -142,13 +167,21 @@
     };
     fluidd = {
       enable = true;
+      hostName = "forge.jonboh.dev";
       nginx = {
         forceSSL = true;
+        serverName = "forge.jonboh.dev";
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
       };
     };
     nginx = {
+      enable = true;
+      recommendedGzipSettings = true;
+      recommendedProxySettings = true;
+      recommendedBrotliSettings = true;
+      recommendedOptimisation = true;
+      recommendedTlsSettings = true;
       clientMaxBodySize = "1000m"; # GCode can get big
     };
 
@@ -165,9 +198,11 @@
           force_logins = true;
           cors_domains = [
             "*.lan"
+            "https://forge.jonboh.dev"
           ];
           trusted_clients = [
             (sensitive.network.vlan-range "lab")
+            "${sensitive.network.ip.forge.viae}/24"
             "127.0.0.0/24"
           ];
         };

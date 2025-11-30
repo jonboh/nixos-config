@@ -1,5 +1,6 @@
 {
   self,
+  pkgs,
   config,
   lib,
   sensitive,
@@ -80,5 +81,7 @@
         owner = "systemd-network";
         group = "systemd-network";
       };
+
+      environment.systemPackages = [pkgs.wireguard-tools];
     };
 }
