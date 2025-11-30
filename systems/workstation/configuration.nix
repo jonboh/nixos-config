@@ -15,7 +15,6 @@ in {
     ./filesystems.nix
     ./sops.nix
     ./samba-mounts.nix
-    ./builders.nix
     ./network.nix
     ./gaming.nix
   ];
