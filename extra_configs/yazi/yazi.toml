@@ -16,6 +16,7 @@ rules = [
     "open",
     "edit",
   ] },
+  { mime = "*", use = "open" },
 ]
 
 [opener]
