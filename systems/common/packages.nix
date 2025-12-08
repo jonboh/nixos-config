@@ -221,4 +221,6 @@ in
     (pkgs.callPackage ../../scripts/atuin-export-zsh.nix {})
     (pkgs.callPackage ../../scripts/git-init-tars.nix {})
     (pkgs.callPackage ../../scripts/is_vault_unlocked.nix {})
+    (pkgs.callPackage ../../scripts/bt-reconnect.nix {})
+    (pkgs.callPackage ../../scripts/bt-show-codec.nix {})
   ]
