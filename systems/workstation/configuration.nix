@@ -31,14 +31,6 @@ in {
       temperature.enable = true;
     };
   };
-  nix = {
-    settings = {
-      trusted-substituters = [
-        "ssh://lab.lan"
-      ];
-    };
-  };
-  # system.nixos.label = "GrubStyle";
   # Bootloader.
   boot.loader = {
     efi.canTouchEfiVariables = true;

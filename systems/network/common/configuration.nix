@@ -49,7 +49,10 @@ in {
       sensitive.keys.nix.forge
       sensitive.keys.nix.hydra-lab
     ];
-    trusted-substituters = lib.mkForce [];
+    substituters = [
+      "https://nix-cache.jonboh.dev"
+      "https://cache.nixos.org"
+    ];
   };
   configure.hardware-metrics = {
     enable = true;

@@ -22,6 +22,10 @@
         sensitive.keys.nix.forge
         sensitive.keys.nix.hydra-lab
       ];
+      substituters = [
+        "https://nix-cache.jonboh.dev"
+        "https://cache.nixos.org"
+      ];
     };
     package = pkgs.nixVersions.latest;
     registry = {

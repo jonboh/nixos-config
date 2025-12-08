@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   sensitive,
   ...
@@ -41,26 +42,48 @@
       recommendedGzipSettings = true;
       recommendedBrotliSettings = true;
       recommendedOptimisation = true;
+      recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts."hydra.jonboh.dev" = {
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-            ssl = false;
-          }
-          {
-            port = 443;
-            addr = "0.0.0.0";
-            ssl = true;
-          }
-        ];
-        forceSSL = true;
-        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
-        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:3100";
-          recommendedProxySettings = true;
+      virtualHosts = {
+        "hydra.jonboh.dev" = {
+          listen = [
+            {
+              addr = "0.0.0.0";
+              port = 80;
+              ssl = false;
+            }
+            {
+              port = 443;
+              addr = "0.0.0.0";
+              ssl = true;
+            }
+          ];
+          forceSSL = true;
+          sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+          sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:3100";
+          };
+        };
+        "nix-cache.jonboh.dev" = {
+          listen = [
+            {
+              addr = "0.0.0.0";
+              port = 80;
+              ssl = false;
+            }
+            {
+              port = 443;
+              addr = "0.0.0.0";
+              ssl = true;
+            }
+          ];
+          forceSSL = true;
+          sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+          sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+          locations."/" = {
+            proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+          };
         };
       };
     };
@@ -81,5 +104,12 @@
 
   nix.settings = {
     secret-key-files = ["/var/secrets/cache-priv-key.pem"];
+  };
+
+  services.nix-serve = {
+    package = pkgs.nix-serve-ng;
+    enable = true;
+    bindAddress = "127.0.0.1";
+    secretKeyFile = "/var/secrets/cache-priv-key.pem";
   };
 }
