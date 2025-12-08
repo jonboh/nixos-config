@@ -146,8 +146,6 @@
     settings = {
       user.name = "jonboh";
       user.email = "jon.bosque.hernando@gmail.com";
-    };
-    extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = true;
       rerere.enabled = true;
