@@ -3,6 +3,7 @@
   sensitive,
   ...
 }: {
+  imports = [./builder.nix];
   services.hydra = {
     enable = true;
     hydraURL = "https://hydra.jonboh.dev";
@@ -73,7 +74,7 @@
       dnsProvider = "rfc2136";
       environmentFile = config.sops.secrets.certs-secrets.path;
       dnsPropagationCheck = false;
-      server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
+      # server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
       validMinDays = 90;
     };
   };

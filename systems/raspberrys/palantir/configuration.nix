@@ -8,7 +8,6 @@
   imports = [
     ../common/configuration.nix
     ./sops.nix
-    ./builder.nix
     ./rp-configtxt.nix
     ./filesystems.nix
     ./kernel.nix

@@ -8,7 +8,6 @@
   imports = [
     ../common/configuration.nix
     ./sops.nix
-    ./builder.nix
     ./rp-configtxt.nix
   ];
   # bcm2711 for rpi 3, 3+, 4, zero 2 w
