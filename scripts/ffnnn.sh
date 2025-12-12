@@ -25,16 +25,16 @@ suggest="$4"
 out="$5"
 folder="${suggest%/*}"
 file="${suggest##/*/}"
-out="''${out:-/tmp/ffnnn-out}"
+out="${out:-/tmp/ffnnn-out}"
 
 current_pid=$$
 timestamp=$(date +%s)
 yazi_id="${current_pid}${timestamp}"
 
 if [ "$choose_dir" = 1 ]; then
-command="yazi --client-id $yazi_id --cwd-file $out"
+command="yazi --client-id $yazi_id --cwd-file \"$out\""
 else
-command="yazi --client-id $yazi_id --chooser-file $out"
+command="yazi --client-id $yazi_id --chooser-file \"$out\""
 fi
 
 if [ "$save" = 1 ]; then
@@ -50,7 +50,7 @@ kitty_pid=$!
 count=0
 max_attempts=20
 
-until [ "$save" != 1 ] || ya emit-to $yazi_id reveal \"$file\" >/dev/null 2>&1; do
+until [ "$save" != 1 ] || ya emit-to $yazi_id reveal "$file" >/dev/null 2>&1; do
   sleep 0.1
   count=$((count + 1))
   if [ "$count" -ge "$max_attempts" ]; then
