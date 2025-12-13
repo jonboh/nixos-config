@@ -66,6 +66,7 @@
     extra-trusted-public-keys = [
       "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
+    allow-import-from-derivation = true; # suricata build in hydra needs this. Otherwise, fails on `nix flake check`
   };
 
   outputs = {
@@ -591,9 +592,9 @@
         "tars"
         "bragi"
         "forge"
-        # "brick"
-        # "palantir"
-        # "sentinel"
+        "brick"
+        "palantir"
+        "sentinel"
         "eva"
         "charon"
         "citadel"
