@@ -670,6 +670,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_10": {
+      "locked": {
+        "lastModified": 1765425892,
+        "narHash": "sha256-jlQpSkg2sK6IJVzTQBDyRxQZgKADC2HKMRfGCSgNMHo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5d6bdbddb4695a62f0d00a3620b37a15275a5093",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1755615617,
@@ -922,17 +938,15 @@
     },
     "raspi-fancontrol": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs-brick"
-        ],
+        "nixpkgs": "nixpkgs_10",
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1741369720,
-        "narHash": "sha256-SKqNzj/m+3aqoneD+jtt7frAuHn4ucp3a/Sc7hzQ+cM=",
+        "lastModified": 1765629840,
+        "narHash": "sha256-ETTIAUcdSlc3gt1GuidAt5Ijd4w9jeQind+1QptKJAc=",
         "owner": "jonboh",
         "repo": "raspi-fancontrol",
-        "rev": "9ea9299a2d7aafcab5db9640eaba246cf579c529",
+        "rev": "6f060a7ed795d1e0c6d4cde7767f96ebb8596ce9",
         "type": "github"
       },
       "original": {
@@ -1079,11 +1093,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1734143514,
-        "narHash": "sha256-1+r8wYucn8kp9d/IBW1uYGs31QQmSZURElsiOTx65xM=",
+        "lastModified": 1765593578,
+        "narHash": "sha256-qbl874bCIy9+OLImdfBfZ9ITUDDjjTAB04Dk4PlZFV0=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "81fe5c27cb281a9b796d7ad05ad9179e5bd0c78d",
+        "rev": "348b94ed9ddffccdf1a65582a2dcff0a4a3eeeb4",
         "type": "github"
       },
       "original": {

@@ -43,7 +43,6 @@
     };
     raspi-fancontrol = {
       url = "github:jonboh/raspi-fancontrol";
-      inputs.nixpkgs.follows = "nixpkgs-brick";
     };
     nixos-config-sensitive = {
       # Extra values for configuration, mostly network specific
