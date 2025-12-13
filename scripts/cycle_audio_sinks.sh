@@ -32,5 +32,5 @@ if [ -z "$next_device_id" ]; then
 fi
 
 next_device_description=$(pw-dump | jq -r ".[] | select(.info.props.\"media.class\" == \"Audio/Sink\") | select(.info.props.\"node.description\" == \"$next_device\") | .info.props.\"node.description\"")
-echo "$next_device_description"
+# echo "$next_device_description"
 wpctl set-default $next_device_id

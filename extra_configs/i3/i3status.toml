@@ -60,12 +60,12 @@ warning_fg = "#f7768e" # red
 
 [[block]]
 block = "sound"
-# NOTE:
-# we could switch with
-# pactl set-default-sink <name>
-# the names can be retrieved along with id and description with
-# pw-dump | jq '.[] | select(.type=="PipeWire:Interface:Node" and .info.props."media.class"=="Audio/Sink") | {id: .id, name: .info.props."node.name", description: .info.props."node.description"}'
-# unfortunately chromium based apps ignore these commands
+format = "$icon { $volume|} "
+device_kind = "sink"
+headphones_indicator = true
+[[block.click]]
+button = "left"
+cmd = "/home/jonboh/.flakes/nixos-config/scripts/cycle_audio_sinks.sh"
 
 # VPNs
 [[block]]

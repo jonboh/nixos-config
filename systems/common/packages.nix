@@ -28,6 +28,7 @@ in
     wireplumber
     helvum
     playerctl # for play/pause media keys
+    pulseaudio # needed for pactl, used in the audio cycling script
 
     ## Security
     (pkgs.callPackage ../../scripts/rofi-password-store.nix {keyname = "jon@jonboh.dev";})
