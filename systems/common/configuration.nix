@@ -26,6 +26,7 @@
         "https://nix-cache.jonboh.dev"
         "https://cache.nixos.org"
       ];
+      allow-import-from-derivation = true;
     };
     package = pkgs.nixVersions.latest;
     registry = {
