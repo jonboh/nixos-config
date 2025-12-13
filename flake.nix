@@ -570,7 +570,7 @@
         modules = [
           nixos-wsl.nixosModules.default
           inputs.sops.nixosModules.default
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager-wsl.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
