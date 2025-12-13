@@ -393,11 +393,11 @@
     "nixos-config-sensitive": {
       "flake": false,
       "locked": {
-        "lastModified": 1764526954,
-        "narHash": "sha256-ZnxclH0Dhg3w9g44rgfizr2S8o7iuFQzdwuq5+AfiXQ=",
+        "lastModified": 1765620440,
+        "narHash": "sha256-T4NUyDy88FNJ4SfFxpTSlRxPny6hq4gQSsNMK9j0dDw=",
         "ref": "main",
-        "rev": "a4fc15bc04d47c276a41444d7f43ed1c1e8635cc",
-        "revCount": 42,
+        "rev": "70193480a619380d5b7a50bddb03252d5e06e5c8",
+        "revCount": 43,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixos-config-sensitive.git"
       },

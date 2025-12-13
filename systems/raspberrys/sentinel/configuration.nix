@@ -46,7 +46,7 @@
     suricata = {
       enable = true;
       settings = {
-        vars.address-groups.HOME_NET = "[${sensitive.network.vlan-range "lab"},${sensitive.network.vlan-range "charon"}]"; # TODO: add the rest of network segments
+        vars.address-groups.HOME_NET = "[${sensitive.network.vlan-range "lab"},${sensitive.network.vlan-range "charon"},${sensitive.network.wg-range "viae"}]"; # TODO: add the rest of network segments
         outputs = [
           {
             stats = {

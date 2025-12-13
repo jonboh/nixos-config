@@ -202,7 +202,7 @@
           ];
           trusted_clients = [
             (sensitive.network.vlan-range "lab")
-            "${sensitive.network.ip.forge.viae}/24"
+            (sensitive.network.wg-range "viae")
             "127.0.0.0/24"
           ];
         };
