@@ -98,21 +98,21 @@
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:30";
+        frequency = "Fri 06:35";
         outputBranch = "update-rpi4";
         inputs = ["nixpkgs-tars" "nixpkgs-forge" "nixpkgs-bragi"];
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:30";
+        frequency = "Fri 06:40";
         outputBranch = "update-rpi5-nixos-raspberrypi";
         inputs = ["nixos-raspberrypi"];
       }
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:30";
+        frequency = "Fri 06:45";
         outputBranch = "update-rpi5-raspberry-pi-nix";
         inputs = ["raspberry-pi-nix" "nixpkgs-brick"];
       }
@@ -497,7 +497,7 @@
     };
     grafana = {
       enable = true;
-      declarativePlugins = [pkgs.logs-drilldown];
+      declarativePlugins = [pkgs.grafanaPlugins.grafana-lokiexplore-app];
       provision = {
         enable = true;
         dashboards = {
@@ -578,7 +578,7 @@
             };
           };
           replication_factor = 1;
-          path_prefix = "/tmp/loki";
+          path_prefix = "/var/lib/loki";
         };
 
         schema_config = {
@@ -596,9 +596,17 @@
           ];
         };
         storage_config = {
-          filesystem = {
-            directory = "/tmp/loki/chunks";
-          };
+          filesystem.directory = "/var/lib/loki/chunks";
+        };
+        limits_config = {
+          retention_period = "30d";
+        };
+
+        compactor = {
+          working_directory = "/var/lib/loki/compactor";
+          retention_enabled = true;
+          retention_delete_delay = "2h";
+          delete_request_store = "filesystem";
         };
       };
     };

@@ -348,7 +348,6 @@
               (unstable-overlay system)
               (final: prev: {
                 grafanaPlugin = pkgs.callPackage (nixpkgs + "/pkgs/servers/monitoring/grafana/plugins/grafana-plugin.nix") {};
-                logs-drilldown = pkgs.callPackage ./packages/logs-drilldown.nix {};
               })
             ];
           };
