@@ -21,13 +21,6 @@
     thermal_zone0-temperature.enable = true;
   };
 
-  boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
-  boot.initrd.enable = true;
-  boot.initrd.postDeviceCommands = ''
-    info "Repairing all filesystems"
-    fsck -A -y -V
-  '';
-
   systemd.services.rp-fancontrol = {
     enable = true;
     description = "RPi GPIO fan control service";

@@ -457,24 +457,38 @@
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
-      "sentinel" = inputs.nixpkgs-brick.lib.nixosSystem rec {
+      "sentinel" = inputs.nixos-raspberrypi.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
+          nixos-raspberrypi = inputs.nixos-raspberrypi;
         };
-        pkgs = import inputs.nixpkgs-brick {
+        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
           inherit system;
           overlays = [
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
             })
+            (final: prev: {
+              valkey = prev.valkey.overrideAttrs (oldAttrs: {
+                doCheck = false; # tests are flaky: https://github.com/NixOS/nixpkgs/issues/387010
+              });
+            })
           ];
         };
         modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              raspberry-pi-5.display-vc4
+              raspberry-pi-5.bluetooth
+              sd-image
+              # raspberry-pi-5.wifi
+            ];
+          }
           inputs.sops.nixosModules.default
-          inputs.raspberry-pi-nix.nixosModules.raspberry-pi
-          inputs.raspberry-pi-nix.nixosModules.sd-image
           ./modules
           ./systems/raspberrys/sentinel/configuration.nix
         ];

@@ -15,13 +15,6 @@
   # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
   raspberry-pi-nix.board = "bcm2712";
 
-  boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
-  boot.initrd.enable = true;
-  boot.initrd.postDeviceCommands = ''
-    info "Repairing all filesystems"
-    fsck -A -y -V
-  '';
-
   configure.hardware-metrics = {
     enable = true;
     thermal_zone0-temperature.enable = true;

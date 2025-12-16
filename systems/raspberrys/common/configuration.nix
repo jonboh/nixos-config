@@ -109,6 +109,8 @@ in {
     ntp
   ]; # NOTE: vcgencmd needs sudo to run
 
+  boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
+  boot.initrd.enable = true;
   boot.initrd.postDeviceCommands = ''
     info "Repairing all filesystems"
     fsck -A -y -V

@@ -1,6 +1,7 @@
 {
   self,
   config,
+  lib,
   pkgs,
   sensitive,
   ...
@@ -12,13 +13,6 @@
     ./filesystems.nix
     ./kernel.nix
   ];
-
-  boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
-  boot.initrd.enable = true;
-  boot.initrd.postDeviceCommands = ''
-    info "Repairing all filesystems"
-    fsck -A -y -V
-  '';
 
   configure.hardware-metrics = {
     enable = true;
