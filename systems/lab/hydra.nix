@@ -17,6 +17,7 @@
     minimumDiskFreeEvaluator = 20;
     extraConfig = ''
       max_unsupported_time = 604800
+      allow_import_from_derivation = true
     '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
