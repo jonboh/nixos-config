@@ -10,6 +10,13 @@
       maxJobs = 2;
     }
     {
+      hostName = "localhost";
+      protocol = null;
+      system = "aarch64-linux";
+      maxJobs = 2;
+      supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
+    }
+    {
       hostName = "tars.lan";
       system = "aarch64-linux";
       protocol = "ssh";
