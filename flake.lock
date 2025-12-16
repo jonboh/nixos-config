@@ -844,11 +844,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1764096135,
-        "narHash": "sha256-BUc3wR8NSeXIx7yOAuLlwfywpgICTgSPU1TlFoR52Jo=",
+        "lastModified": 1765715151,
+        "narHash": "sha256-ct7XBbj/oNlmCWOyVAZ0Jd/TbsRNkClX87+a6HpHW3A=",
         "owner": "jonboh",
         "repo": "nixvim-config",
-        "rev": "b699312c2bc7cc1294a63b86fcb759abf9dd036d",
+        "rev": "73d65f0c1bc28a25d3ee2b77d9315b6e667c981c",
         "type": "github"
       },
       "original": {
