@@ -612,12 +612,17 @@
         "citadel"
         "wsl"
       ];
-      configs = builtins.listToAttrs (map (name: {
+      machineBuilds = builtins.listToAttrs (map (name: {
           inherit name;
           value = self.nixosConfigurations.${name}.config.system.build.toplevel;
         })
         configNames);
+      shells = {
+        devShellRust = self.devShells.x86_64-linux.rust;
+        devShellJulia = self.devShells.x86_64-linux.julia;
+        devShellESP = self.devShells.x86_64-linux.esp;
+      };
     in
-      configs;
+      machineBuilds // shells;
   };
 }
