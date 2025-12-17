@@ -5,16 +5,9 @@
     {
       hostName = "localhost";
       protocol = null;
-      system = "x86_64-linux";
+      systems = ["x86_64-linux"];
       supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
       maxJobs = 2;
-    }
-    {
-      hostName = "localhost";
-      protocol = null;
-      system = "aarch64-linux";
-      maxJobs = 2;
-      supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
     }
     {
       hostName = "tars.lan";
