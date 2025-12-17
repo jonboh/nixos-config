@@ -224,6 +224,9 @@
           influxdb2-cli
         ];
       };
+      terraform = pkgs.mkShell {
+        packages = with pkgs; [terraform];
+      };
       rust = pkgs.mkShell {
         name = "rust-dev";
         packages = with pkgs; [
@@ -617,12 +620,7 @@
           value = self.nixosConfigurations.${name}.config.system.build.toplevel;
         })
         configNames);
-      shells = {
-        devShellRust = self.devShells.x86_64-linux.rust;
-        devShellJulia = self.devShells.x86_64-linux.julia;
-        devShellESP = self.devShells.x86_64-linux.esp;
-      };
     in
-      machineBuilds // shells;
+      machineBuilds // self.devShells.x86_64-linux;
   };
 }
