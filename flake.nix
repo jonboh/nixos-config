@@ -36,9 +36,9 @@
       url = "github:nakato/nixos-sbc/main";
     };
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager-wsl = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     raspi-fancontrol = {
