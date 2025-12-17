@@ -216,7 +216,7 @@
 
     devShells.x86_64-linux = {
       esp = pkgs.mkShell {
-        name = "esp-shell";
+        name = "esp-devshell";
         packages = with pkgs; [
           esphome
           esptool
@@ -225,10 +225,11 @@
         ];
       };
       terraform = pkgs.mkShell {
+        name = "terraform-devshell";
         packages = with pkgs; [terraform];
       };
       rust = pkgs.mkShell {
-        name = "rust-dev";
+        name = "rust-devshell";
         packages = with pkgs; [
           rustup
           openssl
@@ -254,7 +255,7 @@
         pkgs.mkShell {
           # use `]pkg add <package>` to install packages
           packages = [julia-pkg];
-          name = "julia";
+          name = "julia-devshell";
           shellHook = ''
             export LD_LIBRARY_PATH="${julia-pkg}/lib":$LD_LIBRARY_PATH
             export LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib":$LD_LIBRARY_PATH
