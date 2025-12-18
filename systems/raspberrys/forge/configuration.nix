@@ -24,6 +24,7 @@
     thermal_zone0-temperature.enable = true;
   };
   networking = {
+    hostName = "forge";
     useNetworkd = true;
     firewall = {
       enable = true;
