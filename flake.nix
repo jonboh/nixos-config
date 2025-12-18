@@ -430,7 +430,7 @@
           ./systems/raspberrys/brick/configuration.nix
         ];
       };
-      "palantir" = inputs.nixos-raspberrypi.lib.nixosSystem rec {
+      "palantir" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
@@ -443,6 +443,11 @@
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
             })
+            (final: prev: {
+              gjs = prev.gjs.overrideAttrs (oldAttrs: {
+                doCheck = false; # Disable tests that timeout on aarch64
+              });
+            })
           ];
         };
         modules = [
@@ -452,6 +457,7 @@
               raspberry-pi-5.page-size-16k
               raspberry-pi-5.display-vc4
               raspberry-pi-5.bluetooth
+              sd-image
               # raspberry-pi-5.wifi
             ];
           }
