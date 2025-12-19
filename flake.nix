@@ -532,7 +532,6 @@
         };
         pkgs = import nixpkgs-charon {
           inherit system;
-          overlays = [ccache-overlay];
         };
         modules = [
           nixos-sbc.nixosModules.default
@@ -556,7 +555,6 @@
         };
         pkgs = import nixpkgs-charon {
           inherit system;
-          overlays = [ccache-overlay];
         };
         modules = [
           nixos-sbc.nixosModules.default

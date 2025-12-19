@@ -8,14 +8,6 @@
   minimal_kernel = self.inputs.nixos-sbc.packages.aarch64-linux.linuxPackages_6_16_bananaPiR3_minimal.kernel;
   kernel = minimal_kernel.override (
     prev: {
-      # build with ccache
-      stdenv = pkgs.ccacheStdenv;
-      buildPackages =
-        pkgs.buildPackages
-        // {
-          stdenv = pkgs.ccacheStdenv;
-        };
-
       # these are needed in order to filter traffic using tc and mirrorTrafic for suricata
       structuredExtraConfig = with lib.kernel;
         minimal_kernel.structuredExtraConfig
