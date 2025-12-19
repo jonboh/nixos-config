@@ -439,12 +439,7 @@
         };
         pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
           inherit system;
-          # config = {
-          #   # Make all packages use ccache by replacing stdenv
-          #   replaceStdenv = { pkgs }: pkgs.ccacheStdenv;
-          # };
           overlays = [
-            # ccache-overlay
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
             })
@@ -480,12 +475,7 @@
         };
         pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
           inherit system;
-          # config = {
-          #   # Make all packages use ccache by replacing stdenv
-          #   replaceStdenv = { pkgs }: pkgs.ccacheStdenv;
-          # };
           overlays = [
-            # ccache-overlay
             (final: prev: {
               rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
             })
