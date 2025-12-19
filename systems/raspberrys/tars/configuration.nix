@@ -693,7 +693,7 @@
 
   zramSwap = {
     enable = true;
-    priority = 5;
+    priority = 20;
   };
   swapDevices = [
     {
