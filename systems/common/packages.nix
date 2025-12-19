@@ -72,6 +72,7 @@ in
     rr
     pkg-config
     alejandra
+    opencode
 
     ## Debugging
     gdb
