@@ -164,6 +164,7 @@ in
     ## Applications
     spotify
     feishin
+    supersonic
     (pkgs.unstable.anki.withAddons [
       pkgs.unstable.ankiAddons.anki-connect
       ((
