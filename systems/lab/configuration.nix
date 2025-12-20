@@ -30,6 +30,7 @@ in {
       allowedNetworks = ["viae" "hodos"];
       keepAlive = true;
     };
+    vector-logging.enable = true;
   };
   security.sudo.wheelNeedsPassword = false;
 
@@ -90,6 +91,7 @@ in {
         ];
       };
     };
+
     syncthing = {
       enable = true;
       openDefaultPorts = true;

@@ -20,6 +20,7 @@
           mode = "server";
         }
       ];
+      observability.ansi-colors = false;
       synchronization = {
         minimum-agreeing-sources = 1;
         single-step-panic-threshold = 1000;

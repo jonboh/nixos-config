@@ -30,6 +30,7 @@ in {
       enable = true;
       temperature.enable = true;
     };
+    vector-logging.enable = true;
   };
   # Bootloader.
   boot.loader = {

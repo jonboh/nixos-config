@@ -39,6 +39,8 @@ in {
   hardware.enableRedistributableFirmware = true;
 
   configure.ntpd-rs.enable = true;
+  configure.vector-logging.enable = true;
+
   services = {
     openssh = {
       enable = true;
@@ -71,26 +73,6 @@ in {
       enable = true;
       maxretry = 10;
       bantime-increment.enable = true;
-    };
-
-    vector = {
-      enable = true;
-      journaldAccess = true;
-      settings = {
-        sources = {
-          journald.type = "journald";
-          vector_metrics.type = "internal_metrics";
-        };
-        sinks = {
-          loki = {
-            type = "loki";
-            inputs = ["journald"];
-            endpoint = "https://loki.jonboh.dev";
-            encoding = {codec = "json";};
-            labels.source = "journald";
-          };
-        };
-      };
     };
   };
 

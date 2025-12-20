@@ -5,12 +5,16 @@
 }: {
   imports = [
     # ./docker.nix
+    ../../modules
   ];
-  system.stateVersion = "24.05";
+
+  configure.vector-logging.enable = true;
+
   wsl = {
     enable = true;
     defaultUser = "jonboh";
   };
+
   programs.nix-ld = {
     enable = true;
   };
@@ -166,4 +170,6 @@
     kitty
     xclip
   ];
+
+  system.stateVersion = "24.05";
 }

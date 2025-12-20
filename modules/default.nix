@@ -5,5 +5,6 @@
     ./timeserver.nix
     ./smb-secrets.nix
     ./oisd-blocklist.nix
+    ./vector-logging.nix
   ];
 }

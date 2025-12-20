@@ -22,6 +22,7 @@ in {
       deviceName = "laptop";
       allowedNetworks = ["viae"];
     };
+    vector-logging.enable = true;
   };
   networking.useNetworkd = true;
   networking.hostName = "laptop";

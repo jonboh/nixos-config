@@ -59,12 +59,44 @@
     include = ["/var/log/suricata/eve.json"];
     read_from = "beginning";
   };
+
+  services.vector.settings.transforms.classify_suricata = {
+    type = "remap";
+    inputs = ["eve_json"];
+    source = ''
+      .hostname = "sentinel"
+      .unit = "suricata-eve.json"
+
+      # Extract event type and severity from Suricata JSON
+      if exists(.event_type) {
+        .event_type = .event_type
+      }
+
+      if exists(.alert) {
+        .level = "critical"
+        .alert_signature = .alert.signature || "unknown"
+        .alert_severity = .alert.severity || 1
+      } else if exists(.anomaly) {
+        .level = "warning"
+      } else if exists(.drop) {
+        .level = "warning"
+      } else {
+        .level = "info"
+      }
+    '';
+  };
+
   services.vector.settings.sinks.loki_eve = {
     type = "loki";
-    inputs = ["eve_json"];
+    inputs = ["classify_suricata"];
     endpoint = "https://loki.jonboh.dev";
     encoding = {codec = "json";};
-    labels.source = "eve_json";
+    labels = {
+      hostname = "{{ hostname }}";
+      unit = "{{ unit }}";
+      level = "{{ level }}";
+      event_type = "{{ event_type }}";
+    };
   };
 
   environment.systemPackages = with pkgs; [
