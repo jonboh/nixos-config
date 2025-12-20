@@ -199,6 +199,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -410,6 +425,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#8AB8FF",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
                   "mode": "fixed"
                 }
               }
@@ -629,6 +659,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -840,6 +885,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#8AB8FF",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
                   "mode": "fixed"
                 }
               }
@@ -1059,6 +1119,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -1270,6 +1345,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#8AB8FF",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
                   "mode": "fixed"
                 }
               }
@@ -1489,6 +1579,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -1700,6 +1805,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#8AB8FF",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
                   "mode": "fixed"
                 }
               }
@@ -1919,6 +2039,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2134,6 +2269,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alesia"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#8B4513",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2238,9 +2388,14 @@
             "selected": false,
             "text": "workstation",
             "value": "workstation"
+          },
+          {
+            "selected": false,
+            "text": "alesia",
+            "value": "alesia"
           }
         ],
-        "query": "bragi,charon,sentinel,citadel,forge,lab,tars,workstation",
+        "query": "bragi,charon,sentinel,citadel,forge,lab,tars,workstation,alesia",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
