@@ -14,10 +14,6 @@
     ./kernel.nix
   ];
 
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;

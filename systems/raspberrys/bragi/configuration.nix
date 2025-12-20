@@ -21,10 +21,6 @@
     allowedNetworks = ["viae" "hodos"];
     keepAlive = true;
   };
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
 
   security.acme = {
     acceptTerms = true;

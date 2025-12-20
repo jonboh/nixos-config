@@ -19,10 +19,6 @@
     allowedNetworks = ["viae"];
     keepAlive = true;
   };
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
   networking = {
     hostName = "forge";
     useNetworkd = true;

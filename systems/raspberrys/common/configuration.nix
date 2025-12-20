@@ -8,6 +8,11 @@
 in {
   time.timeZone = "Europe/Madrid";
 
+  configure.hardware-metrics = {
+    enable = true;
+    thermal_zone0-temperature.enable = true;
+  };
+
   users = {
     mutableUsers = false;
     users."${user}" = {

@@ -15,10 +15,6 @@
   # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
   raspberry-pi-nix.board = "bcm2712";
 
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
   networking = {
     hostName = "eva";
     firewall = {

@@ -24,10 +24,6 @@
     allowedNetworks = ["viae"];
     keepAlive = true;
   };
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
-  };
 
   systemd.services.derived-secrets = lib.mkForce {
     description = "Create a dotenv file for Telegraf to consume";
