@@ -265,6 +265,31 @@
 
     nixosConfigurations = let
       sensitive = import inputs.nixos-config-sensitive;
+      # used to build forge with and without klipper-firmware
+      mkForgeSystem = extraModules: let
+        nixpkgs = inputs.nixpkgs-forge;
+      in
+        nixpkgs.lib.nixosSystem rec {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit self;
+            inherit sensitive;
+          };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              sun4i-drm-fix-overlay
+              ccache-overlay
+            ];
+          };
+          modules =
+            [
+              inputs.sops.nixosModules.sops
+              ./modules
+              ./systems/raspberrys/forge/configuration.nix
+            ]
+            ++ extraModules;
+        };
     in {
       "lab" = lib.nixosSystem {
         system = "x86_64-linux";
@@ -385,28 +410,16 @@
             ./systems/raspberrys/bragi/configuration.nix
           ];
         };
-      "forge" = let
-        nixpkgs = inputs.nixpkgs-forge;
-      in
-        nixpkgs.lib.nixosSystem rec {
-          system = "aarch64-linux";
-          specialArgs = {
-            inherit self;
-            inherit sensitive;
+      "forge" = mkForgeSystem [];
+      "forge-klipper-firmware" = mkForgeSystem [
+        {
+          services.klipper = {
+            package = lib.mkForce pkgs.klipper;
+            firmwares.printer.enable = lib.mkForce true;
+            firmwares.resonance.enable = lib.mkForce true;
           };
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [
-              sun4i-drm-fix-overlay
-              ccache-overlay
-            ];
-          };
-          modules = [
-            inputs.sops.nixosModules.sops
-            ./modules
-            ./systems/raspberrys/forge/configuration.nix
-          ];
-        };
+        }
+      ];
       "brick" = inputs.nixpkgs-brick.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
