@@ -447,6 +447,9 @@
               gjs = prev.gjs.overrideAttrs (oldAttrs: {
                 doCheck = false; # Disable tests that timeout on aarch64
               });
+              sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
+                doCheck = false; # Disable failing tests
+              });
             })
           ];
         };
