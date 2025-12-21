@@ -90,12 +90,15 @@
         }
       ];
     };
-    settings.synchronization = {
-      minimum-agreeing-sources = 1;
-      single-step-panic-threshold = 1000;
-      startup-step-panic-threshold = {
-        forward = "inf";
-        backward = 86400;
+    settings = {
+      observability.ansi-colors = false;
+      synchronization = {
+        minimum-agreeing-sources = 1;
+        single-step-panic-threshold = 1000;
+        startup-step-panic-threshold = {
+          forward = "inf";
+          backward = 86400;
+        };
       };
     };
     useNetworkingTimeServers = false;
