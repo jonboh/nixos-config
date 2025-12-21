@@ -46,9 +46,12 @@ in {
       "https://cache.nixos.org"
     ];
   };
-  configure.hardware-metrics = {
-    enable = true;
-    thermal_zone0-temperature.enable = true;
+  configure = {
+    hardware-metrics = {
+      enable = true;
+      thermal_zone0-temperature.enable = true;
+    };
+    vector-logging.enable = true;
   };
 
   time.timeZone = "Europe/Madrid";
@@ -71,8 +74,6 @@ in {
     };
   };
   security.sudo.wheelNeedsPassword = false;
-
-  configure.vector-logging.enable = true;
 
   services = {
     openssh = {
