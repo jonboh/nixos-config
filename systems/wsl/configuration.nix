@@ -6,31 +6,20 @@
   imports = [
     # ./docker.nix
     ../../modules
+    # NOTE: there are some common configurations in workstations/default.nix that are not applicable to
+    # wsl machines (pipewire audio for example)
+    ../common/base.nix
+    ../common/workstations/nix-ld.nix
+    ./sops.nix
   ];
-
-  configure.vector-logging.enable = true;
 
   wsl = {
     enable = true;
     defaultUser = "jonboh";
   };
 
-  programs.nix-ld = {
-    enable = true;
-  };
-  nix = {
-    settings = {
-      experimental-features = ["nix-command" "flakes"];
-      trusted-users = ["root" "@wheel"];
-    };
-    package = pkgs.nixVersions.latest;
-  };
-  users.users.jonboh = {
-    isNormalUser = true;
-    description = "jonboh";
-    extraGroups = ["wheel"];
-    shell = pkgs.zsh;
-  };
+  users.users.jonboh.shell = pkgs.zsh;
+
   environment.sessionVariables = {
     XDG_CACHE_HOME = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";

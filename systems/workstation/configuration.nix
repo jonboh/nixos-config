@@ -3,20 +3,18 @@
   config,
   sensitive,
   ...
-}: let
-  minimal_packagse = import ../common/minimal_packages.nix pkgs;
-  common_packages = import ../common/packages.nix pkgs;
-in {
+}: {
   # TODO: add grub.configurationLimit to avoid filling up /boot
   imports = [
-    ../common/configuration.nix
-    ../common/timers.nix
+    ../common/workstations
+    ../common/workstations/optionals/timers.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./sops.nix
     ./samba-mounts.nix
     ./network.nix
     ./gaming.nix
+    ./tablet.nix
   ];
 
   configure = {
@@ -125,22 +123,17 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs;
-    [
-      ## Applications
-      kicad
-      qbittorrent
-      discord
-      digikam
-      exiftool # digikam needs it and its makeBinPath does not seem to work correctly
-      thunderbird
-      orca-slicer
-      remmina
-      borgbackup
-      picard
-    ]
-    ++ minimal_packagse
-    ++ common_packages;
+  environment.systemPackages = with pkgs; [
+    ## Applications
+    kicad
+    qbittorrent
+    discord
+    thunderbird
+    orca-slicer
+    remmina
+    borgbackup
+    picard
+  ];
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 

@@ -32,4 +32,8 @@
     };
     useNetworkingTimeServers = false;
   };
+  config.systemd.services.ntpd-rs.serviceConfig = lib.mkDefault {
+    Restart = "on-failure";
+    RestartSec = "5min";
+  };
 }

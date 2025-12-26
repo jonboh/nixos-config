@@ -1,47 +1,23 @@
 {
   self,
   pkgs,
-  sensitive,
   ...
 }: {
   imports = [
+    ../base.nix
     ./nix-ld.nix
-    ./tablet.nix
     ./clipboard-monitor.nix
     # "${modulesPath}/virtualisation/qemu-vm.nix" # activate if you want to generate vms
   ];
 
   nix = {
-    settings = {
-      experimental-features = ["nix-command" "flakes"];
-      trusted-users = ["root" "@wheel"];
-      trusted-public-keys = [
-        sensitive.keys.nix.workstation
-        sensitive.keys.nix.brick
-        sensitive.keys.nix.tars
-        sensitive.keys.nix.forge
-        sensitive.keys.nix.hydra-lab
-      ];
-      substituters = [
-        "https://nix-cache.jonboh.dev"
-        "https://cache.nixos.org"
-      ];
-      allow-import-from-derivation = true;
-    };
-    package = pkgs.nixVersions.latest;
     registry = {
       # NOTE: see https://discourse.nixos.org/t/do-flakes-also-set-the-system-channel/19798/2
       nixpkgs.flake = self.inputs.nixpkgs;
       unstable.flake = self.inputs.nixpkgs-unstable;
     };
   };
-
-  time.timeZone = "Europe/Madrid";
-
   boot.supportedFilesystems = ["ntfs"];
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "es_ES.UTF-8";
@@ -71,7 +47,7 @@
   xdg = {
     portal = {
       enable = true;
-      # this makes possible to use nnn as a file chooser through xdg-portals
+      # this makes possible to use yazi as a file chooser through xdg-portals
       # although, for some reason, it is incompatible with pkgs.xdg-desktop-portal-gtk,
       # which makes it to just use gtk instead of termfilechooser
       extraPortals = [pkgs.xdg-desktop-portal-termfilechooser pkgs.xdg-desktop-portal-gtk];
@@ -174,8 +150,6 @@
   programs.nix-index.enableZshIntegration = false;
 
   users.users.jonboh = {
-    isNormalUser = true;
-    description = "jonboh";
     extraGroups = ["networkmanager" "wheel" "vboxusers" "dialout"];
     shell = pkgs.zsh;
   };
@@ -188,7 +162,7 @@
     path = [pkgs.procps];
     wantedBy = ["multi-user.target"]; # This should ensure the service gets started correctly
     serviceConfig = {
-      ExecStart = "${python}/bin/python ${../../extra_configs/i3/keyboard_status_server.py}";
+      ExecStart = "${python}/bin/python ${../../../extra_configs/i3/keyboard_status_server.py}";
       Restart = "always";
       RestartSec = "5";
       User = "root";
@@ -198,7 +172,6 @@
   # Enable automatic login for the user.
   services.getty.autologinUser = "jonboh";
 
-  networking.firewall.enable = true;
   environment.etc.hosts.mode = "0644"; # NOTE: this makes hosts mutable at runtime, allowing dynamic blocking
 
   fonts.packages = with pkgs; [
@@ -249,6 +222,15 @@
     setSocketVariable = true;
   };
 
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+    enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 10800;
+    };
+  };
+
   documentation = {
     enable = true;
     doc.enable = true;
@@ -259,20 +241,11 @@
       generateCaches = false; # i dont use apropos
     };
   };
-  environment.pathsToLink = [
-    # link all /share and /bin folders from packages into /run/current-system/sw/
-    "/share"
-    "/bin"
-  ];
 
-  # List services that you want to enable:
-
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-curses;
-    enableSSHSupport = true;
-    settings = {
-      default-cache-ttl = 10800;
-    };
-  };
+  # Workstation-specific packages
+  environment.systemPackages = let
+    minimal_packages = import ./minimal_packages.nix pkgs;
+    common_packages = import ./packages.nix pkgs;
+  in
+    minimal_packages ++ common_packages;
 }

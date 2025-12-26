@@ -1,6 +1,6 @@
 pkgs: let
-  focus-network = pkgs.callPackage ../../scripts/focus-network-wrapped.nix {};
-  unfocus-network = pkgs.callPackage ../../scripts/unfocus-network-wrapped.nix {};
+  focus-network = pkgs.callPackage ../../../scripts/focus-network-wrapped.nix {};
+  unfocus-network = pkgs.callPackage ../../../scripts/unfocus-network-wrapped.nix {};
   focus-network-entry = pkgs.makeDesktopItem {
     name = "focus-network";
     exec = ''${focus-network}/bin/focus-network''; # Points to the location of the binary
@@ -31,8 +31,8 @@ in
     pulseaudio # needed for pactl, used in the audio cycling script
 
     ## Security
-    (pkgs.callPackage ../../scripts/rofi-password-store.nix {keyname = "jon@jonboh.dev";})
-    (pkgs.callPackage ../../scripts/pass-password.nix {keyname = "jon@jonboh.dev";})
+    (pkgs.callPackage ../../../scripts/rofi-password-store.nix {keyname = "jon@jonboh.dev";})
+    (pkgs.callPackage ../../../scripts/pass-password.nix {keyname = "jon@jonboh.dev";})
     gnupg
     pinentry-curses
     openssl
@@ -99,10 +99,10 @@ in
     jq
     fq
     nix-tree
-    (pkgs.callPackage ../../scripts/file_manager_yazi.nix {})
-    (pkgs.callPackage ../../scripts/zen-mode.nix {})
-    (pkgs.callPackage ../../scripts/killselect.nix {})
-    (pkgs.callPackage ../../scripts/pdf_handler.nix {})
+    (pkgs.callPackage ../../../scripts/file_manager_yazi.nix {})
+    (pkgs.callPackage ../../../scripts/zen-mode.nix {})
+    (pkgs.callPackage ../../../scripts/killselect.nix {})
+    (pkgs.callPackage ../../../scripts/pdf_handler.nix {})
     man-pages
     man-pages-posix
     tldr
@@ -139,8 +139,8 @@ in
 
     # for yazi lsar
     unar
-    (pkgs.callPackage ../../packages/allmytoes.nix {}) # for thumbnail generation in yazi
-    (pkgs.callPackage ../../packages/simple-thumbnailer-stl/package.nix {})
+    (pkgs.callPackage ../../../packages/allmytoes.nix {}) # for thumbnail generation in yazi
+    (pkgs.callPackage ../../../packages/simple-thumbnailer-stl/package.nix {})
 
     ## News
     newsboat
@@ -212,18 +212,18 @@ in
     ])
     stable-2505.drawpile
     krita
-    (pkgs.callPackage ../../scripts/krita-fzf.nix {})
-    (pkgs.callPackage ../../scripts/single_display.nix {})
-    (pkgs.callPackage ../../scripts/single_display1080.nix {})
-    (pkgs.callPackage ../../scripts/dual_display.nix {})
-    (pkgs.callPackage ../../scripts/single_display_and_tablet.nix {})
-    (pkgs.callPackage ../../scripts/dual_display_and_tablet.nix {})
-    (pkgs.callPackage ../../scripts/turn_tablet_off.nix {})
-    (pkgs.callPackage ../../scripts/turn_tablet_on.nix {})
-    (pkgs.callPackage ../../scripts/turn_tablet_on_mirror_main.nix {})
-    (pkgs.callPackage ../../scripts/atuin-export-zsh.nix {})
-    (pkgs.callPackage ../../scripts/git-init-tars.nix {})
-    (pkgs.callPackage ../../scripts/is_vault_unlocked.nix {})
-    (pkgs.callPackage ../../scripts/bt-reconnect.nix {})
-    (pkgs.callPackage ../../scripts/bt-show-codec.nix {})
+    (pkgs.callPackage ../../../scripts/krita-fzf.nix {})
+    (pkgs.callPackage ../../../scripts/single_display.nix {})
+    (pkgs.callPackage ../../../scripts/single_display1080.nix {})
+    (pkgs.callPackage ../../../scripts/dual_display.nix {})
+    (pkgs.callPackage ../../../scripts/single_display_and_tablet.nix {})
+    (pkgs.callPackage ../../../scripts/dual_display_and_tablet.nix {})
+    (pkgs.callPackage ../../../scripts/turn_tablet_off.nix {})
+    (pkgs.callPackage ../../../scripts/turn_tablet_on.nix {})
+    (pkgs.callPackage ../../../scripts/turn_tablet_on_mirror_main.nix {})
+    (pkgs.callPackage ../../../scripts/atuin-export-zsh.nix {})
+    (pkgs.callPackage ../../../scripts/git-init-tars.nix {})
+    (pkgs.callPackage ../../../scripts/is_vault_unlocked.nix {})
+    (pkgs.callPackage ../../../scripts/bt-reconnect.nix {})
+    (pkgs.callPackage ../../../scripts/bt-show-codec.nix {})
   ]

@@ -9,7 +9,7 @@
     ./dns.nix
 
     ../common/sops.nix
-    ../common/configuration.nix
+    ../../common/network.nix
   ];
 
   # Time server for local nework

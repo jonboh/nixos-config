@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ../common/configuration.nix
+    ../../common/raspberrys.nix
     ../common/hardware-rpi4.nix
     ./daily-backup.nix
     ./network.nix
@@ -684,7 +684,7 @@
     influxdb2-cli
     htop
     bindfs
-    wireguard-tools
+    git # for the git server
   ];
 
   zramSwap = {

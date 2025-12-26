@@ -53,7 +53,7 @@
     };
 
     focus-network = let
-      focus-network-pkg = pkgs.callPackage ../../scripts/focus-network.nix {};
+      focus-network-pkg = pkgs.callPackage ../../../../scripts/focus-network.nix {};
     in {
       description = "Network focus by default";
       wantedBy = ["multi-user.target"];

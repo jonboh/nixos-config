@@ -8,17 +8,15 @@
     ./network.nix
 
     ../common/sops.nix
-    ../common/configuration.nix
+    ../../common/network.nix
   ];
 
   configure.ntpd-rs.enable = true;
 
   environment.systemPackages = with pkgs; [
-    vim
     jq
 
     bottom # replacement of htop/nmon
-    htop
     iotop
     iftop
     nmon
@@ -45,7 +43,6 @@
     lshw
 
     # misc
-    file
     which
     tree
     gnused

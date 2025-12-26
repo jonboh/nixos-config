@@ -24,6 +24,4 @@ with pkgs; [
   starship
   fzf
   zoxide
-
-  wireguard-tools
 ]

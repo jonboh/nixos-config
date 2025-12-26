@@ -2,12 +2,10 @@
   pkgs,
   sensitive,
   ...
-}: let
-  minimal_packagse = import ../common/minimal_packages.nix pkgs;
-  common_packages = import ../common/packages.nix pkgs;
-in {
+}: {
   imports = [
-    ../common/configuration.nix
+    ../common/workstations
+    ../common/servers.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./samba-mounts.nix
@@ -34,7 +32,6 @@ in {
   };
   security.sudo.wheelNeedsPassword = false;
 
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -56,42 +53,12 @@ in {
     }
   ];
 
-  # List packages installed in system profile. To search, run:
-  environment.systemPackages = with pkgs;
-    [
-      obs-studio
-      kicad
-    ]
-    ++ minimal_packagse
-    ++ common_packages;
+  environment.systemPackages = with pkgs; [
+    obs-studio
+    kicad
+  ];
 
   services = {
-    openssh = {
-      enable = true;
-      allowSFTP = true;
-      openFirewall = true;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-        PermitRootLogin = pkgs.lib.mkForce "no";
-        ClientAliveInterval = 10;
-        ClientAliveCountMax = 3;
-
-        KexAlgorithms = [
-          "sntrup761x25519-sha512@openssh.com"
-          "curve25519-sha256"
-          "curve25519-sha256@libssh.org"
-          "ecdh-sha2-nistp256"
-          "ecdh-sha2-nistp384"
-          "ecdh-sha2-nistp521"
-          "diffie-hellman-group-exchange-sha256"
-          "diffie-hellman-group16-sha512"
-          "diffie-hellman-group18-sha512"
-          "diffie-hellman-group14-sha256"
-        ];
-      };
-    };
-
     syncthing = {
       enable = true;
       openDefaultPorts = true;
@@ -133,9 +100,6 @@ in {
       };
     };
   };
-  users.users.jonboh.openssh.authorizedKeys.keys = [
-    sensitive.keys.ssh.workstation
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

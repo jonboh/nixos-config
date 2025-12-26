@@ -1,16 +1,11 @@
 {
-  self,
-  config,
   pkgs,
   sensitive,
   ...
-}: let
-  minimal_packagse = import ../common/minimal_packages.nix pkgs;
-  common_packages = import ../common/packages.nix pkgs;
-in {
+}: {
   imports = [
-    ../common/configuration.nix
-    ../common/timers.nix
+    ../common/workstations
+    ../common/workstations/optionals/timers.nix
     ./hardware-configuration.nix
     ./filesystems.nix
     ./sops.nix
@@ -117,15 +112,6 @@ in {
       };
     };
   };
-
-  environment.systemPackages = with pkgs;
-    [
-      openfortivpn
-      openfortivpn-webview-qt
-      mariadb # for dadbod
-    ]
-    ++ minimal_packagse
-    ++ common_packages;
 
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = ["jonboh"];

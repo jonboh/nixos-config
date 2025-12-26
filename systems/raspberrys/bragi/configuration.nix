@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    ../common/configuration.nix
+    ../../common/raspberrys.nix
     ../common/hardware-rpi4.nix
     ./sops.nix
     ./network.nix
