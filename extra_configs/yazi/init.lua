@@ -53,3 +53,7 @@ function Linemode:file_meta()
 	local group = ya.group_name and ya.group_name(self._file.cha.gid) or self._file.cha.gid
 	return string.format("%s:%s %s %s %s", user, group, perm, size and ya.readable_size(size) or "-", time)
 end
+
+if os.getenv("FILE_MANAGER_YAZI") then
+	require("toggle-pane"):entry("min-preview")
+end

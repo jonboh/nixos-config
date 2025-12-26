@@ -19,13 +19,15 @@
 # one path per line.
 # If nothing is printed, then the operation is assumed to have been canceled.
 
+export FILE_MANAGER_YAZI=1
+
 choose_dir="$2"
 save="$3"
 suggest="$4"
 out="$5"
 folder="${suggest%/*}"
 file="${suggest##/*/}"
-out="${out:-/tmp/ffnnn-out}"
+out="${out:-/tmp/file_manager_yazi-out}"
 
 current_pid=$$
 timestamp=$(date +%s)
@@ -42,7 +44,6 @@ command="cd \"$folder\" && touch \"$file\" && $command"
 else
 command="cd \"$suggest\" && $command"
 fi
-
 
 # NOTE: use kitty --hold to debug
 /run/current-system/sw/bin/kitty -e /run/current-system/sw/bin/zsh -c "$command" &

@@ -99,7 +99,7 @@ in
     jq
     fq
     nix-tree
-    (pkgs.callPackage ../../scripts/ffnnn.nix {})
+    (pkgs.callPackage ../../scripts/file_manager_yazi.nix {})
     (pkgs.callPackage ../../scripts/zen-mode.nix {})
     (pkgs.callPackage ../../scripts/killselect.nix {})
     (pkgs.callPackage ../../scripts/pdf_handler.nix {})
