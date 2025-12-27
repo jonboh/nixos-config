@@ -144,6 +144,8 @@ in
                   PrivateTmp = true;
                   NoNewPrivileges = true;
                   User = user;
+                  Restart = "on-failure";
+                  RestartSec = "5min";
                 };
                 wantedBy = ["multi-user.target"];
               };
