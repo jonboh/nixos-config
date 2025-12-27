@@ -107,6 +107,33 @@ in
                 git push origin ${outputBranch} --force
                 cd ../
               '';
+              flakeUpdateScriptWithRetry = {
+                repoUrl,
+                baseBranch,
+                outputBranch,
+                updateCommand,
+              }: let
+                maxRetries = 10;
+                backoffSeconds = 10;
+              in ''
+                retries=0
+                until [ $retries -ge ${toString maxRetries} ]
+                do
+                  ${flakeUpdateScript {
+                  repoUrl = repoUrl;
+                  baseBranch = baseBranch;
+                  outputBranch = outputBranch;
+                  updateCommand = updateCommand;
+                }}
+                  if [ $? -eq 0 ]; then
+                    echo "Update successful"
+                    break
+                  fi
+                  retries=$((retries+1))
+                  echo "Update failed, retrying in ${toString backoffSeconds} seconds... ($retries/$maxRetries)"
+                  sleep ${toString backoffSeconds}
+                done
+              '';
               projectFlakeUpdateScript = {
                 repoUrl,
                 baseBranch,
@@ -118,9 +145,9 @@ in
                   TMPDIR=$(mktemp -d)
                   cd "$TMPDIR"
 
-                  ${flakeUpdateScript {inherit repoUrl baseBranch outputBranch updateCommand;}}
+                  ${flakeUpdateScriptWithRetry {inherit repoUrl baseBranch outputBranch updateCommand;}}
                   rm -rf source
-                  ${flakeUpdateScript {
+                  ${flakeUpdateScriptWithRetry {
                     repoUrl = "git@tars.lan:hydra-jobs";
                     outputBranch = "main";
                     baseBranch = "main";
