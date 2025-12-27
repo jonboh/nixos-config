@@ -103,8 +103,9 @@ in
                 ${updateCommand}
 
                 git add flake.lock
-                git commit -m "Update flake.lock ${updateCommand} " || true
-                git push origin ${outputBranch} --force
+                git commit -m "Update flake.lock ${updateCommand}" || true
+                pushStatus=0
+                git push origin ${outputBranch} --force || pushStatus=$?
                 cd ../
               '';
               flakeUpdateScriptWithRetry = {
@@ -125,12 +126,14 @@ in
                   outputBranch = outputBranch;
                   updateCommand = updateCommand;
                 }}
-                  if [ $? -eq 0 ]; then
+                  if [ $pushStatus -eq 0 ]; then
                     echo "Update successful"
+                    rm -rf source
                     break
                   fi
                   retries=$((retries+1))
-                  echo "Update failed, retrying in ${toString backoffSeconds} seconds... ($retries/$maxRetries)"
+                  echo "Update failed, retrying in ${toString backoffSeconds} seconds... ($retries/${toString maxRetries})"
+                  rm -rf source
                   sleep ${toString backoffSeconds}
                 done
               '';
@@ -146,7 +149,6 @@ in
                   cd "$TMPDIR"
 
                   ${flakeUpdateScriptWithRetry {inherit repoUrl baseBranch outputBranch updateCommand;}}
-                  rm -rf source
                   ${flakeUpdateScriptWithRetry {
                     repoUrl = "git@tars.lan:hydra-jobs";
                     outputBranch = "main";
