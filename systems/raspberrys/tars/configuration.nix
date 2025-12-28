@@ -699,9 +699,9 @@
       randomEncryption.enable = true;
     }
   ];
-  # boot.kernel.sysctl = {
-  #   "vm.swappiness" = 10;
-  # };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+  };
   boot.kernelParams = [
     "zswap.enabled=1" # enables zswap
     "zswap.compressor=lz4" # compression algorithm
