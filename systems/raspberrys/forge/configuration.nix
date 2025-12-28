@@ -192,9 +192,8 @@
         octoprint_compat = {};
         history = {};
         authorization = {
-          force_logins = true;
+          force_logins = false;
           cors_domains = [
-            "*.lan"
             "https://forge.jonboh.dev"
           ];
           trusted_clients = [
