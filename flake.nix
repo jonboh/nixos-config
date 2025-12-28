@@ -518,13 +518,14 @@
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
-      "eva" = inputs.nixpkgs-brick.lib.nixosSystem rec {
+      "eva" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
         system = "aarch64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
+          nixos-raspberrypi = inputs.nixos-raspberrypi;
         };
-        pkgs = import inputs.nixpkgs-brick {
+        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
           inherit system;
           overlays = [
             (final: prev: {
@@ -533,9 +534,17 @@
           ];
         };
         modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              raspberry-pi-5.display-vc4
+              raspberry-pi-5.bluetooth
+              sd-image
+              # raspberry-pi-5.wifi
+            ];
+          }
           inputs.sops.nixosModules.default
-          inputs.raspberry-pi-nix.nixosModules.raspberry-pi
-          inputs.raspberry-pi-nix.nixosModules.sd-image
           ./modules
           ./systems/raspberrys/eva/configuration.nix
         ];
