@@ -170,6 +170,16 @@
         serverName = "forge.jonboh.dev";
         sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
         sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+        locations."/webcam" = {
+          recommendedProxySettings = true;
+          proxyPass = "http://${config.services.ustreamer.listenAddress}";
+          extraConfig = ''
+            rewrite ^/webcam/(.*) /$1 break;
+            postpone_output 0;
+            proxy_buffering off;
+            proxy_ignore_headers X-Accel-Buffering;
+          '';
+        };
       };
     };
     nginx = {
@@ -182,6 +192,7 @@
       clientMaxBodySize = "1000m"; # GCode can get big
     };
 
+    # FIX: vcgencmd seems to not be available for mmoonraker to detect tthrottled state
     moonraker = {
       user = "printer";
       group = "klipper";
@@ -207,7 +218,11 @@
         };
       };
     };
-    # vector.package = self.outputs.nixosConfigurations.tars.config.services.vector.package;
+  };
+
+  services.ustreamer = {
+    enable = true;
+    listenAddress = "127.0.0.1:8080";
   };
 
   security.polkit.enable = true;
