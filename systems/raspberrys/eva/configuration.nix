@@ -1,4 +1,8 @@
-{sensitive, ...}: {
+{
+  sensitive,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../common/raspberrys.nix
     ./sops.nix
@@ -49,6 +53,8 @@
     "zswap.max_pool_percent=20" # maximum percentage of RAM that zswap is allowed to use
     "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
   ];
+
+  environment.systemPackages = with pkgs; [git];
 
   system.stateVersion = "24.11";
 }

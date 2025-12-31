@@ -661,6 +661,7 @@
         sensitive.keys.ssh.laptop
         sensitive.keys.ssh.hydra
         sensitive.keys.ssh.tars # needed for git user in tars.lan to update the flakes on a schedule
+        sensitive.keys.ssh.eva # to update eva ros repo
       ];
     };
   };
