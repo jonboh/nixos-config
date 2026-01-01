@@ -844,17 +844,18 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1767021029,
-        "narHash": "sha256-3maY8V4qxVHSE0AhdUo9rphAz7QN18FFf2V3VMhh9g8=",
-        "owner": "jonboh",
-        "repo": "nixvim-config",
-        "rev": "b1c82e3984b2a3890215194d9f916ced211f2601",
-        "type": "github"
+        "lastModified": 1767263754,
+        "narHash": "sha256-CKRPYu4sNBPI+7/VrwFdnEF1anFrD/gOQqsOSyHMkVE=",
+        "ref": "main",
+        "rev": "870b44bc44b2c249b67dfc68c66666665e6e441b",
+        "revCount": 297,
+        "type": "git",
+        "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       },
       "original": {
-        "owner": "jonboh",
-        "repo": "nixvim-config",
-        "type": "github"
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       }
     },
     "nuschtosSearch": {

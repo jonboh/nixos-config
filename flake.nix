@@ -19,7 +19,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim-config = {url = "github:jonboh/nixvim-config";};
+    nixvim-config.url = "git+ssh://git@tars.lan/home/git/nixvim-config.git?ref=main";
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
