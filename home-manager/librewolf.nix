@@ -199,7 +199,7 @@
         };
       };
       settings = {
-        # settings = lib.mapAttrs' (n: lib.nameValuePair "pref.${n}") {
+        "webgl.disabled" = false;
         "app.update.auto" = true; # disable auto update
         "dom.security.https_only_mode" = true; # force https
         "extensions.pocket.enabled" = false; # disable pocket
@@ -227,14 +227,18 @@
         "media.videocontrols.picture-in-picture.video-toggle.enabled" = false; # disable picture in picture button
 
         # Privacy
+        # see https://www.reddit.com/r/LibreWolf/comments/1d9d3k4/dark_mode_websites_despite_resist_fingerprinting/
         "privacy.resistFingerprinting" = false;
+        "privacy.fingerprintingProtection" = true;
+        "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme";
+
         # "privacy.clearOnShutdown.cache" = false;
         "privacy.clearOnShutdown.history" = false;
-        "privacy.clearHistory.cookiesAndStorage" = false;
+        "privacy.clearHistory.cookiesAndStorage" = true;
         "privacy.clearHistory.historyFormDataAndDownloads" = false;
-        "privacy.clearHistory.cache" = false;
-        "privacy.clearOnShutdown_v2.siteSettings" = false;
-        "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+        "privacy.clearHistory.cache" = true;
+        "privacy.clearOnShutdown_v2.siteSettings" = true;
+        "privacy.clearOnShutdown_v2.cookiesAndStorage" = true;
         "services.sync.prefs.sync.privacy.clearOnShutdown_v2.history" = false;
         "services.sync.prefs.sync.privacy.clearOnShutdown_v2.siteSettings" = false;
         "services.sync.prefs.sync.privacy.clearOnShutdown_v2.sessions" = false;
@@ -243,7 +247,7 @@
         "services.sync.prefs.sync.privacy.clearOnShutdown.siteSettings" = false;
         "services.sync.prefs.sync.privacy.clearOnShutdown.sessions" = false;
         "services.sync.prefs.sync.privacy.clearOnShutdown.cookies" = false;
-        "privacy.clearOnShutdown.cookies" = false;
+        "privacy.clearOnShutdown.cookies" = true;
         "browser.discovery.enabled" = false; # disable discovery
         "browser.search.suggest.enabled" = false; # disable search suggestions
         "browser.contentblocking.category" = "custom"; # set tracking protection to custom
