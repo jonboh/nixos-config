@@ -574,6 +574,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-firefox-syncserver": {
+      "locked": {
+        "lastModified": 1754676177,
+        "narHash": "sha256-xMk+v2/bnEeoIa4hKrlfR1cewSykiQIrR4iwKrzu3jM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-forge": {
       "locked": {
         "lastModified": 1764406085,
@@ -591,22 +607,6 @@
       }
     },
     "nixpkgs-immich": {
-      "locked": {
-        "lastModified": 1762363567,
-        "narHash": "sha256-YRqMDEtSMbitIMj+JLpheSz0pwEr0Rmy5mC7myl17xs=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "ae814fd3904b621d8ab97418f1d0f2eb0d3716f4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "ae814fd3904b621d8ab97418f1d0f2eb0d3716f4",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-navidrome": {
       "locked": {
         "lastModified": 1762363567,
         "narHash": "sha256-YRqMDEtSMbitIMj+JLpheSz0pwEr0Rmy5mC7myl17xs=",
@@ -844,11 +844,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1767263754,
-        "narHash": "sha256-CKRPYu4sNBPI+7/VrwFdnEF1anFrD/gOQqsOSyHMkVE=",
+        "lastModified": 1767302601,
+        "narHash": "sha256-45vf9j9C5L+P8tNmz/7lv9QBe1dcLJLlrGUWfjmsk64=",
         "ref": "main",
-        "rev": "870b44bc44b2c249b67dfc68c66666665e6e441b",
-        "revCount": 297,
+        "rev": "f0a3a5cb5308e6947159e208d3a607c2bc98dde7",
+        "revCount": 298,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       },
@@ -972,9 +972,9 @@
         "nixpkgs-2505": "nixpkgs-2505",
         "nixpkgs-bragi": "nixpkgs-bragi",
         "nixpkgs-brick": "nixpkgs-brick",
+        "nixpkgs-firefox-syncserver": "nixpkgs-firefox-syncserver",
         "nixpkgs-forge": "nixpkgs-forge",
         "nixpkgs-immich": "nixpkgs-immich",
-        "nixpkgs-navidrome": "nixpkgs-navidrome",
         "nixpkgs-tars": "nixpkgs-tars",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixpkgs-wsl": "nixpkgs-wsl",

@@ -10,8 +10,9 @@
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
     # app pins
-    nixpkgs-navidrome.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     nixpkgs-immich.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
+    nixpkgs-firefox-syncserver.url = "github:nixos/nixpkgs?ref=a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d";
+    # NOTE: update to 19.1 breaks server, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
     # follow `main` branch of this repository, considered being stable
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
@@ -74,11 +75,11 @@
     nixos-wsl,
     ...
   } @ inputs: let
-    navidrome-pin-overlay = final: prev: {
-      navidrome = inputs.nixpkgs-navidrome.legacyPackages.x86_64-linux.navidrome;
-    };
     immich-pin-overlay = final: prev: {
       immich = inputs.nixpkgs-immich.legacyPackages.x86_64-linux.immich;
+    };
+    syncstorage-rs-pin-overlay = final: prev: {
+      syncstorage-rs = inputs.nixpkgs-firefox-syncserver.legacyPackages.aarch64-linux.syncstorage-rs;
     };
     unstable-overlay = system: final: prev: {
       unstable = import inputs.nixpkgs-unstable {
@@ -374,6 +375,7 @@
             overlays = [
               sun4i-drm-fix-overlay
               ccache-overlay
+              syncstorage-rs-pin-overlay
               (unstable-overlay system)
               (final: prev: {
                 grafanaPlugin = pkgs.callPackage (nixpkgs + "/pkgs/servers/monitoring/grafana/plugins/grafana-plugin.nix") {};
