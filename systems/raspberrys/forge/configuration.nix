@@ -13,7 +13,7 @@
     ./builder.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
-  configure.wireguard = {
+  jonboh.configure.wireguard = {
     enable = true;
     deviceName = "forge";
     allowedNetworks = ["viae"];

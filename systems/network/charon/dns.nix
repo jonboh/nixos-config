@@ -86,6 +86,7 @@
             loki.jonboh.dev ${sensitive.network.ip.tars.lab}
             forge.jonboh.dev ${sensitive.network.ip.forge.lab}
             hydra.jonboh.dev ${sensitive.network.ip.lab.lab}
+            kiwix.jonboh.dev ${sensitive.network.ip.lab.lab}
             nix-cache.jonboh.dev ${sensitive.network.ip.lab.lab}
             immich.jonboh.dev ${sensitive.network.ip.lab.lab}
           '';
@@ -94,7 +95,7 @@
       };
     };
   };
-  configure.oisdDnsBlocklist.enable = true;
+  jonboh.configure.oisdDnsBlocklist.enable = true;
   systemd.services.dnscrypt-proxy2.serviceConfig = {
     StateDirectory = "dnscrypt-proxy";
   };

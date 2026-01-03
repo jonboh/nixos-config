@@ -8,10 +8,11 @@
     ./servers.nix
   ];
 
-  configure.hardware-metrics.thermal_zone0-temperature.enable = true;
+  jonboh.configure = {
+    hardware-metrics.thermal_zone0-temperature.enable = true;
+    ntpd-rs.enable = true;
+  };
   hardware.enableRedistributableFirmware = true;
-
-  configure.ntpd-rs.enable = true;
 
   users.users.jonboh = {
     hashedPassword = sensitive.passwords.jonboh-raspberries;

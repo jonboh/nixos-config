@@ -7,7 +7,7 @@
   ...
 }: {
   options = {
-    configure.wireguard = {
+    jonboh.configure.wireguard = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -29,11 +29,11 @@
     };
   };
   config = let
-    deviceName = config.configure.wireguard.deviceName;
-    allowedIPs = map (net: sensitive.network.ip.alesia.${net} + "/24") config.configure.wireguard.allowedNetworks;
-    address = map (net: sensitive.network.ip.${deviceName}.${net} + "/32") config.configure.wireguard.allowedNetworks;
+    deviceName = config.jonboh.configure.wireguard.deviceName;
+    allowedIPs = map (net: sensitive.network.ip.alesia.${net} + "/24") config.jonboh.configure.wireguard.allowedNetworks;
+    address = map (net: sensitive.network.ip.${deviceName}.${net} + "/32") config.jonboh.configure.wireguard.allowedNetworks;
   in
-    lib.mkIf config.configure.wireguard.enable {
+    lib.mkIf config.jonboh.configure.wireguard.enable {
       systemd.network.netdevs."50-wg0" = {
         netdevConfig = {
           Kind = "wireguard";

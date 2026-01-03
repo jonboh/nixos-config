@@ -8,7 +8,7 @@
   oisdDir = "/var/oisd";
   oisdFile = "${oisdDir}/domainswild";
 in {
-  options.configure.oisdDnsBlocklist.enable = lib.mkOption {
+  options.jonboh.configure.oisdDnsBlocklist.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
     description = "Enable fetching of oisd Block List";

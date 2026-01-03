@@ -5,13 +5,13 @@
   ...
 }: {
   options = {
-    configure.ntpd-rs.enable = lib.mkOption {
+    jonboh.configure.ntpd-rs.enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Configure ntpd-rs";
     };
   };
-  config.services.ntpd-rs = lib.mkIf config.configure.ntpd-rs.enable {
+  config.services.ntpd-rs = lib.mkIf config.jonboh.configure.ntpd-rs.enable {
     enable = true;
     settings = {
       source = [

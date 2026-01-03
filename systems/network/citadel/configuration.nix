@@ -11,7 +11,7 @@
     ../../common/network.nix
   ];
 
-  configure.ntpd-rs.enable = true;
+  jonboh.configure.ntpd-rs.enable = true;
 
   environment.systemPackages = with pkgs; [
     jq

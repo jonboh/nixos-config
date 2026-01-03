@@ -15,7 +15,7 @@
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   networking.hostName = "bragi";
-  configure.wireguard = {
+  jonboh.configure.wireguard = {
     enable = true;
     deviceName = "bragi";
     allowedNetworks = ["viae" "hodos"];

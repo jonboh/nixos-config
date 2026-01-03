@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   hardware.raspberry-pi.config = {
     # see: https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L3880
     pi5.dt-overlays = {

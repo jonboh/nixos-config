@@ -22,7 +22,7 @@
     package = pkgs.nixVersions.latest;
   };
 
-  configure = {
+  jonboh.configure = {
     hardware-metrics = {
       enable = true;
     };

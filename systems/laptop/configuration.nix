@@ -11,7 +11,7 @@
     ./sops.nix
   ];
 
-  configure = {
+  jonboh.configure = {
     wireguard = {
       enable = true;
       deviceName = "laptop";

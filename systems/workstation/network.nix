@@ -19,7 +19,7 @@
     firewall.allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard] ++ sensitive.network.port.udp.workstation.list.steamlink;
   };
 
-  configure.ntpd-rs.enable = true;
+  jonboh.configure.ntpd-rs.enable = true;
   networking.useNetworkd = true;
 
   systemd.network = {

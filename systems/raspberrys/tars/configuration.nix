@@ -18,7 +18,7 @@
   ];
   networking.hostName = "tars";
 
-  configure.wireguard = {
+  jonboh.configure.wireguard = {
     enable = true;
     deviceName = "tars";
     allowedNetworks = ["viae"];

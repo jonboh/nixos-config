@@ -1,6 +1,8 @@
 {
   pkgs,
+  lib,
   sensitive,
+  config,
   ...
 }: {
   imports = [
@@ -14,21 +16,43 @@
     ./hydra.nix
     ./network.nix
     ./immich.nix
+    ./kiwix
   ];
 
-  configure = {
-    ntpd-rs.enable = true;
-    hardware-metrics = {
-      enable = true;
-      temperature.enable = true;
+  jonboh = {
+    configure = {
+      ntpd-rs.enable = true;
+      hardware-metrics = {
+        enable = true;
+        temperature.enable = true;
+      };
+      wireguard = {
+        enable = true;
+        deviceName = "lab";
+        allowedNetworks = ["viae" "hodos"];
+        keepAlive = true;
+      };
+      vector-logging.enable = true;
     };
-    wireguard = {
+    services.kiwix-serve = {
       enable = true;
-      deviceName = "lab";
-      allowedNetworks = ["viae" "hodos"];
-      keepAlive = true;
+      listenAddress = null;
+      port = 8888;
+      zimPaths = let
+        mkVersionedHttpZim = pkgs.callPackage ./kiwix/mkVersionedHttpZim.nix {};
+        archlinux = import ./kiwix/archlinux.nix {inherit mkVersionedHttpZim;};
+        post-disaster_en = import ./kiwix/post-disaster-en.nix {inherit mkVersionedHttpZim;};
+        # post-disaster_es = import ./kiwix/post-disaster-es.nix {inherit mkVersionedHttpZim;};
+        devdocs = import ./kiwix/devdocs.nix {inherit mkVersionedHttpZim;};
+        pulled_devdocs_zimPaths = lib.mapAttrsToList (name: value: value.zimPath) devdocs;
+      in
+        [
+          archlinux.zimPath
+          post-disaster_en.zimPath
+          # post-disaster_es.zimPath
+        ]
+        ++ pulled_devdocs_zimPaths;
     };
-    vector-logging.enable = true;
   };
   security.sudo.wheelNeedsPassword = false;
 
@@ -98,6 +122,16 @@
           };
         };
       };
+    };
+  };
+
+  services.nginx.virtualHosts."kiwix.jonboh.dev" = {
+    forceSSL = true;
+    sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+    sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.jonboh.services.kiwix-serve.port}";
+      recommendedProxySettings = true;
     };
   };
 

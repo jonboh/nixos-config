@@ -4,9 +4,9 @@
   ...
 }:
 with lib; let
-  cfg = config.configure.vector-logging;
+  cfg = config.jonboh.configure.vector-logging;
 in {
-  options.configure.vector-logging = {
+  options.jonboh.configure.vector-logging = {
     enable = mkEnableOption "vector logging with Loki integration";
 
     lokiEndpoint = mkOption {

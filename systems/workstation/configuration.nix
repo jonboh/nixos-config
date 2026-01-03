@@ -17,7 +17,7 @@
     ./tablet.nix
   ];
 
-  configure = {
+  jonboh.configure = {
     wireguard = {
       enable = true;
       deviceName = "workstation";

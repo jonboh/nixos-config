@@ -35,7 +35,7 @@ in {
   imports = [
     ./servers.nix
   ];
-  configure.hardware-metrics.thermal_zone0-temperature.enable = true;
+  jonboh.configure.hardware-metrics.thermal_zone0-temperature.enable = true;
 
   # Override users configuration with network-specific password
   users.users.jonboh = {
