@@ -61,6 +61,7 @@
         cloaking_rules = pkgs.writeTextFile {
           name = "cloaking_rules.txt";
           text = ''
+            # Local Network
             alesia.lan ${sensitive.network.ip.alesia.viae}
             charon.lan ${sensitive.network.ip.charon.lab}
             citadel.lan ${sensitive.network.ip.citadel.lab}
@@ -77,6 +78,7 @@
             iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom.warp}
             iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}
 
+            # Internal Network
             navidrome.jonboh.dev ${sensitive.network.ip.bragi.lab}
             radicale.jonboh.dev ${sensitive.network.ip.tars.lab}
             firefox.jonboh.dev ${sensitive.network.ip.tars.lab}
@@ -89,6 +91,9 @@
             kiwix.jonboh.dev ${sensitive.network.ip.lab.lab}
             nix-cache.jonboh.dev ${sensitive.network.ip.lab.lab}
             immich.jonboh.dev ${sensitive.network.ip.lab.lab}
+
+            # Viae Network
+            thule.jonboh.dev ${sensitive.network.ip.thule.viae}
           '';
         };
         blocked_names.blocked_names_file = "/var/oisd/domainswild";

@@ -484,6 +484,27 @@
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
+      "thule" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit self;
+          inherit sensitive;
+          nixos-raspberrypi = inputs.nixos-raspberrypi;
+        };
+        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {inherit system;};
+        modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              sd-image
+            ];
+          }
+          inputs.sops.nixosModules.default
+          ./modules
+          ./systems/raspberrys/thule/configuration.nix
+        ];
+      };
       "sentinel" = inputs.nixos-raspberrypi.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = {
