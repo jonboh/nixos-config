@@ -62,14 +62,12 @@
           name = "cloaking_rules.txt";
           text = ''
             # Local Network
-            alesia.lan ${sensitive.network.ip.alesia.viae}
             charon.lan ${sensitive.network.ip.charon.lab}
             citadel.lan ${sensitive.network.ip.citadel.lab}
             workstation.lan ${sensitive.network.ip.workstation.lab}
             lab.lan ${sensitive.network.ip.lab.lab}
             tars.lan ${sensitive.network.ip.tars.lab}
             bragi.lan ${sensitive.network.ip.bragi.lab}
-            viae.tars.lan ${sensitive.network.ip.tars.viae}
             forge.lan ${sensitive.network.ip.forge.lab}
             palantir.lan ${sensitive.network.ip.palantir.lab}
             sentinel.lan ${sensitive.network.ip.sentinel.lab}
@@ -94,6 +92,8 @@
 
             # Viae Network
             thule.jonboh.dev ${sensitive.network.ip.thule.viae}
+            alesia.lan ${sensitive.network.ip.alesia.viae}
+            viae.tars.lan ${sensitive.network.ip.tars.viae}
           '';
         };
         blocked_names.blocked_names_file = "/var/oisd/domainswild";
