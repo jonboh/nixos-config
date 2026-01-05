@@ -10,6 +10,27 @@
         enable = true;
         params = {};
       };
+      "uart0" = {
+        # UART on GPIO 14/15 /dev/ttyAMA0
+        # /dev/ttyAMA10
+        enable = true;
+        params = {};
+      };
+      "uart1" = {
+        # UART on GPIO 0/1 /dev/ttyAMA1
+        enable = true;
+        params = {};
+      };
+    };
+
+    all = {
+      options = {
+        # Enable UART (on by default, but forced all the same)
+        enable_uart = lib.mkForce {
+          enable = true;
+          value = 1;
+        };
+      };
     };
   };
 }
