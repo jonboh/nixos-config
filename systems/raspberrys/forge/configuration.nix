@@ -223,6 +223,12 @@
   services.ustreamer = {
     enable = true;
     listenAddress = "127.0.0.1:8080";
+    extraArgs = [
+      # NOTE: see https://github.com/pikvm/ustreamer?tab=readme-ov-file#usage
+      "--resolution=1920x1080"
+      "--slowdown" # slows capture when no clients are connected
+      "--drop-same-frames=30" # Save the traffic
+    ];
   };
 
   security.polkit.enable = true;
