@@ -1,26 +1,39 @@
 {
   inputs = {
+    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-brick.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.11";
     # prev nixpkgs releases
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
+    # community nixpkgs
+    nixpkgs-nvmd.url = "github:nvmd/nixpkgs/modules-with-keys-25.11"; # NOTE: for nnixos-raspberrypi.cachix
     # app pins
-    nixpkgs-immich.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
-    nixpkgs-firefox-syncserver.url = "github:nixos/nixpkgs?ref=a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d";
+    immich-pin.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # NOTE: update to 19.1 breaks server, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
-    # follow `main` branch of this repository, considered being stable
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
-    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
+    firefox-syncserver-pin.url = "github:nixos/nixpkgs?ref=a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d";
+
+    # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim-config.url = "git+ssh://git@tars.lan/home/git/nixvim-config.git?ref=main";
+    home-manager-wsl = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Extra systems
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/develop";
+    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
+    nixos-sbc.url = "github:nakato/nixos-sbc/main";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
+    # Tooling
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,15 +46,8 @@
       url = "github:nix-community/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-sbc = {
-      url = "github:nakato/nixos-sbc/main";
-    };
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager-wsl = {
-      url = "github:nix-community/home-manager/release-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    nixvim-config.url = "git+ssh://git@tars.lan/home/git/nixvim-config.git?ref=main";
     raspi-fancontrol = {
       url = "github:jonboh/raspi-fancontrol";
     };
@@ -76,16 +82,19 @@
     ...
   } @ inputs: let
     immich-pin-overlay = final: prev: {
-      immich = inputs.nixpkgs-immich.legacyPackages.x86_64-linux.immich;
+      immich = inputs.immich-pin.legacyPackages.x86_64-linux.immich;
     };
     syncstorage-rs-pin-overlay = final: prev: {
-      syncstorage-rs = inputs.nixpkgs-firefox-syncserver.legacyPackages.aarch64-linux.syncstorage-rs;
+      syncstorage-rs = inputs.firefox-syncserver-pin.legacyPackages.aarch64-linux.syncstorage-rs;
     };
     unstable-overlay = system: final: prev: {
       unstable = import inputs.nixpkgs-unstable {
         inherit system;
         config = prev.config;
       };
+    };
+    rp-fancontrol-overlay = final: prev: {
+      rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
     };
     stable-2505-overlay = system: final: prev: {
       stable-2505 = import inputs.nixpkgs-2505 {
@@ -211,7 +220,21 @@
         '';
       };
     };
-  in rec {
+    rpi-nixpkgs-fix-module = nixpkgs: {lib, ...}: let
+      renamePath = nixpkgs.outPath + "/nixos/modules/rename.nix";
+      renameModule = import renamePath {inherit lib;};
+      moduleFilter = module:
+        lib.attrByPath ["options" "boot" "loader" "raspberryPi"] null
+        (module {
+          config = null;
+          options = null;
+        })
+        == null;
+    in {
+      disabledModules = [renamePath];
+      imports = builtins.filter moduleFilter renameModule.imports;
+    };
+  in {
     formatter.x86_64-linux =
       inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
@@ -266,6 +289,29 @@
 
     nixosConfigurations = let
       sensitive = import inputs.nixos-config-sensitive;
+      raspberry = nixpkgs: {
+        modules,
+        overlays ? [],
+        specialArgs ? {},
+      }:
+        inputs.nixos-raspberrypi.lib.nixosSystemFull {
+          inherit nixpkgs;
+          specialArgs =
+            {
+              inherit self;
+              inherit sensitive;
+              nixos-raspberrypi = inputs.nixos-raspberrypi;
+            }
+            // specialArgs;
+          modules =
+            [
+              (rpi-nixpkgs-fix-module nixpkgs)
+              {
+                nixpkgs.overlays = overlays;
+              }
+            ]
+            ++ modules;
+        };
       # used to build forge with and without klipper-firmware
       mkForgeSystem = extraModules: let
         nixpkgs = inputs.nixpkgs-forge;
@@ -400,7 +446,6 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              # navidrome-pin-overlay
               sun4i-drm-fix-overlay
               ccache-overlay
               (unstable-overlay system)
@@ -422,52 +467,33 @@
           };
         }
       ];
-      "brick" = inputs.nixpkgs-brick.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit self;
-          inherit sensitive;
-        };
-        pkgs = import inputs.nixpkgs-brick {
-          inherit system;
-          overlays = [
-            ccache-overlay
-            (final: prev: {
-              rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
-            })
-          ];
-        };
+      "brick" = raspberry inputs.nixpkgs-nvmd {
+        overlays = [rp-fancontrol-overlay];
         modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              sd-image
+            ];
+          }
           inputs.sops.nixosModules.default
-          inputs.raspberry-pi-nix.nixosModules.raspberry-pi
-          inputs.raspberry-pi-nix.nixosModules.sd-image
           ./modules
           ./systems/raspberrys/brick/configuration.nix
         ];
       };
-      "palantir" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit self;
-          inherit sensitive;
-          nixos-raspberrypi = inputs.nixos-raspberrypi;
-        };
-        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: {
-              rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
-            })
-            (final: prev: {
-              gjs = prev.gjs.overrideAttrs (oldAttrs: {
-                doCheck = false; # Disable tests that timeout on aarch64
-              });
-              sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
-                doCheck = false; # Disable failing tests
-              });
-            })
-          ];
-        };
+      "palantir" = raspberry inputs.nixpkgs-nvmd {
+        overlays = [
+          rp-fancontrol-overlay
+          (final: prev: {
+            gjs = prev.gjs.overrideAttrs (oldAttrs: {
+              doCheck = false; # Disable tests that timeout on aarch64
+            });
+            sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
+              doCheck = false; # Disable failing tests
+            });
+          })
+        ];
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -476,7 +502,6 @@
               raspberry-pi-5.display-vc4
               raspberry-pi-5.bluetooth
               sd-image
-              # raspberry-pi-5.wifi
             ];
           }
           inputs.sops.nixosModules.default
@@ -484,14 +509,7 @@
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
-      "thule" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit self;
-          inherit sensitive;
-          nixos-raspberrypi = inputs.nixos-raspberrypi;
-        };
-        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {inherit system;};
+      "thule" = raspberry inputs.nixpkgs-nvmd {
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -505,35 +523,21 @@
           ./systems/raspberrys/thule/configuration.nix
         ];
       };
-      "sentinel" = inputs.nixos-raspberrypi.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit self;
-          inherit sensitive;
-          nixos-raspberrypi = inputs.nixos-raspberrypi;
-        };
-        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: {
-              rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
-            })
-            (final: prev: {
-              valkey = prev.valkey.overrideAttrs (oldAttrs: {
-                doCheck = false; # tests are flaky: https://github.com/NixOS/nixpkgs/issues/387010
-              });
-            })
-          ];
-        };
+      "sentinel" = raspberry inputs.nixpkgs-nvmd {
+        overlays = [
+          rp-fancontrol-overlay
+          (final: prev: {
+            valkey = prev.valkey.overrideAttrs (oldAttrs: {
+              doCheck = false; # tests are flaky: https://github.com/NixOS/nixpkgs/issues/387010
+            });
+          })
+        ];
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
               raspberry-pi-5.base
               raspberry-pi-5.page-size-16k
-              raspberry-pi-5.display-vc4
-              raspberry-pi-5.bluetooth
               sd-image
-              # raspberry-pi-5.wifi
             ];
           }
           inputs.sops.nixosModules.default
@@ -541,30 +545,13 @@
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
-      "eva" = inputs.nixos-raspberrypi.lib.nixosSystemFull rec {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit self;
-          inherit sensitive;
-          nixos-raspberrypi = inputs.nixos-raspberrypi;
-        };
-        pkgs = import inputs.nixos-raspberrypi.inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: {
-              rp-fancontrol = self.inputs.raspi-fancontrol.packages.aarch64-linux.default;
-            })
-          ];
-        };
+      "eva" = raspberry inputs.nixpkgs-nvmd {
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
               raspberry-pi-5.base
               raspberry-pi-5.page-size-16k
-              raspberry-pi-5.display-vc4
-              raspberry-pi-5.bluetooth
               sd-image
-              # raspberry-pi-5.wifi
             ];
           }
           inputs.sops.nixosModules.default
@@ -664,6 +651,7 @@
         "palantir"
         "sentinel"
         "eva"
+        "thule"
         "charon"
         "citadel"
         "wsl"
