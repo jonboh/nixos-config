@@ -24,42 +24,25 @@
   };
 
   networking = {
-    hostName = "brick";
-    # networkmanager.enable = true;
+    hostName = "etna";
     firewall = {
       enable = true;
     };
-    # wireless = {
-    #   enable = true;
-    #   # fallbackToWPA2 = false;
-    #   secretsFile = config.sops.templates.charon_psk.path;
-    #
-    #   networks."charon".pskRaw = "ext:psk_charon";
-    # };
-    # TODO: fix configuration, wlan0 does not seem to work unless
     interfaces = {
       end0 = {
         useDHCP = true;
         ipv4.addresses = [
           {
-            address = sensitive.network.ip.brick.lab;
+            address = sensitive.network.ip.etna.lab;
             prefixLength = 24;
           }
         ];
       };
-      # wlan0 = {
-      #   useDHCP = true;
-      # };
     };
     extraHosts = ''
       ${sensitive.network.ip.tars.lab} tars.lan
     ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    wget
-  ];
-
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
 }

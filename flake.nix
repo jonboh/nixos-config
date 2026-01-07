@@ -467,7 +467,7 @@
           };
         }
       ];
-      "brick" = raspberry inputs.nixpkgs-nvmd {
+      "etna" = raspberry inputs.nixpkgs-nvmd {
         overlays = [rp-fancontrol-overlay];
         modules = [
           {
@@ -479,7 +479,7 @@
           }
           inputs.sops.nixosModules.default
           ./modules
-          ./systems/raspberrys/brick/configuration.nix
+          ./systems/raspberrys/etna/configuration.nix
         ];
       };
       "palantir" = raspberry inputs.nixpkgs-nvmd {
