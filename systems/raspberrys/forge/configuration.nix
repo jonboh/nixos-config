@@ -10,7 +10,6 @@
     ../../common/raspberrys.nix
     ../common/hardware-rpi4.nix
     ./sops.nix
-    ./builder.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   jonboh.configure.wireguard = {

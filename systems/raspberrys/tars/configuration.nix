@@ -11,7 +11,6 @@
     ../common/hardware-rpi4.nix
     ./daily-backup.nix
     ./network.nix
-    ./builder.nix
     ./sops.nix
     ./flake-updater.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"

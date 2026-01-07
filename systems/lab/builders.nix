@@ -6,38 +6,23 @@
       hostName = "localhost";
       protocol = null;
       systems = ["x86_64-linux"];
+      maxJobs = 1;
       supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
+    }
+    {
+      hostName = "etna.lan";
+      system = "aarch64-linux";
+      protocol = "ssh";
+      sshUser = "nixremote";
+      sshKey = "/var/lib/hydra/.ssh/nixremote";
       maxJobs = 2;
-    }
-    {
-      hostName = "tars.lan";
-      system = "aarch64-linux";
-      protocol = "ssh";
-      sshUser = "nixremote";
-      sshKey = "/var/lib/hydra/.ssh/nixremote";
-      maxJobs = 1;
       speedFactor = 2;
-      supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-      mandatoryFeatures = [];
-    }
-    {
-      hostName = "forge.lan";
-      system = "aarch64-linux";
-      protocol = "ssh";
-      sshUser = "nixremote";
-      sshKey = "/var/lib/hydra/.ssh/nixremote";
-      maxJobs = 1;
-      speedFactor = 1;
-      supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-      mandatoryFeatures = [];
+      supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
     }
   ];
   nix.distributedBuilds = true;
   nix = {
     settings = {
-      # min-free = 32 * 1024 * 1024;
-      # max-free = 64 * 1024 * 1024;
-
       max-jobs = 2;
       cores = 1;
     };
