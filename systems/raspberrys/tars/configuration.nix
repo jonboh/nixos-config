@@ -104,13 +104,6 @@
         outputBranch = "update-rpi5-nixos-raspberrypi";
         inputs = ["nixos-raspberrypi"];
       }
-      {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:45";
-        outputBranch = "update-rpi5-raspberry-pi-nix";
-        inputs = ["raspberry-pi-nix" "nixpkgs-brick"];
-      }
     ];
   };
 
