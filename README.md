@@ -42,7 +42,7 @@ Runs `fluidd` and `klipper`.
 Klipper is built using Nix as well. Klipper is buit for the two MCUs I have, the printer and the
 resonance sensor I use for calibration.
 
-## Brick
+## Etna
 A Raspberry 5 I mostly use to build `aarch64-linux` packages.
 
 # Network

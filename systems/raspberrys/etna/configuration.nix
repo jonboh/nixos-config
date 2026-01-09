@@ -10,6 +10,7 @@
     ./sops.nix
     ./rp-configtxt.nix
     ./builder.nix
+    ./kernel.nix
   ];
   systemd.services.rp-fancontrol = {
     enable = true;

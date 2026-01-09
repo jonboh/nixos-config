@@ -58,10 +58,6 @@
   };
   nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
 
-  nix.settings = {
-    secret-key-files = ["/var/secrets/cache-priv-key.pem"];
-  };
-
   systemd.services.nix-daemon.serviceConfig = {
     MemoryAccounting = true;
     MemoryMax = "13G"; # Hard limit of 4GB - process will be killed if exceeded

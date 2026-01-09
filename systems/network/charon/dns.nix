@@ -72,6 +72,7 @@
             palantir.lan ${sensitive.network.ip.palantir.lab}
             sentinel.lan ${sensitive.network.ip.sentinel.lab}
             eva.lan ${sensitive.network.ip.eva.lab}
+            etna.lan ${sensitive.network.ip.etna.lab}
             iaq-lab.lan ${sensitive.network.ip.iaq-lab.warp}
             iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom.warp}
             iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}

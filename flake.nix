@@ -647,7 +647,7 @@
         "tars"
         "bragi"
         "forge"
-        "brick"
+        "etna"
         "palantir"
         "sentinel"
         "eva"

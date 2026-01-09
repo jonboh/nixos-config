@@ -23,11 +23,8 @@
   networking.firewall.allowedTCPPorts = [80 443];
 
   programs.ssh.knownHosts = {
-    "tars.lan" = {
-      publicKey = sensitive.keys.ssh-host.tars;
-    };
-    "forge.lan" = {
-      publicKey = sensitive.keys.ssh-host.forge;
+    "etna.lan" = {
+      publicKey = sensitive.keys.ssh-host.etna;
     };
   };
   nix.settings.allowed-uris = [
