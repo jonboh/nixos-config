@@ -42,7 +42,7 @@
   };
 
   nix.settings = {
-    secret-key-files = ["/var/secrets/workstation-key"];
+    secret-key-files = ["/var/secrets/workstation.jonboh.dev-0"];
     auto-optimise-store = true;
     min-free = 512 * 1024 * 1024;
     max-free = 1024 * 1024 * 1024;
