@@ -3,15 +3,11 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-bragi.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-tars.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-forge.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-wsl.url = "github:nixos/nixpkgs/nixos-25.11";
     # prev nixpkgs releases
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
-    # community nixpkgs
-    nixpkgs-nvmd.url = "github:nvmd/nixpkgs/modules-with-keys-25.11"; # NOTE: for nnixos-raspberrypi.cachix
+    # nixos-raspberrypi nixpkgs
+    nixpkgs-nvmd.url = "github:nvmd/nixpkgs/modules-with-keys-25.11"; # NOTE: for nixos-raspberrypi.cachix
     # app pins
     immich-pin.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # NOTE: update to 19.1 breaks server, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
@@ -314,7 +310,7 @@
         };
       # used to build forge with and without klipper-firmware
       mkForgeSystem = extraModules: let
-        nixpkgs = inputs.nixpkgs-forge;
+        nixpkgs = inputs.nixpkgs;
       in
         nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
@@ -408,7 +404,7 @@
       };
 
       "tars" = let
-        nixpkgs = inputs.nixpkgs-tars;
+        nixpkgs = inputs.nixpkgs;
       in
         nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
@@ -435,7 +431,7 @@
           ];
         };
       "bragi" = let
-        nixpkgs = inputs.nixpkgs-bragi;
+        nixpkgs = inputs.nixpkgs;
       in
         nixpkgs.lib.nixosSystem rec {
           system = "aarch64-linux";
@@ -605,13 +601,13 @@
           ./systems/network/citadel/configuration.nix
         ];
       };
-      "wsl" = inputs.nixpkgs-wsl.lib.nixosSystem rec {
+      "wsl" = inputs.nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = {
           inherit self;
           inherit sensitive;
         };
-        pkgs = import inputs.nixpkgs-wsl {
+        pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
             (final: prev: {

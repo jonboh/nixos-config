@@ -590,38 +590,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-bragi": {
-      "locked": {
-        "lastModified": 1764173365,
-        "narHash": "sha256-JaNFPy3nywPNxSDpEgFFqvngQww5Igb6twG4NhMo8oc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "2fecba9952096ba043c16b9ef40b92851ff3e5d9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-25.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-forge": {
-      "locked": {
-        "lastModified": 1764406085,
-        "narHash": "sha256-CYbMp8hwuOf4umokSNp+t1s4Hjd4vxXq4S5CD+xvgNs=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "9561691c9f450fad7c3526916e1c4f44be0d1192",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-25.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-nvmd": {
       "locked": {
         "lastModified": 1767323696,
@@ -638,22 +606,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-tars": {
-      "locked": {
-        "lastModified": 1764173365,
-        "narHash": "sha256-JaNFPy3nywPNxSDpEgFFqvngQww5Igb6twG4NhMo8oc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "2fecba9952096ba043c16b9ef40b92851ff3e5d9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-25.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1762363567,
@@ -666,22 +618,6 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-wsl": {
-      "locked": {
-        "lastModified": 1765838191,
-        "narHash": "sha256-m5KWt1nOm76ILk/JSCxBM4MfK3rYY7Wq9/TZIIeGnT8=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "c6f52ebd45e5925c188d1a20119978aa4ffd5ef6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-25.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -988,12 +924,8 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-2411": "nixpkgs-2411",
         "nixpkgs-2505": "nixpkgs-2505",
-        "nixpkgs-bragi": "nixpkgs-bragi",
-        "nixpkgs-forge": "nixpkgs-forge",
         "nixpkgs-nvmd": "nixpkgs-nvmd",
-        "nixpkgs-tars": "nixpkgs-tars",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixpkgs-wsl": "nixpkgs-wsl",
         "nixvim-config": "nixvim-config",
         "raspberry-pi-nix": "raspberry-pi-nix",
         "raspi-fancontrol": "raspi-fancontrol",

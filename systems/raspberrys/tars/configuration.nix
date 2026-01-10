@@ -58,30 +58,8 @@
       {
         repoName = "nixos-config";
         repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:10";
-        outputBranch = "update-workstation";
-        inputs = ["nixpkgs"];
-      }
-      {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
         frequency = "Fri 06:15";
         outputBranch = "update-all";
-      }
-      {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:20";
-        outputBranch = "update-workstation";
-        inputs = [
-          "nixpkgs"
-          "home-manager"
-          "nix-index-database"
-          "nix-ld"
-          "nixos-config-sensitive"
-          "nixos-config-extra-private"
-          "nixvim-config"
-        ];
       }
       {
         repoName = "nixos-config";
@@ -89,20 +67,6 @@
         frequency = "Fri 06:25";
         outputBranch = "update-network";
         inputs = ["nixos-sbc"];
-      }
-      {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:35";
-        outputBranch = "update-rpi4";
-        inputs = ["nixpkgs-tars" "nixpkgs-forge" "nixpkgs-bragi"];
-      }
-      {
-        repoName = "nixos-config";
-        repoUrl = "git@tars.lan:nixos-config";
-        frequency = "Fri 06:40";
-        outputBranch = "update-rpi5-nixos-raspberrypi";
-        inputs = ["nixos-raspberrypi"];
       }
     ];
   };
