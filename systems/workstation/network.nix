@@ -16,7 +16,11 @@
     nameservers = [(sensitive.network.dns-server "lab")];
     # Steamlink
     firewall.allowedTCPPorts = sensitive.network.port.tcp.workstation.list.steamlink;
-    firewall.allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard] ++ sensitive.network.port.udp.workstation.list.steamlink;
+    firewall.allowedUDPPorts =
+      [
+        sensitive.network.port.udp.alesia.wireguard
+      ]
+      ++ sensitive.network.port.udp.ros-comms;
   };
 
   jonboh.configure.ntpd-rs.enable = true;

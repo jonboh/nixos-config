@@ -10,6 +10,8 @@
       configuration = {
         system.nixos.tags = ["gaming"];
 
+        networking.firewall.allowedUDPPorts = sensitive.network.port.udp.workstation.list.steamlink;
+
         services.syncthing.enable = lib.mkForce false;
         services.ollama.enable = lib.mkForce false;
         services.nextjs-ollama-llm-ui.enable = lib.mkForce false;

@@ -6,13 +6,14 @@
   imports = [
     ../../common/raspberrys.nix
     ./sops.nix
-    # ./rp-configtxt.nix
+    ./rp-configtxt.nix
   ];
 
   networking = {
     hostName = "eva";
     firewall = {
       enable = true;
+      allowedUDPPorts = sensitive.network.port.udp.ros-comms;
     };
     interfaces = {
       end0 = {
@@ -54,7 +55,12 @@
     "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
   ];
 
-  environment.systemPackages = with pkgs; [git];
+  users.users.jonboh.extraGroups = ["dialout" "plugdev"];
+
+  environment.systemPackages = with pkgs; [
+    git
+    picocom
+  ];
 
   system.stateVersion = "24.11";
 }
