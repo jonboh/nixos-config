@@ -26,6 +26,9 @@
     "etna.lan" = {
       publicKey = sensitive.keys.ssh-host.etna;
     };
+    "tars.lan" = {
+      publicKey = sensitive.keys.ssh-host.tars;
+    };
   };
   nix.settings.allowed-uris = [
     "github:"
