@@ -133,6 +133,7 @@
     remmina
     borgbackup
     picard
+    freecad
   ];
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
