@@ -109,13 +109,6 @@
         (stable-2505-overlay system)
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
-          xdg-desktop-portal-termfilechooser =
-            pkgs.callPackage
-            ./packages/xdg-desktop-portal-termfilechooser.nix {
-              inherit pkgs;
-            };
-        })
-        (final: prev: {
           nixvim = inputs.nixvim-config.packages.${prev.system}.nixvim-nightly-config;
         })
         (final: prev: {
