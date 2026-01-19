@@ -283,7 +283,7 @@
         overlays ? [],
         specialArgs ? {},
       }:
-        inputs.nixos-raspberrypi.lib.nixosSystemFull {
+        inputs.nixos-raspberrypi.lib.nixosSystem {
           inherit nixpkgs;
           specialArgs =
             {
@@ -396,33 +396,21 @@
         ];
       };
 
-      "tars" = let
-        nixpkgs = inputs.nixpkgs;
-      in
-        nixpkgs.lib.nixosSystem rec {
-          system = "aarch64-linux";
-          specialArgs = {
-            inherit self;
-            inherit sensitive;
-          };
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [
-              sun4i-drm-fix-overlay
-              ccache-overlay
-              syncstorage-rs-pin-overlay
-              (unstable-overlay system)
-              (final: prev: {
-                grafanaPlugin = pkgs.callPackage (nixpkgs + "/pkgs/servers/monitoring/grafana/plugins/grafana-plugin.nix") {};
-              })
+      "tars" = raspberry inputs.nixpkgs {
+        overlays = [rp-fancontrol-overlay];
+        modules = [
+          {
+            imports = with inputs.nixos-raspberrypi.nixosModules; [
+              raspberry-pi-5.base
+              raspberry-pi-5.page-size-16k
+              sd-image
             ];
-          };
-          modules = [
-            inputs.sops.nixosModules.sops
-            ./modules
-            ./systems/raspberrys/tars/configuration.nix
-          ];
-        };
+          }
+          inputs.sops.nixosModules.sops
+          ./modules
+          ./systems/raspberrys/tars/configuration.nix
+        ];
+      };
       "bragi" = let
         nixpkgs = inputs.nixpkgs;
       in

@@ -48,7 +48,7 @@ in
 
               user = mkOption {
                 type = types.str;
-                default = "jonboh";
+                default = "git";
                 description = "User to run the updater as";
               };
 

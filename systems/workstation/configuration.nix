@@ -84,28 +84,10 @@
           };
         };
         folders = {
-          "newsboat-state" = {
-            path = "/home/jonboh/.local/share/newsboat";
-            devices = [
-              "tars"
-              "laptop"
-            ];
-            type = "sendreceive";
-          };
-          "devel" = {
-            path = "/home/jonboh/devel";
-            devices = ["tars"];
-            type = "sendreceive";
-          };
           "vault" = {
             path = "/mnt/storage/vault";
             devices = ["tars" "laptop" "phone" "wsl" "lab"];
             type = "sendreceive";
-          };
-          "doc" = {
-            path = "/mnt/storage/doc";
-            devices = ["tars"];
-            type = "sendonly";
           };
           "books" = {
             path = "/mnt/storage/books";

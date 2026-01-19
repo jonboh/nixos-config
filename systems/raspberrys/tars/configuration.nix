@@ -2,18 +2,17 @@
   pkgs,
   config,
   lib,
-  modulesPath,
   sensitive,
   ...
 }: {
   imports = [
     ../../common/raspberrys.nix
-    ../common/hardware-rpi4.nix
     ./daily-backup.nix
     ./network.nix
     ./sops.nix
     ./flake-updater.nix
-    "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
+    ./navidrome.nix
+    ./rp-configtxt.nix
   ];
   networking.hostName = "tars";
 
@@ -115,29 +114,12 @@
           };
         };
         folders = {
-          "newsboat-state" = {
-            path = "/mnt/storage/.local/share/newsboat";
-            devices = [
-              "workstation"
-              "laptop"
-            ];
-          };
-          "devel" = {
-            path = "/mnt/storage/devel";
-            devices = ["workstation"];
-            type = "sendreceive";
-          };
           "vault" = {
             path = "/mnt/storage/vault";
             devices = ["workstation" "laptop" "phone" "wsl" "lab"];
             type = "sendreceive";
           };
 
-          "doc" = {
-            path = "/mnt/storage/doc";
-            devices = ["workstation"];
-            type = "receiveonly";
-          };
           "books" = {
             path = "/mnt/storage/books";
             devices = ["workstation" "laptop" "phone" "lab"];
@@ -158,11 +140,37 @@
         global = {
           "guest account" = "nobody";
           "smb ports" = "${toString sensitive.network.port.tcp.tars.samba}";
-          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
+          # TODO: restrict access by folders
           "hosts deny" = "0.0.0.0/0";
         };
+        media = {
+          path = "/mnt/media-drive/shared_media";
+          "read only" = true;
+          browseable = true;
+          public = true;
+          comment = "Shared Media";
+        };
+        writable_media = {
+          path = "/mnt/media-drive/shared_media";
+          "read only" = false;
+          writable = true;
+          browseable = true;
+          public = false;
+          comment = "Writable Shared Media";
+          "valid users" = "jonboh";
+        };
+        writable_music = {
+          path = "/mnt/media-drive/music";
+          "read only" = false;
+          writable = true;
+          browseable = true;
+          public = false;
+          comment = "Writable Music";
+          "valid users" = "jonboh";
+        };
         writable_file_exchange = {
-          path = "/mnt/storage/file_exchange";
+          path = "/mnt/media-drive/file_exchange";
           "read only" = false;
           writable = true;
           browseable = true;
@@ -639,7 +647,6 @@
 
   environment.systemPackages = with pkgs; [
     influxdb2-cli
-    htop
     bindfs
     git # for the git server
   ];

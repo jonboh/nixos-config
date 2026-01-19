@@ -89,8 +89,6 @@ in {
             # # charon wifi
             iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.tars.lab} } accept comment "Allow charon to tars services"
             oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.tars.lab} } ct state { established, related } comment "Allow established connection from tars services back to charon"
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.bragi.lab} } accept comment "Allow charon to bragi services"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.bragi.lab} } ct state { established, related } comment "Allow established connection from bragi services back to charon"
             iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.forge.lab} } accept comment "Allow charon to forge services"
             oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.forge.lab} } ct state { established, related } comment "Allow established connection from forge services back to charon"
             iifname { "vlan-charon" } oifname { "wan" } accept comment "Allow charon to WAN"
@@ -100,8 +98,8 @@ in {
             iifname { "vlan-rift" } oifname { "wan" } accept comment "Allow rift to WAN"
             iifname { "wan" } oifname { "vlan-rift" } ct state { established, related } accept comment "Allow established traffic from WAN back to rift wifi"
             # allow samba
-            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.bragi.lab} } tcp dport {445} accept comment "Allow charon to tars services"
-            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.bragi.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.tars.lab} } tcp dport {445} accept comment "Allow charon to tars services"
+            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.tars.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
 
             # warp wifi forwarding will be blocked by default policy
             # allow mqtt

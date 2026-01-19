@@ -4,7 +4,7 @@
   ...
 }: {
   fileSystems."/mnt/media_share" = {
-    device = "//bragi.lan/writable_media";
+    device = "//tars.lan/writable_media";
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
@@ -18,7 +18,7 @@
     in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
   fileSystems."/mnt/music" = {
-    device = "//bragi.lan/writable_music";
+    device = "//tars.lan/writable_music";
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";

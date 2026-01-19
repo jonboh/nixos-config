@@ -32,39 +32,11 @@
       dnsPropagationCheck = false;
       # server = "https://acme-staging-v02.api.letsencrypt.org/directory"; # NOTE: use this for debugging
       validMinDays = 90;
+      enableDebugLogs = true;
     };
   };
 
-  users.users.nginx.extraGroups = ["acme"];
   services = {
-    nginx = {
-      enable = true;
-      recommendedGzipSettings = true;
-      recommendedBrotliSettings = true;
-      recommendedOptimisation = true;
-      recommendedTlsSettings = true;
-      virtualHosts."navidrome.jonboh.dev" = {
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-            ssl = false;
-          }
-          {
-            port = 443;
-            addr = "0.0.0.0";
-            ssl = true;
-          }
-        ];
-        forceSSL = true;
-        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
-        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
-        locations."/" = {
-          proxyPass = "http://${config.services.navidrome.settings.Address}:${toString config.services.navidrome.settings.Port}";
-          recommendedProxySettings = true;
-        };
-      };
-    };
     samba = {
       enable = true;
       nmbd.enable = false; # disable NETBIOS
@@ -107,13 +79,6 @@
     smbuser = ''
       cat /run/secrets/smb-password /run/secrets/smb-password | ${pkgs.samba}/bin/smbpasswd -a jonboh -s
     '';
-  };
-
-  fileSystems = {
-    "/mnt/storage" = {
-      device = "/dev/disk/by-label/media-drive";
-      fsType = "ext4";
-    };
   };
 
   environment.systemPackages = with pkgs; [
