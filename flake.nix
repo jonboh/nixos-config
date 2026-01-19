@@ -617,10 +617,13 @@
     };
 
     hydraJobs = let
-      configNames = [
+      toplevelSystems = [
         "workstation"
         "lab"
         "laptop"
+        "wsl"
+      ];
+      sdImageSystems = [
         "tars"
         "bragi"
         "forge"
@@ -631,14 +634,21 @@
         "thule"
         "charon"
         "citadel"
-        "wsl"
       ];
       machineBuilds = builtins.listToAttrs (map (name: {
           inherit name;
           value = self.nixosConfigurations.${name}.config.system.build.toplevel;
         })
-        configNames);
+        toplevelSystems
+        ++ sdImageSystems);
+      sdImages = builtins.listToAttrs (
+        map (name: {
+          inherit name;
+          value = self.nixosConfigurations.${name}.config.system.build.sdImage;
+        })
+        sdImageSystems
+      );
     in
-      machineBuilds // self.devShells.x86_64-linux;
+      machineBuilds // sdImages // self.devShells.x86_64-linux;
   };
 }
