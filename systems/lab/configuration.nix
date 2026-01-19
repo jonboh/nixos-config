@@ -42,14 +42,16 @@
         mkVersionedHttpZim = pkgs.callPackage ./kiwix/mkVersionedHttpZim.nix {};
         archlinux = import ./kiwix/archlinux.nix {inherit mkVersionedHttpZim;};
         post-disaster_en = import ./kiwix/post-disaster-en.nix {inherit mkVersionedHttpZim;};
-        # post-disaster_es = import ./kiwix/post-disaster-es.nix {inherit mkVersionedHttpZim;};
         devdocs = import ./kiwix/devdocs.nix {inherit mkVersionedHttpZim;};
         pulled_devdocs_zimPaths = lib.mapAttrsToList (name: value: value.zimPath) devdocs;
+        wikipedia_en = import ./kiwix/wikipedia_en.nix {inherit mkVersionedHttpZim;};
+        wikipedia_es = import ./kiwix/wikipedia_es.nix {inherit mkVersionedHttpZim;};
       in
         [
           archlinux.zimPath
           post-disaster_en.zimPath
-          # post-disaster_es.zimPath
+          wikipedia_en.zimPath
+          wikipedia_es.zimPath
         ]
         ++ pulled_devdocs_zimPaths;
     };
@@ -59,9 +61,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.gc = {
-    automatic = true;
-    persistent = true;
+  nix = {
+    gc = {
+      automatic = true;
+      persistent = true;
+    };
+    settings = {
+      min-free = 256 * 1024 * 1024;
+      max-free = 512 * 1024 * 1024;
+    };
   };
 
   zramSwap = {
