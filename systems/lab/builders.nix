@@ -15,7 +15,7 @@
       protocol = "ssh";
       sshUser = "nixremote";
       sshKey = "/var/lib/hydra/.ssh/nixremote";
-      maxJobs = 2;
+      maxJobs = 1;
       speedFactor = 2;
       supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
     }

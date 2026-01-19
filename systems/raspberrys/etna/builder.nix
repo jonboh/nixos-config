@@ -34,10 +34,10 @@
 
       # Resource management for builds
       max-jobs = 1; # Only allow 1 concurrent build to respect memory limits
-      cores = 2; # Use maximum 2 cores per build
+      # cores = 2; # Use maximum 2 cores per build
 
       # Additional build settings to reduce resource usage
-      build-cores = 2; # Explicitly set build cores
+      # build-cores = 2; # Explicitly set build cores
       # max-silent-time = 36000; # 10 hour timeout for silent builds
       # timeout = 72000; # 20 hour total timeout for builds
     };
@@ -65,12 +65,12 @@
     MemorySwapMax = "infinity"; # Allow unlimited swap usage beyond memory limit
 
     # CPU limits: restrict to 2 cores maximum
-    CPUAccounting = true;
-    CPUQuota = "200%"; # 200% = 2 full CPU cores (200/100)
+    # CPUAccounting = true;
+    # CPUQuota = "200%"; # 200% = 2 full CPU cores (200/100)
 
     # Process and task limits
-    TasksAccounting = true;
-    TasksMax = "4096"; # Limit number of processes/threads
+    # TasksAccounting = true;
+    # TasksMax = "4096"; # Limit number of processes/threads
 
     # I/O priority: lower priority to avoid blocking other services
     # IOSchedulingClass = "best-effort"; # same as 2025-12-31 default
