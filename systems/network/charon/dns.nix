@@ -78,7 +78,7 @@
             iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}
 
             # Internal Network
-            navidrome.jonboh.dev ${sensitive.network.ip.tars.lab}
+            navidrome.jonboh.dev ${sensitive.network.ip.bragi.lab}
             radicale.jonboh.dev ${sensitive.network.ip.tars.lab}
             firefox.jonboh.dev ${sensitive.network.ip.tars.lab}
             influx.jonboh.dev ${sensitive.network.ip.tars.lab}
