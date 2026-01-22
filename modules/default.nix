@@ -1,6 +1,6 @@
 {
   imports = [
-    ./hardware-metrics.nix
+    ./telegraf-metrics.nix
     ./wireguard-network.nix
     ./timeserver.nix
     ./smb-secrets.nix

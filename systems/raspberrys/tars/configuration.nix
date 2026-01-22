@@ -39,6 +39,76 @@
     };
   };
 
+  systemd.services.influxdb2-bucket-setup = {
+    description = "Create InfluxDB buckets with retention policies";
+    after = ["influxdb2.service"];
+    wants = ["influxdb2.service"];
+    wantedBy = ["multi-user.target"];
+    path = [pkgs.influxdb2-cli pkgs.coreutils pkgs.gnugrep pkgs.bash];
+    environment = {
+      INFLUX_HOST = "http://127.0.0.1:8086";
+      INFLUX_ORG = "jonboh";
+    };
+    script = ''
+      set -e
+
+      # Read the token from the secrets file
+      export INFLUX_TOKEN=$(cat ${config.sops.secrets.influxdb-token.path})
+
+      # Wait for InfluxDB to be ready
+      echo "Waiting for InfluxDB to be ready..."
+      for i in {1..30}; do
+        if influx ping --host "$INFLUX_HOST" >/dev/null 2>&1; then
+          echo "InfluxDB is ready"
+          break
+        fi
+        echo "Attempt $i/30: InfluxDB not ready, waiting 2 seconds..."
+        sleep 2
+      done
+
+      # Check if InfluxDB is actually ready
+      if ! influx ping --host "$INFLUX_HOST" >/dev/null 2>&1; then
+        echo "ERROR: InfluxDB failed to become ready after 60 seconds"
+        exit 1
+      fi
+
+      # Function to create bucket if it doesn't exist
+      create_bucket_if_not_exists() {
+        local bucket_name="$1"
+        local retention_period="$2"
+
+        echo "Checking if bucket '$bucket_name' exists..."
+        if influx bucket list --name "$bucket_name" --host "$INFLUX_HOST" --token "$INFLUX_TOKEN" --org "$INFLUX_ORG" | grep -q "$bucket_name"; then
+          echo "Bucket '$bucket_name' already exists"
+        else
+          echo "Creating bucket '$bucket_name' with retention period '$retention_period'..."
+          influx bucket create \
+            --name "$bucket_name" \
+            --retention "$retention_period" \
+            --host "$INFLUX_HOST" \
+            --token "$INFLUX_TOKEN" \
+            --org "$INFLUX_ORG"
+          echo "Successfully created bucket '$bucket_name'"
+        fi
+      }
+
+      # Create buckets with 30-day retention
+      create_bucket_if_not_exists "hardware" "720h"   # 30 days = 720 hours
+      create_bucket_if_not_exists "processes" "720h"  # 30 days = 720 hours
+      create_bucket_if_not_exists "sensors" "720h"    # 30 days = 720 hours
+
+      echo "Bucket setup completed successfully"
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "influxdb2";
+      Group = "influxdb2";
+      # Give access to influx-secrets group through SupplementaryGroups
+      SupplementaryGroups = ["influx-secrets"];
+    };
+  };
+
   flakeUpdater = {
     enable = true;
     repos = [
@@ -181,6 +251,39 @@
       data_format = "value";
       data_type = "auto_float";
     };
+
+    # Override telegraf outputs to add sensors bucket and exclude sensor metrics from hardware
+    telegraf.extraConfig.outputs.influxdb_v2 = lib.mkForce [
+      {
+        urls = ["https://influx.jonboh.dev"];
+        token = "$INFLUXDB_TOKEN";
+        organization = "jonboh";
+        bucket = "hardware";
+        # Exclude both process metrics and sensor metrics from hardware bucket
+        namedrop = ["procstat*"];
+        tagdrop = {
+          iaq-board = ["*"]; # Exclude all iaq-board tagged metrics
+        };
+      }
+      {
+        urls = ["https://influx.jonboh.dev"];
+        token = "$INFLUXDB_TOKEN";
+        organization = "jonboh";
+        bucket = "processes";
+        # Only process metrics in this bucket
+        namepass = ["procstat*"];
+      }
+      {
+        urls = ["https://influx.jonboh.dev"];
+        token = "$INFLUXDB_TOKEN";
+        organization = "jonboh";
+        bucket = "sensors";
+        # Only sensor measurements (from MQTT topics with iaq-board tag)
+        tagpass = {
+          iaq-board = ["iaq-lab" "iaq-bedroom" "iaq-outside" "iaq-livingroom"];
+        };
+      }
+    ];
     mosquitto = {
       enable = true;
       logType = ["error" "warning" "information" "notice"];
@@ -620,6 +723,5 @@
     "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
   ];
 
-  boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288; # increase inotify limit for syncthing archive share
   system.stateVersion = "23.11";
 }

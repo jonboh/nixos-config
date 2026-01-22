@@ -22,9 +22,12 @@
   jonboh = {
     configure = {
       ntpd-rs.enable = true;
-      hardware-metrics = {
+      telegraf-metrics = {
         enable = true;
-        temperature.enable = true;
+        hardware-metrics = {
+          enable = true;
+          temperature.enable = true;
+        };
       };
       wireguard = {
         enable = true;

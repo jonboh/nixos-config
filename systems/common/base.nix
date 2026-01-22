@@ -23,8 +23,10 @@
   };
 
   jonboh.configure = {
-    hardware-metrics = {
+    telegraf-metrics = {
       enable = true;
+      hardware-metrics.enable = true;
+      process-metrics.enable = true;
     };
     vector-logging.enable = true;
   };

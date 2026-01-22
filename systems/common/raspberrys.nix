@@ -9,8 +9,7 @@
   ];
 
   jonboh.configure = {
-    hardware-metrics.thermal_zone0-temperature.enable = true;
-    ntpd-rs.enable = true;
+    telegraf-metrics.hardware-metrics.thermal_zone0-temperature.enable = true;
   };
   hardware.enableRedistributableFirmware = true;
 

@@ -35,7 +35,11 @@ in {
   imports = [
     ./servers.nix
   ];
-  jonboh.configure.hardware-metrics.thermal_zone0-temperature.enable = true;
+  jonboh.configure.telegraf-metrics = {
+    enable = true;
+    hardware-metrics.thermal_zone0-temperature.enable = true;
+    process-metrics.enable = true;
+  };
 
   # Override users configuration with network-specific password
   users.users.jonboh = {

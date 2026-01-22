@@ -24,9 +24,13 @@
       allowedNetworks = ["viae"];
       keepAlive = false;
     };
-    hardware-metrics = {
+    telegraf-metrics = {
       enable = true;
-      temperature.enable = true;
+      hardware-metrics = {
+        enable = true;
+        temperature.enable = true;
+      };
+      process-metrics.enable = true;
     };
     vector-logging.enable = true;
   };
