@@ -100,6 +100,15 @@
           comment = "Writable Music";
           "valid users" = "jonboh";
         };
+        writable_file_exchange = {
+          path = "/mnt/storage/file_exchange";
+          "read only" = false;
+          writable = true;
+          browseable = true;
+          public = false;
+          comment = "Writable File Exchange";
+          "valid users" = "jonboh";
+        };
       };
     };
   };

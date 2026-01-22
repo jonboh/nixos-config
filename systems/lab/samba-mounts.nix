@@ -4,7 +4,7 @@
   ...
 }: {
   fileSystems."/mnt/file_exchange" = {
-    device = "//tars.lan/writable_file_exchange";
+    device = "//bragi.lan/writable_file_exchange";
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";

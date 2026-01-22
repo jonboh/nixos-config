@@ -7,11 +7,9 @@
 }: {
   imports = [
     ../../common/raspberrys.nix
-    ./daily-backup.nix
     ./network.nix
     ./sops.nix
     ./flake-updater.nix
-    ./navidrome.nix
     ./rp-configtxt.nix
   ];
   networking.hostName = "tars";
@@ -130,53 +128,6 @@
             devices = ["phone"];
             type = "receiveonly";
           };
-        };
-      };
-    };
-    samba = {
-      enable = true;
-      nmbd.enable = false; # disable NETBIOS
-      settings = {
-        global = {
-          "guest account" = "nobody";
-          "smb ports" = "${toString sensitive.network.port.tcp.tars.samba}";
-          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
-          # TODO: restrict access by folders
-          "hosts deny" = "0.0.0.0/0";
-        };
-        media = {
-          path = "/mnt/media-drive/shared_media";
-          "read only" = true;
-          browseable = true;
-          public = true;
-          comment = "Shared Media";
-        };
-        writable_media = {
-          path = "/mnt/media-drive/shared_media";
-          "read only" = false;
-          writable = true;
-          browseable = true;
-          public = false;
-          comment = "Writable Shared Media";
-          "valid users" = "jonboh";
-        };
-        writable_music = {
-          path = "/mnt/media-drive/music";
-          "read only" = false;
-          writable = true;
-          browseable = true;
-          public = false;
-          comment = "Writable Music";
-          "valid users" = "jonboh";
-        };
-        writable_file_exchange = {
-          path = "/mnt/media-drive/file_exchange";
-          "read only" = false;
-          writable = true;
-          browseable = true;
-          public = false;
-          comment = "Writable File Exchange";
-          "valid users" = "jonboh";
         };
       };
     };
@@ -624,17 +575,13 @@
         sensitive.keys.ssh.wsl
         sensitive.keys.ssh.laptop
         sensitive.keys.ssh.hydra
-        sensitive.keys.ssh.tars # needed for git user in tars.lan to update the flakes on a schedule
+        sensitive.keys.ssh."git@tars" # needed for git user in tars.lan to update the flakes on a schedule
         sensitive.keys.ssh.eva # to update eva ros repo
       ];
     };
   };
 
-  # set up smb user
   system.activationScripts = {
-    smbuser = ''
-      cat /run/secrets/smb-password /run/secrets/smb-password | ${pkgs.samba}/bin/smbpasswd -a jonboh -s
-    '';
     git-server-symlink = "test -L /home/git || (${pkgs.coreutils}/bin/ln -s /mnt/storage/git-server /home/git && chown -h git:users /home/git)";
   };
 

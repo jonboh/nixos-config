@@ -1,8 +1,6 @@
 {self, ...}: {
   sops.age.keyFile = "/var/secrets/tars.txt";
 
-  secrets.smbPassword.enable = true;
-
   users.groups.influx-secrets = {};
   sops.secrets.influxdb-password = {
     format = "binary";
