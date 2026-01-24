@@ -15,6 +15,7 @@
     ./network.nix
     ./gaming.nix
     ./tablet.nix
+    ./builders.nix
   ];
 
   jonboh.configure = {

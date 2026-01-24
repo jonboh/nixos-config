@@ -8,6 +8,7 @@
     createHome = false;
     openssh.authorizedKeys.keys = [
       sensitive.keys.ssh.root-workstation
+      sensitive.keys.ssh.workstation
     ];
   };
   users.groups.nixremote = {};
@@ -57,29 +58,4 @@
     cacheDir = "/var/cache/ccache";
   };
   nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
-
-  systemd.services.nix-daemon.serviceConfig = {
-    MemoryAccounting = true;
-    MemoryMax = "13G"; # Hard limit of 4GB - process will be killed if exceeded
-    MemoryHigh = "11G"; # Soft limit - system will try to reclaim memory above this
-    MemorySwapMax = "infinity"; # Allow unlimited swap usage beyond memory limit
-
-    # CPU limits: restrict to 2 cores maximum
-    # CPUAccounting = true;
-    # CPUQuota = "200%"; # 200% = 2 full CPU cores (200/100)
-
-    # Process and task limits
-    # TasksAccounting = true;
-    # TasksMax = "4096"; # Limit number of processes/threads
-
-    # I/O priority: lower priority to avoid blocking other services
-    # IOSchedulingClass = "best-effort"; # same as 2025-12-31 default
-    # IOSchedulingPriority = 6; # Lower priority (0-7, where 7 is lowest) by default is 4
-
-    # Process scheduling: lower CPU priority
-    Nice = 10; # Positive nice value = lower priority
-
-    # OOM handling
-    OOMScoreAdjust = 500; # see: https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#OOMScoreAdjust=
-  };
 }
