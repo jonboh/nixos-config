@@ -10,6 +10,7 @@
     ./network.nix
     ./sops.nix
     ./flake-updater.nix
+    ./backups.nix
     ./rp-configtxt.nix
   ];
   networking.hostName = "tars";

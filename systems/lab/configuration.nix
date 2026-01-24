@@ -17,6 +17,7 @@
     ./network.nix
     ./immich.nix
     ./kiwix
+    ./backups.nix
   ];
 
   jonboh = {
@@ -91,6 +92,7 @@
   environment.systemPackages = with pkgs; [
     obs-studio
     kicad
+    borgbackup
   ];
 
   services = {

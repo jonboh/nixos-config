@@ -1,4 +1,8 @@
 {
+  pkgs,
+  sensitive,
+  ...
+}: {
   imports = [
     ../../common/raspberrys.nix
     ./network.nix
@@ -35,7 +39,27 @@
     "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
   ];
 
-  users.users.jonboh.extraGroups = [];
+  users.users.borgremote = {
+    isNormalUser = true;
+    createHome = true;
+    openssh.authorizedKeys.keys = [
+      sensitive.keys.ssh.workstation
+      sensitive.keys.ssh."root@lab"
+      sensitive.keys.ssh."root@bragi"
+      sensitive.keys.ssh."root@tars"
+    ];
+  };
+
+  fileSystems = {
+    "/mnt/storage" = {
+      device = "/dev/disk/by-label/wolf81";
+      fsType = "ext4";
+    };
+  };
+
+  environment.systemPackages = with pkgs; [
+    borgbackup
+  ];
 
   system.stateVersion = "25.11";
 }

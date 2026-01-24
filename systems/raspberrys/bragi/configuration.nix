@@ -12,6 +12,7 @@
     ./network.nix
     ./navidrome.nix
     ./ftp.nix
+    ./backups.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
   networking.hostName = "bragi";
