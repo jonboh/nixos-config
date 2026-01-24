@@ -98,6 +98,12 @@
         config = prev.config;
       };
     };
+    vector-lto-lowram-build = final: prev: {
+      vector = prev.vector.overrideAttrs {
+        CARGO_PROFILE_RELEASE_LTO = "thin"; # NOTE: LTO="fat" takes too much memory for etna
+      };
+    };
+
     pkgs = import inputs.nixpkgs rec {
       system = "x86_64-linux";
       config = {
@@ -296,7 +302,12 @@
             [
               (rpi-nixpkgs-fix-module nixpkgs)
               {
-                nixpkgs.overlays = overlays;
+                nixpkgs.overlays =
+                  [
+                    vector-lto-lowram-build
+                    rp-fancontrol-overlay
+                  ]
+                  ++ overlays;
               }
             ]
             ++ modules;
@@ -445,7 +456,6 @@
         }
       ];
       "etna" = raspberry inputs.nixpkgs-nvmd {
-        overlays = [rp-fancontrol-overlay];
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -461,7 +471,6 @@
       };
       "palantir" = raspberry inputs.nixpkgs-nvmd {
         overlays = [
-          rp-fancontrol-overlay
           (final: prev: {
             gjs = prev.gjs.overrideAttrs (oldAttrs: {
               doCheck = false; # Disable tests that timeout on aarch64
@@ -502,7 +511,6 @@
       };
       "sentinel" = raspberry inputs.nixpkgs-nvmd {
         overlays = [
-          rp-fancontrol-overlay
           (final: prev: {
             valkey = prev.valkey.overrideAttrs (oldAttrs: {
               doCheck = false; # tests are flaky: https://github.com/NixOS/nixpkgs/issues/387010
