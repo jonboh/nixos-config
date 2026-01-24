@@ -408,7 +408,7 @@
       };
 
       "tars" = raspberry inputs.nixpkgs {
-        overlays = [rp-fancontrol-overlay];
+        overlays = [syncstorage-rs-pin-overlay];
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
