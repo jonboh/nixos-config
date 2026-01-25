@@ -12,7 +12,6 @@
     ./suricata.nix
     ./kernel.nix
   ];
-  boot.loader.raspberryPi.bootloader = lib.mkForce "kernel";
 
   systemd.services.rp-fancontrol = {
     enable = true;

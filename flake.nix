@@ -6,8 +6,6 @@
     # prev nixpkgs releases
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
-    # nixos-raspberrypi nixpkgs
-    nixpkgs-nvmd.url = "github:nvmd/nixpkgs/modules-with-keys-25.11"; # NOTE: for nixos-raspberrypi.cachix
     # app pins
     immich-pin.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # NOTE: update to 19.1 breaks server, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
@@ -24,7 +22,7 @@
     };
 
     # Extra systems
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/develop";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/remove-options-compat"; # NOTE: move to develop once https://github.com/nvmd/nixos-raspberrypi/pull/131 is merged
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
     nixos-sbc.url = "github:nakato/nixos-sbc/main";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
@@ -215,20 +213,6 @@
         '';
       };
     };
-    rpi-nixpkgs-fix-module = nixpkgs: {lib, ...}: let
-      renamePath = nixpkgs.outPath + "/nixos/modules/rename.nix";
-      renameModule = import renamePath {inherit lib;};
-      moduleFilter = module:
-        lib.attrByPath ["options" "boot" "loader" "raspberryPi"] null
-        (module {
-          config = null;
-          options = null;
-        })
-        == null;
-    in {
-      disabledModules = [renamePath];
-      imports = builtins.filter moduleFilter renameModule.imports;
-    };
   in {
     formatter.x86_64-linux =
       inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -300,7 +284,6 @@
             // specialArgs;
           modules =
             [
-              (rpi-nixpkgs-fix-module nixpkgs)
               {
                 nixpkgs.overlays =
                   [
@@ -455,7 +438,7 @@
           };
         }
       ];
-      "etna" = raspberry inputs.nixpkgs-nvmd {
+      "etna" = raspberry inputs.nixpkgs {
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -469,7 +452,7 @@
           ./systems/raspberrys/etna/configuration.nix
         ];
       };
-      "palantir" = raspberry inputs.nixpkgs-nvmd {
+      "palantir" = raspberry inputs.nixpkgs {
         overlays = [
           (final: prev: {
             gjs = prev.gjs.overrideAttrs (oldAttrs: {
@@ -495,7 +478,7 @@
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
-      "thule" = raspberry inputs.nixpkgs-nvmd {
+      "thule" = raspberry inputs.nixpkgs {
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -509,7 +492,7 @@
           ./systems/raspberrys/thule/configuration.nix
         ];
       };
-      "sentinel" = raspberry inputs.nixpkgs-nvmd {
+      "sentinel" = raspberry inputs.nixpkgs {
         overlays = [
           (final: prev: {
             valkey = prev.valkey.overrideAttrs (oldAttrs: {
@@ -530,7 +513,7 @@
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
-      "eva" = raspberry inputs.nixpkgs-nvmd {
+      "eva" = raspberry inputs.nixpkgs {
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
