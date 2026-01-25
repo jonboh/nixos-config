@@ -647,8 +647,8 @@
           inherit name;
           value = self.nixosConfigurations.${name}.config.system.build.toplevel;
         })
-        toplevelSystems
-        ++ sdImageSystems);
+        (toplevelSystems
+          ++ sdImageSystems));
       sdImages = builtins.listToAttrs (
         map (name: {
           inherit name;
