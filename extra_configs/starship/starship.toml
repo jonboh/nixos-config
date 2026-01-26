@@ -1,7 +1,8 @@
 [shell]
-bash_indicator = "BSH"
+bash_indicator = "\\$"
 zsh_indicator = ""
 disabled = false
+
 [git_status]
 conflicted = '🏳'
 ahead = '⇡${count}'

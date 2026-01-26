@@ -2,7 +2,6 @@
   self,
   pkgs,
   config,
-  lib,
   ...
 }: {
   imports = [
@@ -106,14 +105,6 @@
   xdg.configFile."OpenSCAD" = {
     enable = true;
     source = config.lib.file.mkOutOfStoreSymlink /home/jonboh/.flakes/nixos-config/extra_configs/OpenSCAD;
-  };
-  xdg.configFile."starship.toml" = {
-    source =
-      if config.home.symlink_flake
-      then
-        config.lib.file.mkOutOfStoreSymlink
-        /home/jonboh/.flakes/nixos-config/extra_configs/starship/starship.toml
-      else ../extra_configs/starship/starship.toml;
   };
   xdg.configFile."rofi-pass" = {
     source =

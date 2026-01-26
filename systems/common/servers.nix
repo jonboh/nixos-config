@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./base.nix
+    ./shpool.nix
   ];
 
   boot.initrd.checkJournalingFS = false; # manually done on PostDeviceCommand
