@@ -32,16 +32,17 @@
   };
 
   environment.sessionVariables = {
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
-    XDG_BIN_HOME = "$HOME/.local/bin"; # Not officially in the specification
-    VAULT_LOCATION = "$HOME/vault";
+    # NOTE: you can use $HOME/<path>, but on some situations, like sudo usage in systemd will generate an error like: https://wiki.nixos.org/wiki/Environment_variables#pam_env(sudo:session):_Expandable_variables_must_be_wrapped_in_{}_%3C$VARIABLE/path/to%3E
+    XDG_CACHE_HOME = ''''${HOME}/.cache'';
+    XDG_CONFIG_HOME = ''''${HOME}/.config'';
+    XDG_DATA_HOME = ''''${HOME}/.local/share'';
+    XDG_STATE_HOME = ''''${HOME}/.local/state'';
+    XDG_BIN_HOME = ''''${HOME}/.local/bin''; # Not officially in the specification
+    VAULT_LOCATION = ''''${HOME}/vault'';
     VISUAL = "nixvim-light";
     EDITOR = "nixvim-light";
     TERM = "kitty";
-    PATH = ["$XDG_BIN_HOME"];
+    PATH = [''''${XDG_BIN_HOME}''];
   };
 
   xdg = {

@@ -8,6 +8,7 @@
     package = pkgs.immich;
     host = "127.0.0.1";
     accelerationDevices = null; # `null` will give access to all devices.
+    mediaLocation = "/mnt/storage/var/lib/immich";
   };
   services.nginx.virtualHosts."immich.jonboh.dev" = {
     forceSSL = true;

@@ -18,6 +18,7 @@
     ./immich.nix
     ./kiwix
     ./backups.nix
+    ./zfs-pool.nix
   ];
 
   jonboh = {
@@ -60,6 +61,18 @@
         ++ pulled_devdocs_zimPaths;
     };
   };
+
+  users.users.borgremote = {
+    isNormalUser = true;
+    createHome = true;
+    openssh.authorizedKeys.keys = [
+      sensitive.keys.ssh.workstation
+      sensitive.keys.ssh."root@lab"
+      sensitive.keys.ssh."root@bragi"
+      sensitive.keys.ssh."root@tars"
+    ];
+  };
+
   security.sudo.wheelNeedsPassword = false;
 
   boot.loader.systemd-boot.enable = true;

@@ -22,27 +22,27 @@
     navidrome-remote =
       navidrome
       // {
-        repo = "borgremote@thule.jonboh.dev:/mnt/storage/navidrome-borg";
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/navidrome-borg";
         startAt = "Fri *-*-* 01:00:00";
       };
-    # navidrome-lan =
-    #   navidrome
-    #   // {
-    #     repo = "borgremote@lab.lan:/mnt/storage/navidrome-borg";
-    #     startAt = "Fri *-*-* 01:05:00";
-    #   };
+    navidrome-lan =
+      navidrome
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/navidrome-borg";
+        startAt = "Fri *-*-* 01:05:00";
+      };
     music-remote =
       music
       // {
-        repo = "borgremote@thule.jonboh.dev:/mnt/storage/music-borg";
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/music-borg";
         startAt = "Fri *-*-* 01:10:00";
       };
-    # music-lan =
-    #   music
-    #   // {
-    #     repo = "borgremote@thule.jonboh.dev:/mnt/storage/music-borg";
-    #     startAt = "Fri *-*-* 02:10:00";
-    #   };
+    music-lan =
+      music
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/music-borg";
+        startAt = "Fri *-*-* 02:10:00";
+      };
   };
 
   sops.secrets.borg-passhphrase = {
@@ -53,6 +53,9 @@
   programs.ssh.knownHosts = {
     "thule.jonboh.dev" = {
       publicKey = sensitive.keys.ssh-host.thule;
+    };
+    "lab.lan" = {
+      publicKey = sensitive.keys.ssh-host.lab;
     };
   };
 }
