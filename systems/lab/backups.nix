@@ -24,6 +24,11 @@
       // {
         paths = ["/mnt/storage/data/archive"];
       };
+    doc =
+      encrypted-backup
+      // {
+        paths = ["/mnt/storage/data/doc"];
+      };
   in {
     immich-remote =
       immich
@@ -35,19 +40,31 @@
       immich
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/immich-borg";
-        startAt = "Mon *-*-* 01:00:00";
+        startAt = "Thu *-*-* 01:00:00";
       };
     archive-remote =
       archive
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/archive-borg";
-        startAt = "monthly";
+        startAt = "*-*-01 00:00:00";
       };
     archive-lan =
       archive
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/archive-borg";
-        startAt = "monthly";
+        startAt = "*-*-15 00:00:00";
+      };
+    doc-remote =
+      doc
+      // {
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/doc-borg";
+        startAt = "Tue *-*-* 01:00:00";
+      };
+    doc-lan =
+      doc
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/doc-borg";
+        startAt = "Fri *-*-* 01:00:00";
       };
   };
 
