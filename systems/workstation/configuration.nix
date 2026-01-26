@@ -121,7 +121,12 @@
     borgbackup
     picard
     freecad
+    (pkgs.callPackage ../../scripts/shpool-list-all.nix {})
   ];
+
+  environment.shellAliases = {
+    spl = "shpool-list-all";
+  };
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
