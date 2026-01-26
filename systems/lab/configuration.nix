@@ -149,6 +149,38 @@
         };
       };
     };
+    samba = {
+      enable = true;
+      nmbd.enable = false; # disable NETBIOS
+      settings = {
+        global = {
+          "guest account" = "nobody";
+          "smb ports" = "${toString sensitive.network.port.tcp.bragi.samba}";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
+          "hosts deny" = "0.0.0.0/0";
+        };
+        doc = {
+          path = "/mnt/storage/data/doc";
+          "read only" = false;
+          browseable = true;
+          public = false;
+          comment = "jonboh's documents";
+        };
+        archive = {
+          path = "/mnt/storage/data/archive";
+          "read only" = false;
+          browseable = true;
+          public = false;
+          comment = "jonboh's archive";
+        };
+      };
+    };
+  };
+
+  system.activationScripts = {
+    smbuser = ''
+      cat /run/secrets/smb-password /run/secrets/smb-password | ${pkgs.samba}/bin/smbpasswd -a jonboh -s
+    '';
   };
 
   services.nginx.virtualHosts."kiwix.jonboh.dev" = {

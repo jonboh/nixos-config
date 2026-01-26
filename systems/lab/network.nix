@@ -1,15 +1,15 @@
-{
-  pkgs,
-  config,
-  sensitive,
-  ...
-}: {
+{sensitive, ...}: {
   networking = {
     hostName = "lab";
     networkmanager.enable = false;
     wireless.enable = false;
     nameservers = [(sensitive.network.dns-server "lab")];
-    firewall.allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard];
+    firewall = {
+      allowedTCPPorts = with sensitive.network.port.tcp.bragi; [
+        samba
+      ];
+      allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard];
+    };
   };
   networking.useNetworkd = true;
 

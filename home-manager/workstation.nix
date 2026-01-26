@@ -12,11 +12,6 @@
     source = config.lib.file.mkOutOfStoreSymlink /mnt/storage/vault;
     target = "vault";
   };
-  home.file."doc" = {
-    enable = true;
-    source = config.lib.file.mkOutOfStoreSymlink /mnt/storage/doc;
-    target = "doc";
-  };
   home.file."devel" = {
     enable = true;
     source = config.lib.file.mkOutOfStoreSymlink /mnt/storage/devel;
