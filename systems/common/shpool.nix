@@ -4,7 +4,7 @@
   ];
 
   # Enable systemd user services to persist after logout
-  services.logind.killUserProcesses = false;
+  services.logind.settings.Login.KillUserProcesses = false;
 
   # Configure systemd user service for shpool. See https://github.com/shell-pool/shpool/tree/master/systemd
   systemd.user.services.shpool = {
