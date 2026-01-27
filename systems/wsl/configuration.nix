@@ -85,16 +85,16 @@
     settings = {
       devices = {
         "tars" = {
-          id = sensitive.ids.syncthing-tars;
+          id = sensitive.ids.syncthing.tars;
         };
         "phone" = {
-          id = sensitive.ids.syncthing-phone;
+          id = sensitive.ids.syncthing.phone;
         };
         "workstation" = {
-          id = sensitive.ids.syncthing-workstation;
+          id = sensitive.ids.syncthing.workstation;
         };
         "lab" = {
-          id = sensitive.ids.syncthing-lab;
+          id = sensitive.ids.syncthing.lab;
         };
       };
       folders = {

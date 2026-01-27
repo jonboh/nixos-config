@@ -167,19 +167,19 @@
       settings = {
         devices = {
           "workstation" = {
-            id = sensitive.ids.syncthing-workstation;
+            id = sensitive.ids.syncthing.workstation;
           };
           "phone" = {
-            id = sensitive.ids.syncthing-phone;
+            id = sensitive.ids.syncthing.phone;
           };
           "wsl" = {
-            id = sensitive.ids.syncthing-wsl;
+            id = sensitive.ids.syncthing.wsl;
           };
           "laptop" = {
-            id = sensitive.ids.syncthing-laptop;
+            id = sensitive.ids.syncthing.laptop;
           };
           "lab" = {
-            id = sensitive.ids.syncthing-lab;
+            id = sensitive.ids.syncthing.lab;
           };
         };
         folders = {

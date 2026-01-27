@@ -120,19 +120,19 @@
       settings = {
         devices = {
           "tars" = {
-            id = sensitive.ids.syncthing-tars;
+            id = sensitive.ids.syncthing.tars;
           };
           "phone" = {
-            id = sensitive.ids.syncthing-phone;
+            id = sensitive.ids.syncthing.phone;
           };
           "wsl" = {
-            id = sensitive.ids.syncthing-wsl;
+            id = sensitive.ids.syncthing.wsl;
           };
           "laptop" = {
-            id = sensitive.ids.syncthing-laptop;
+            id = sensitive.ids.syncthing.laptop;
           };
           "workstation" = {
-            id = sensitive.ids.syncthing-workstation;
+            id = sensitive.ids.syncthing.workstation;
           };
         };
         folders = {
