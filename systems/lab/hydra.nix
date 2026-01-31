@@ -17,6 +17,7 @@
     minimumDiskFreeEvaluator = 20;
     extraConfig = ''
       max_unsupported_time = 604800
+      max_output_size = ${toString (8 * 1024 * 1024 * 1024)}
       allow_import_from_derivation = true
     '';
   };
