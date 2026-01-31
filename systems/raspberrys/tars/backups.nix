@@ -44,48 +44,58 @@
       // {
         paths = ["/mnt/storage/books"];
       };
+    git =
+      encrypted-backup
+      // {
+        paths = ["/mnt/storage/git-server"];
+      };
+    aegis =
+      encrypted-backup
+      // {
+        paths = ["/mnt/storage/aegis_vault_backups"];
+      };
   in {
     radicale-remote =
       radicale
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/radicale-borg";
-        startAt = "Sun *-*-* 03:00:00";
+        startAt = "Mon *-*-* 03:00:00";
       };
     radicale-lan =
       radicale
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/radicale-borg";
-        startAt = "Sun *-*-* 03:02:00";
+        startAt = "Thu *-*-* 03:02:00";
       };
     firefox-syncserver-remote =
       firefox-syncserver
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/firefox-syncserver-borg";
-        startAt = "Sun *-*-* 03:05:00";
+        startAt = "Tue *-*-* 03:05:00";
       };
     firefox-syncserver-lan =
       firefox-syncserver
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/firefox-syncserver-borg";
-        startAt = "Sun *-*-* 03:07:00";
+        startAt = "Fri *-*-* 03:07:00";
       };
     atuin-remote =
       atuin
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/atuin-borg";
-        startAt = "Sun *-*-* 03:10:00";
+        startAt = "Wed *-*-* 03:10:00";
       };
     atuin-lan =
       atuin
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/atuin-borg";
-        startAt = "Sun *-*-* 03:12:00";
+        startAt = "Sat *-*-* 03:12:00";
       };
     vault-remote =
       vault
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/vault-borg";
-        startAt = "Sun *-*-* 03:15:00";
+        startAt = "Thu *-*-* 03:15:00";
       };
     vault-lan =
       vault
@@ -97,13 +107,37 @@
       books
       // {
         repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/books-borg";
-        startAt = "Sun *-*-* 03:25:00";
+        startAt = "Fri *-*-* 03:25:00";
       };
     books-lan =
       books
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/books-borg";
-        startAt = "Sun *-*-* 03:30:00";
+        startAt = "Mon *-*-* 03:30:00";
+      };
+    git-remote =
+      git
+      // {
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/git-borg";
+        startAt = "Sat *-*-* 03:25:00";
+      };
+    git-lan =
+      git
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/git-borg";
+        startAt = "Tue *-*-* 03:25:00";
+      };
+    aegis-remote =
+      aegis
+      // {
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/aegis-borg";
+        startAt = "Sun *-*-* 03:25:00";
+      };
+    aegis-lan =
+      aegis
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/aegis-borg";
+        startAt = "Wed *-*-* 03:25:00";
       };
   };
 
