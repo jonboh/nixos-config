@@ -33,7 +33,6 @@
           ${pkgs.sudo}/bin/sudo -u firefox-syncserver ${config.services.mysql.package}/bin/mysqldump -u firefox-syncserver --all-databases > /mnt/storage/backups/firefox-syncserver/firefox_syncserver_databases.sql
         '';
       };
-
     vault =
       encrypted-backup
       // {

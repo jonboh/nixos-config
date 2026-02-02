@@ -99,9 +99,12 @@ in {
             # rift wifi
             iifname { "vlan-rift" } oifname { "wan" } accept comment "Allow rift to WAN"
             iifname { "wan" } oifname { "vlan-rift" } ct state { established, related } accept comment "Allow established traffic from WAN back to rift wifi"
-            # allow samba
-            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.bragi.lab} } tcp dport {445} accept comment "Allow charon to tars services"
-            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.bragi.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
+            # allow samba (tv data)
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.bragi.lab} } tcp dport {445} accept comment "Allow rift to bragi services"
+            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.bragi.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to rift"
+            # allow samba (galadriels data)
+            iifname { "vlan-rift" } ip daddr { ${sensitive.network.ip.lab.lab} } tcp dport {445} accept comment "Allow charon to tars services"
+            oifname { "vlan-rift" } ip saddr { ${sensitive.network.ip.lab.lab} } tcp sport 445 ct state { established, related } comment "Allow established connection from services back to warp"
 
             # warp wifi forwarding will be blocked by default policy
             # allow mqtt

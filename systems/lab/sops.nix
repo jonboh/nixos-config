@@ -1,7 +1,10 @@
 {self, ...}: {
   sops.age.keyFile = "/var/secrets/lab.txt";
 
-  secrets.smbPassword.enable = true;
+  secrets = {
+    smbPassword.enable = true;
+    smbGaladrielPassword.enable = true;
+  };
 
   sops.secrets.certs-secrets = {
     format = "binary";

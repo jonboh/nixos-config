@@ -1,9 +1,4 @@
-{
-  config,
-  sensitive,
-  ...
-}: {
-  # TODO: can this live in rift?
+{sensitive, ...}: {
   networking = {
     useNetworkd = true;
     firewall = {

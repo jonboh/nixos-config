@@ -121,6 +121,7 @@
     borgbackup
     picard
     freecad
+    samba
     (pkgs.callPackage ../../scripts/shpool-list-all.nix {})
   ];
 

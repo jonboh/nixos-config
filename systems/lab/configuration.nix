@@ -72,6 +72,10 @@
       sensitive.keys.ssh."root@tars"
     ];
   };
+  users.users.galadriel = {
+    isNormalUser = true;
+    createHome = false;
+  };
 
   security.sudo.wheelNeedsPassword = false;
 
@@ -156,30 +160,46 @@
         global = {
           "guest account" = "nobody";
           "smb ports" = "${toString sensitive.network.port.tcp.bragi.samba}";
-          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
           "hosts deny" = "0.0.0.0/0";
         };
         doc = {
           path = "/mnt/storage/data/doc";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
           "read only" = false;
           browseable = true;
           public = false;
+          "valid users" = "jonboh";
           comment = "jonboh's documents";
         };
         archive = {
           path = "/mnt/storage/data/archive";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} 127.0.0.1 localhost";
           "read only" = false;
           browseable = true;
           public = false;
+          "valid users" = "jonboh";
           comment = "jonboh's archive";
+        };
+        galadriel = {
+          path = "/mnt/storage/data/galadriel";
+          "hosts allow" = "${sensitive.network.vlan-range "lab"} ${sensitive.network.vlan-range "rift"} 127.0.0.1 localhost";
+          "read only" = false;
+          browseable = true;
+          public = false;
+          comment = "galadriel's archive";
+          "valid users" = "galadriel";
         };
       };
     };
   };
 
   system.activationScripts = {
-    smbuser = ''
-      cat /run/secrets/smb-password /run/secrets/smb-password | ${pkgs.samba}/bin/smbpasswd -a jonboh -s
+    smbuser_jonboh = ''
+      cat ${config.sops.secrets.smb-password.path} ${config.sops.secrets.smb-password.path} | ${pkgs.samba}/bin/smbpasswd -a jonboh -s
+    '';
+    smbuser_galadriel = ''
+      cat ${config.sops.secrets.smb-galadriel-password.path} ${config.sops.secrets.smb-galadriel-password.path} | ${pkgs.samba}/bin/smbpasswd -a galadriel -s
     '';
   };
 

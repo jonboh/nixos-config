@@ -29,6 +29,11 @@
       // {
         paths = ["/mnt/storage/data/doc"];
       };
+    galadriel =
+      encrypted-backup
+      // {
+        paths = ["/mnt/storage/data/galadriel"];
+      };
   in {
     immich-remote =
       immich
@@ -65,6 +70,18 @@
       // {
         repo = "borgremote@lab.lan:/mnt/storage/backups/doc-borg";
         startAt = "Fri *-*-* 01:00:00";
+      };
+    galadriel-remote =
+      galadriel
+      // {
+        repo = "borgremote@thule.jonboh.dev:/mnt/storage/backups/galadriel-borg";
+        startAt = "Wed *-*-* 01:00:00";
+      };
+    galadriel-lan =
+      galadriel
+      // {
+        repo = "borgremote@lab.lan:/mnt/storage/backups/galadriel-borg";
+        startAt = "Sat *-*-* 01:00:00";
       };
   };
 
