@@ -19,6 +19,7 @@
   ];
 
   jonboh.configure = {
+    ntpd-rs.enable = true;
     wireguard = {
       enable = true;
       deviceName = "workstation";

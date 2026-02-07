@@ -23,7 +23,6 @@
 
   jonboh = {
     configure = {
-      ntpd-rs.enable = true;
       telegraf-metrics = {
         enable = true;
         hardware-metrics = {
@@ -61,6 +60,16 @@
         ++ pulled_devdocs_zimPaths;
     };
   };
+
+  jonboh.configure.ntpd-rs = {
+    enable = true;
+    source = "internet";
+  };
+  services.ntpd-rs.settings.server = [
+    {
+      listen = "${sensitive.network.ip.lab.lab}:123";
+    }
+  ];
 
   users.users.borgremote = {
     isNormalUser = true;

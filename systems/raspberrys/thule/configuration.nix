@@ -10,11 +10,14 @@
     ./rp-configtxt.nix
   ];
 
-  jonboh.configure.wireguard = {
-    enable = true;
-    deviceName = "thule";
-    allowedNetworks = ["viae" "hodos"];
-    keepAlive = true;
+  jonboh.configure = {
+    ntpd-rs.source = "internet"; # this machine does not have acesss to my local network
+    wireguard = {
+      enable = true;
+      deviceName = "thule";
+      allowedNetworks = ["viae" "hodos"];
+      keepAlive = true;
+    };
   };
 
   zramSwap = {
