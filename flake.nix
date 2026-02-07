@@ -120,7 +120,7 @@
         immich-pin-overlay
         (unstable-overlay system)
         (stable-2505-overlay system)
-        hydra-queue-monitor-timeout-fix
+        # hydra-queue-monitor-timeout-fix
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
           nixvim = inputs.nixvim-config.packages.${prev.system}.nixvim-nightly-config;

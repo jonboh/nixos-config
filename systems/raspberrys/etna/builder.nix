@@ -5,7 +5,7 @@
 }: {
   users.users.nixremote = {
     isNormalUser = true;
-    createHome = false;
+    createHome = true;
     openssh.authorizedKeys.keys = [
       sensitive.keys.ssh.root-workstation
       sensitive.keys.ssh.workstation
@@ -27,11 +27,14 @@
       dates = "weekly";
       options = "--delete-older-than 14d";
     };
+    settings = {
+      extra-sandbox-paths = [config.programs.ccache.cacheDir];
+      download-buffer-size = 524288000;
+    };
   };
 
   programs.ccache = {
     enable = true;
     cacheDir = "/var/cache/ccache";
   };
-  nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
 }
