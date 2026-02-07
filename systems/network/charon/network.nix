@@ -255,6 +255,12 @@
         egress_untagged = labVlanId;
       }
       // brvlan-core-attachment {
+        interface = "lan3";
+        allowed_vlans = [riftVlanId];
+        pvid = riftVlanId;
+        egress_untagged = riftVlanId;
+      }
+      // brvlan-core-attachment {
         interface = "wlan0";
         allowed_vlans = [charonVlanId];
         pvid = charonVlanId;
@@ -306,30 +312,6 @@
       // vlan-dhcp-configuration {
         name = "warp";
         vlan = "warp";
-      }
-      // {
-        # management port
-        "25-lan3" = {
-          matchConfig.Name = "lan3";
-          linkConfig.RequiredForOnline = "no-carrier";
-          networkConfig = {
-            DHCPServer = true;
-            ConfigureWithoutCarrier = true;
-          };
-          address = [
-            "${sensitive.network.ip.charon.management}/24"
-          ];
-          extraConfig = ''
-            [DHCPServer]
-            DefaultLeaseTimeSec = 86400
-            MaxLeaseTimeSec = 86400
-            PoolOffset = 50
-            EmitDNS = true
-            DNS = ${sensitive.network.dns-server "mg-charon"}
-            EmitNTP = true
-            NTP = ${sensitive.network.ntp-server "mg-charon"}
-          '';
-        };
       };
   };
 
