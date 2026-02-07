@@ -22,6 +22,11 @@
     source = config.lib.file.mkOutOfStoreSymlink /mnt/storage/books;
     target = "books";
   };
+  home.file."doc" = {
+    enable = true;
+    source = config.lib.file.mkOutOfStoreSymlink /mnt/doc;
+    target = "doc";
+  };
   xdg.configFile."starship.toml" = {
     source =
       if config.home.symlink_flake

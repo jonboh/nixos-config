@@ -23,6 +23,13 @@
     };
   };
 
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/etna-store";
+    fsType = "ext4";
+    neededForBoot = true;
+    options = ["noatime"];
+  };
+
   networking = {
     hostName = "etna";
     firewall = {
