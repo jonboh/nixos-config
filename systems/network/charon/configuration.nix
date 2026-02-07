@@ -17,24 +17,28 @@
     enable = true;
     settings = {
       source = [
+        # {
+        #   address = "0.nixos.pool.ntp.org";
+        #   mode = "pool";
+        # }
+        # {
+        #   address = "1.nixos.pool.ntp.org";
+        #   mode = "pool";
+        # }
+        # {
+        #   address = "2.nixos.pool.ntp.org";
+        #   mode = "pool";
+        # }
+        # {
+        #   address = "3.nixos.pool.ntp.org";
+        #   mode = "pool";
+        # }
+        # {
+        #   address = "ntpd-rs.pool.ntp.org";
+        #   mode = "pool";
+        # }
         {
-          address = "0.nixos.pool.ntp.org";
-          mode = "pool";
-        }
-        {
-          address = "1.nixos.pool.ntp.org";
-          mode = "pool";
-        }
-        {
-          address = "2.nixos.pool.ntp.org";
-          mode = "pool";
-        }
-        {
-          address = "3.nixos.pool.ntp.org";
-          mode = "pool";
-        }
-        {
-          address = "ntpd-rs.pool.ntp.org";
+          address = "pool.ntp.org";
           mode = "pool";
         }
         # source: https://wiki.bandaancha.st/Lista_de_servidores_NTP_stratum_1_en_Espa%C3%B1a
