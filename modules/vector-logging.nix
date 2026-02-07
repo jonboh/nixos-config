@@ -117,16 +117,7 @@ in {
                 } else if match(.msg_lower, r'(^|\s+)(fatal|critical|crit)(\s+\w+:|:|\s)') {
                   "critical"
                 } else {
-                  # Fall back to keyword search in message body for unstructured logs
-                  if contains(.msg_lower, "error") || contains(.msg_lower, "failed") || contains(.msg_lower, "critical") {
-                    "error"
-                  } else if contains(.msg_lower, "warn") {
-                    "warning"
-                  } else if contains(.msg_lower, "debug") {
-                    "debug"
-                  } else {
-                    .level
-                  }
+                  .level
                 }
               } else {
                 .level
