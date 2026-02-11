@@ -12,8 +12,8 @@
     ./filesystems.nix
     ./samba-mounts.nix
     ./sops.nix
-    ./builders.nix
     ./hydra.nix
+    ./hydra-queue-monitor.nix
     ./network.nix
     ./immich.nix
     ./kiwix

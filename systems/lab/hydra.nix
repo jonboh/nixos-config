@@ -4,7 +4,10 @@
   sensitive,
   ...
 }: {
-  imports = [./builder.nix];
+  imports = [
+    ./builder.nix
+    ./builders.nix
+  ];
   services.hydra = {
     enable = true;
     hydraURL = "https://hydra.jonboh.dev";
