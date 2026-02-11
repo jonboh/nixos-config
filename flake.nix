@@ -282,8 +282,14 @@
         modules,
         overlays ? [],
         specialArgs ? {},
-      }:
-        inputs.nixos-raspberrypi.lib.nixosSystem {
+        fullNixosSystem ? false,
+      }: let
+        nixosSystem =
+          if fullNixosSystem
+          then inputs.nixos-raspberrypi.lib.nixosSystemFull
+          else inputs.nixos-raspberrypi.lib.nixosSystem;
+      in
+        nixosSystem {
           inherit nixpkgs;
           specialArgs =
             {
@@ -463,19 +469,21 @@
         ];
       };
       "palantir" = raspberry inputs.nixpkgs {
+        # fullNixosSystem = true;
         overlays = [
           (final: prev: {
-            gjs = prev.gjs.overrideAttrs (oldAttrs: {
-              doCheck = false; # Disable tests that timeout on aarch64
-            });
-            sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
-              doCheck = false; # Disable failing tests
-            });
+            # gjs = prev.gjs.overrideAttrs (oldAttrs: {
+            #   doCheck = false; # Disable tests that timeout on aarch64
+            # });
+            # sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
+            #   doCheck = false; # Disable failing tests
+            # });
           })
         ];
         modules = [
           {
             imports = with inputs.nixos-raspberrypi.nixosModules; [
+              nixpkgs-rpi
               raspberry-pi-5.base
               raspberry-pi-5.page-size-16k
               raspberry-pi-5.display-vc4

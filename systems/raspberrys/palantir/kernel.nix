@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
+{pkgs, ...}: let
   kernelBundle = pkgs.linuxAndFirmware.v6_12_44;
 in {
   boot = {

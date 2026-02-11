@@ -14,8 +14,19 @@
       };
     };
     extra-config = ''
-      gpu_mem=128
+      gpu_mem=256
+      gpu_mem_256=128
+      gpu_mem_512=256
+      gpu_mem_1024=256
+      
+      # Enable camera and codec support
       start_x=1
+      
+      # Enable V4L2 drivers
+      dtoverlay=vc4-kms-v3d-pi5
+      
+      # Enable video codec support
+      dtparam=video=1
     '';
   };
 }
