@@ -26,6 +26,24 @@
     };
   };
 
+  # services.desktopManager.cosmic.enable = true;
+  # services.displayManager.autoLogin = {
+  #   enable = true;
+  #   # Replace `yourUserName` with the actual username of user who should be automatically logged in
+  #   user = "jonboh";
+  # };
+
+  # services.xserver.enable = true;
+  # # Enable Plasma
+  # services.desktopManager.plasma6.enable = true;
+  #
+  # # Default display manager for Plasma
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #
+  #   # To use Wayland (Experimental for SDDM)
+  #   # wayland.enable = true;
+  # };
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
@@ -35,6 +53,8 @@
   services.gnome.core-developer-tools.enable = false;
   services.gnome.games.enable = false;
   environment.gnome.excludePackages = with pkgs; [gnome-tour gnome-user-docs];
+
+  programs.xwayland.enable = true;
 
   networking = {
     hostName = "palantir";
@@ -78,37 +98,44 @@
   };
 
   # Hardware acceleration and video support
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      # V4L2 request API support for Raspberry Pi
-      libv4l
-      # Mesa drivers for Raspberry Pi (using mesa instead of deprecated mesa.drivers)
-      mesa
-    ];
+  hardware = {
+    graphics = {
+      enable = true;
+      # VA-API for hardware acceleration
+      extraPackages = with pkgs; [
+        rpi.libva
+        rpi.libva-utils
+        # Raspberry Pi VA-API driver
+      ];
+    };
   };
-
   # Enable V4L2 video acceleration with request API
+  # boot.kernelModules = [
+  #   "bcm2835-codec"
+  #   "bcm2835-v4l2"
+  #   "v4l2_mem2mem"
+  #   "videodev"
+  #   # V4L2 request API modules
+  #   "hantro_vpu"
+  #   "rpi_hevc_dec"
+  #   # Video core modules
+  #   "vc4"
+  #   "v3d"
+  #
+  #   ## from raspbian
+  #
+  #   "spi_bcm2835"
+  #   "mc"
+  #   "videobuf2_common"
+  #   "videodev"
+  #   "videobuf2_v4l2"
+  #   "videobuf2_dma_contig"
+  #   "rpivid_hevc"
+  # ];
   boot.kernelModules = [
     "bcm2835-codec"
     "bcm2835-v4l2"
     "v4l2_mem2mem"
-    "videodev"
-    # V4L2 request API modules
-    "hantro_vpu"
-    "rpi_hevc_dec"
-    # Video core modules
-    "vc4"
-    "v3d"
-
-    ## from raspbian
-
-    "spi_bcm2835"
-    "mc"
-    "videobuf2_common"
-    "videodev"
-    "videobuf2_v4l2"
-    "videobuf2_dma_contig"
     "rpivid_hevc"
   ];
 
@@ -116,18 +143,38 @@
   users.users.jonboh.extraGroups = ["video" "render"];
 
   environment.systemPackages = with pkgs; [
-    rpi.moonlight-qt
+    (rpi.moonlight-qt.override {
+      ffmpeg = rpi.ffmpeg-full;
+      inherit libplacebo;
+    })
     kitty
     # mesa
     rpi.ffmpeg-full
-    # libva
-    # libva-utils
-    # v4l-utils
+    rpi.libva
+    rpi.libva-utils
+    rpi.v4l-utils
     # # Additional packages for V4L2 request API
-    # libdrm
+    rpi.libdrm
     # # Linux firmware for video acceleration
-    # linux-firmware
+    rpi.linux-firmware
+    rpi.vulkan-tools
+    rpi.virtualgl
+    gdb
+    bintools
+    pkg-config
   ];
 
+  # services.flatpak.enable = true;
+
+  # Execute AppImage binaries with appimage-run
+  # boot.binfmt.registrations.appimage = {
+  #   wrapInterpreterInShell = false;
+  #   interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+  #   recognitionType = "magic";
+  #   offset = 0;
+  #   mask = "\\xff\\xff\\xff\\xff\\x00\\x00\\x00\\x00\\xff\\xff\\xff";
+  #   magicOrExtension = "\\x7fELF....AI\\x02";
+  # };
   system.stateVersion = "24.11";
+  # NOTE: see https://github.com/moonlight-stream/moonlight-qt/issues/1409 for issue on modern wayland!
 }
