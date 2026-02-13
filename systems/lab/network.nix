@@ -8,7 +8,7 @@
       allowedTCPPorts = with sensitive.network.port.tcp.bragi; [
         samba
       ];
-      allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard];
+      allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard sensitive.network.port.udp.lab.ntp];
     };
   };
   networking.useNetworkd = true;
