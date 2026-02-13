@@ -1,7 +1,4 @@
 {
-  self,
-  config,
-  lib,
   pkgs,
   sensitive,
   ...
@@ -26,25 +23,10 @@
     };
   };
 
-  # services.desktopManager.cosmic.enable = true;
-  # services.displayManager.autoLogin = {
-  #   enable = true;
-  #   # Replace `yourUserName` with the actual username of user who should be automatically logged in
-  #   user = "jonboh";
-  # };
-
-  # services.xserver.enable = true;
-  # # Enable Plasma
-  # services.desktopManager.plasma6.enable = true;
-  #
-  # # Default display manager for Plasma
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #
-  #   # To use Wayland (Experimental for SDDM)
-  #   # wayland.enable = true;
-  # };
+  # NOTE: see https://github.com/moonlight-stream/moonlight-qt/issues/1409 for issue on modern wayland!
   services.displayManager.gdm.enable = true;
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "jonboh";
   services.desktopManager.gnome.enable = true;
 
   # To disable installing GNOME's suite of applications
@@ -93,8 +75,6 @@
   environment.variables = {
     # Force Wayland for proper video acceleration
     QT_QPA_PLATFORM = "wayland";
-    # Let VA-API auto-detect the driver instead of forcing v4l2_request
-    # LIBVA_DRIVER_NAME will be auto-detected
   };
 
   # Hardware acceleration and video support
@@ -110,28 +90,6 @@
     };
   };
   # Enable V4L2 video acceleration with request API
-  # boot.kernelModules = [
-  #   "bcm2835-codec"
-  #   "bcm2835-v4l2"
-  #   "v4l2_mem2mem"
-  #   "videodev"
-  #   # V4L2 request API modules
-  #   "hantro_vpu"
-  #   "rpi_hevc_dec"
-  #   # Video core modules
-  #   "vc4"
-  #   "v3d"
-  #
-  #   ## from raspbian
-  #
-  #   "spi_bcm2835"
-  #   "mc"
-  #   "videobuf2_common"
-  #   "videodev"
-  #   "videobuf2_v4l2"
-  #   "videobuf2_dma_contig"
-  #   "rpivid_hevc"
-  # ];
   boot.kernelModules = [
     "bcm2835-codec"
     "bcm2835-v4l2"
@@ -147,34 +105,7 @@
       ffmpeg = rpi.ffmpeg-full;
       inherit libplacebo;
     })
-    kitty
-    # mesa
-    rpi.ffmpeg-full
-    rpi.libva
-    rpi.libva-utils
-    rpi.v4l-utils
-    # # Additional packages for V4L2 request API
-    rpi.libdrm
-    # # Linux firmware for video acceleration
-    rpi.linux-firmware
-    rpi.vulkan-tools
-    rpi.virtualgl
-    gdb
-    bintools
-    pkg-config
   ];
 
-  # services.flatpak.enable = true;
-
-  # Execute AppImage binaries with appimage-run
-  # boot.binfmt.registrations.appimage = {
-  #   wrapInterpreterInShell = false;
-  #   interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-  #   recognitionType = "magic";
-  #   offset = 0;
-  #   mask = "\\xff\\xff\\xff\\xff\\x00\\x00\\x00\\x00\\xff\\xff\\xff";
-  #   magicOrExtension = "\\x7fELF....AI\\x02";
-  # };
   system.stateVersion = "24.11";
-  # NOTE: see https://github.com/moonlight-stream/moonlight-qt/issues/1409 for issue on modern wayland!
 }
