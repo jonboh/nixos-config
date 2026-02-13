@@ -28,5 +28,5 @@
     OOMScoreAdjust = 500; # see: https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#OOMScoreAdjust=
   };
   #
-  # boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 }
