@@ -440,11 +440,11 @@
     "nixos-config-sensitive": {
       "flake": false,
       "locked": {
-        "lastModified": 1771023424,
-        "narHash": "sha256-GZAsqIllSluu5pNGj8cmJ/EZZQPg3ec5ipO5H4+D8C4=",
+        "lastModified": 1771064535,
+        "narHash": "sha256-AmfRFSipCeq09dlwShEKQWK28/yFw3/qjTrkWVWLQ5k=",
         "ref": "main",
-        "rev": "8491c04cb7a132f76f30498fbd7676b68a86b72e",
-        "revCount": 75,
+        "rev": "61a618980e1e19c5546757300629b3d1be67e0fa",
+        "revCount": 76,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixos-config-sensitive.git"
       },
@@ -879,11 +879,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1765629840,
-        "narHash": "sha256-ETTIAUcdSlc3gt1GuidAt5Ijd4w9jeQind+1QptKJAc=",
+        "lastModified": 1771062600,
+        "narHash": "sha256-vrusd3gMASbLu0+nZzjR+nPD3Bu+QlssXziOD2BzghU=",
         "owner": "jonboh",
         "repo": "raspi-fancontrol",
-        "rev": "6f060a7ed795d1e0c6d4cde7767f96ebb8596ce9",
+        "rev": "2dae17025de540e9f7fcf58a3de45bd583a18dbf",
         "type": "github"
       },
       "original": {

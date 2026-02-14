@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  kernelBundle = pkgs.linuxAndFirmware.v6_12_44;
+  kernelBundle = pkgs.linuxAndFirmware.latest;
 in {
   boot = {
     loader.raspberry-pi.firmwarePackage = kernelBundle.raspberrypifw;

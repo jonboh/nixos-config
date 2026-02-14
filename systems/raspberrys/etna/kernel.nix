@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  kernelBundle = pkgs.linuxAndFirmware.v6_6_74; # 6.12 breaks gpio on rp-fancontrol
+  kernelBundle = pkgs.linuxAndFirmware.latest;
 in {
   boot = {
     loader.raspberry-pi.firmwarePackage = kernelBundle.raspberrypifw;

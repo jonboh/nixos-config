@@ -19,7 +19,7 @@
     "nct6775" # for motherboard sensors, allows lm_sensors to read with `sensors`
   ];
   boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxPackages; # use the latest linux kernel
+  boot.kernelPackages = pkgs.linuxPackages;
 
   # NOTE: allows creating namespaces in hardened profile, this is needed by Nix for some builds, like advcmp
   # `sudo sysctl kernel.unprivileged_userns_clone=1` can also be used
