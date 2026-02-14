@@ -18,13 +18,13 @@
   primaryDisplay =
     if config.home.computer == "workstation"
     # then "HDMI-0" // hdmi-port (currently on Kanbas13)
-    then "DP-2"
+    then "DP-0"
     else if config.home.computer == "laptop"
     then "DP-1-6"
     else "";
   secondaryDisplay =
     if config.home.computer == "workstation"
-    then "DP-0"
+    then "DP-2"
     else if config.home.computer == "laptop"
     then "DP-2"
     else "";

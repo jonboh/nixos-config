@@ -1,7 +1,7 @@
 {pkgs ? import <nixpkgs> {}}: let
   i3draw_workspace = "2:2: draw";
   tablet_display = "HDMI-0";
-  aux_display = "DP-0";
+  aux_display = "DP-2";
 in
   pkgs.writeShellScriptBin "turn_tablet_on" ''
     # the following grep checks if a resolution and position is set in the display (aka it is active)

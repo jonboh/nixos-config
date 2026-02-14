@@ -1,7 +1,7 @@
 {pkgs ? import <nixpkgs> {}}: let
   i3draw_workspace = "2:2: draw";
-  main_display = "DP-2";
-  aux_display = "DP-0";
+  main_display = "DP-0";
+  aux_display = "DP-2";
   tablet_display = "HDMI-0";
 in
   pkgs.writeShellScriptBin "turn_tablet_off" ''
