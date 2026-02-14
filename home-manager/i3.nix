@@ -59,6 +59,10 @@
     else if config.home.computer == "hermes"
     then "exec --no-startup-id single_display && turn_tablet_off"
     else "";
+  startup_apps =
+    if config.home.computer == "hermes"
+    then "exec --no-startup-id heroic"
+    else "";
 in {
   xsession.windowManager = {
     i3 = {
@@ -376,6 +380,7 @@ in {
           }
 
           ${display_init}
+          ${startup_apps}
         '';
     };
   };
