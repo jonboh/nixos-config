@@ -261,6 +261,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -534,6 +549,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#4169E1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
                   "mode": "fixed"
                 }
               }
@@ -815,6 +845,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -1088,6 +1133,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#4169E1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
                   "mode": "fixed"
                 }
               }
@@ -1369,6 +1429,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -1642,6 +1717,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#4169E1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
                   "mode": "fixed"
                 }
               }
@@ -1923,6 +2013,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2196,6 +2301,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#4169E1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
                   "mode": "fixed"
                 }
               }
@@ -2477,6 +2597,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2750,6 +2885,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "#4169E1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
                   "mode": "fixed"
                 }
               }
@@ -3031,6 +3181,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "palantir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#DC143C",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -3148,9 +3313,14 @@
             "selected": false,
             "text": "thule",
             "value": "thule"
+          },
+          {
+            "selected": false,
+            "text": "palantir",
+            "value": "palantir"
           }
         ],
-        "query": "bragi,charon,sentinel,citadel,forge,lab,tars,workstation,alesia,eva,etna,thule",
+        "query": "bragi,charon,sentinel,citadel,forge,lab,tars,workstation,alesia,eva,etna,thule,palantir",
         "type": "custom"
       }
     ]
