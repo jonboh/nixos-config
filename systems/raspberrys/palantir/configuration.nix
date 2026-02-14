@@ -1,8 +1,14 @@
 {
   pkgs,
+  lib,
   sensitive,
   ...
-}: {
+}: let
+  moonlight = pkgs.rpi.moonlight-qt.override {
+    ffmpeg = pkgs.rpi.ffmpeg-full;
+    libplacebo = pkgs.libplacebo;
+  };
+in {
   imports = [
     ../../common/raspberrys.nix
     ./sops.nix
@@ -23,35 +29,82 @@
     };
   };
 
-  # NOTE: see https://github.com/moonlight-stream/moonlight-qt/issues/1409 for issue on modern wayland!
   services.displayManager.gdm.enable = true;
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "jonboh";
+  services.displayManager.autoLogin.user = "hermes";
   services.desktopManager.gnome.enable = true;
-
-  # To disable installing GNOME's suite of applications
-  # and only be left with GNOME shell.
   services.gnome.core-apps.enable = false;
   services.gnome.core-developer-tools.enable = false;
   services.gnome.games.enable = false;
   environment.gnome.excludePackages = with pkgs; [gnome-tour gnome-user-docs];
 
-  programs.xwayland.enable = true;
+  # Enable dconf and configure GNOME with 1-minute display timeout
+  programs.dconf.enable = true;
+  programs.dconf.profiles = let
+    displayTurnOffSeconds = 60; # 1 minute
+  in {
+    user.databases = [
+      {
+        settings = {
+          # Allow logout and power off, but disable user switching
+          "org/gnome/desktop/lockdown" = {
+            disable-log-out = false; # Allow logout
+            disable-user-switching = true; # Keep user switching disabled
+            disable-lock-screen = true; # Allow screen lock
+          };
+          # Configure power management - prevent system sleep/suspend but allow display control
+          "org/gnome/settings-daemon/plugins/power" = {
+            sleep-inactive-ac-timeout = lib.gvariant.mkUint32 0;
+            sleep-inactive-ac-type = "nothing";
+            sleep-inactive-battery-timeout = lib.gvariant.mkUint32 0;
+            sleep-inactive-battery-type = "nothing";
+
+            sleep-display-ac = lib.gvariant.mkUint32 displayTurnOffSeconds;
+            sleep-display-battery = lib.gvariant.mkUint32 displayTurnOffSeconds;
+          };
+          "org/gnome/desktop/session" = {
+            idle-delay = lib.gvariant.mkUint32 displayTurnOffSeconds;
+          };
+        };
+        locks = [
+          # Lock user switching setting only
+          "/org/gnome/desktop/lockdown/disable-log-out"
+          "/org/gnome/desktop/lockdown/disable-user-switching"
+          "/org/gnome/desktop/lockdown/disable-lock-screen"
+          # Lock power management settings to prevent system suspend
+          "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout"
+          "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type"
+          "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout"
+          "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type"
+          # Lock display power management
+          "/org/gnome/settings-daemon/plugins/power/sleep-display-ac"
+          "/org/gnome/settings-daemon/plugins/power/sleep-display-battery"
+          # Lock session idle delay
+          "/org/gnome/desktop/session/idle-delay"
+        ];
+      }
+    ];
+  };
+
+  # Configure systemd logind to allow power management but prevent automatic actions
+  services.logind.settings = {
+    Login = {
+      # Allow power button to work normally (power off)
+      HandlePowerKey = "poweroff";
+      # Disable suspend and hibernate
+      HandleSuspendKey = "ignore";
+      HandleHibernateKey = "ignore";
+      HandleLidSwitch = "ignore";
+      HandleLidSwitchExternalPower = "ignore";
+      # Never automatically logout or suspend due to idle
+      IdleAction = "ignore";
+      IdleActionSec = "infinity";
+    };
+  };
 
   networking = {
     hostName = "palantir";
     networkmanager.enable = true;
-    firewall = {
-      enable = true;
-    };
-    # wireless = {
-    #   enable = true;
-    #   # fallbackToWPA2 = false;
-    #   secretsFile = config.sops.templates.charon_psk.path;
-    #
-    #   networks."charon".pskRaw = "ext:psk_charon";
-    # };
-    # TODO: fix configuration, wlan0 does not seem to work unless
     interfaces = {
       end0 = {
         useDHCP = true;
@@ -62,13 +115,7 @@
           }
         ];
       };
-      # wlan0 = {
-      #   useDHCP = true;
-      # };
     };
-    extraHosts = ''
-      ${sensitive.network.ip.tars.lab} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
   # Environment variables for hardware acceleration
@@ -78,17 +125,7 @@
   };
 
   # Hardware acceleration and video support
-  hardware = {
-    graphics = {
-      enable = true;
-      # VA-API for hardware acceleration
-      extraPackages = with pkgs; [
-        rpi.libva
-        rpi.libva-utils
-        # Raspberry Pi VA-API driver
-      ];
-    };
-  };
+  hardware.graphics.enable = true;
   # Enable V4L2 video acceleration with request API
   boot.kernelModules = [
     "bcm2835-codec"
@@ -97,15 +134,36 @@
     "rpivid_hevc"
   ];
 
-  # Add user to video group for hardware access
-  users.users.jonboh.extraGroups = ["video" "render"];
+  users.users.hermes = {
+    isNormalUser = true;
+    description = "hermes";
+    extraGroups = ["video" "render" "networkmanager"];
+    shell = pkgs.bash;
+    hashedPassword = sensitive.passwords.hermes;
+  };
 
-  environment.systemPackages = with pkgs; [
-    (rpi.moonlight-qt.override {
-      ffmpeg = rpi.ffmpeg-full;
-      inherit libplacebo;
-    })
+  environment.systemPackages = [
+    pkgs.kitty
+    moonlight
   ];
+
+  systemd.user.services.moonlight = {
+    enable = true;
+    description = "Moonlight Game Streaming Client";
+    after = ["graphical-session.target"];
+    wants = ["graphical-session.target"];
+    wantedBy = ["default.target"];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${lib.getExe moonlight}";
+      Restart = "on-failure";
+      RestartSec = "5";
+      Environment = [
+        "WAYLAND_DISPLAY=wayland-0"
+        "QT_QPA_PLATFORM=wayland"
+      ];
+    };
+  };
 
   system.stateVersion = "24.11";
 }

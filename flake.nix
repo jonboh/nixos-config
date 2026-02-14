@@ -473,6 +473,7 @@
         overlays = [
           (final: prev: {
             # Update libplacebo to latest version (v7.360.0) for Pi 5 DRM fixes
+            # NOTE: see https://github.com/moonlight-stream/moonlight-qt/issues/1409 for issue on modern wayland!
             libplacebo = prev.libplacebo.overrideAttrs (oldAttrs: {
               version = "7.360.0";
               src = prev.fetchFromGitHub {
@@ -481,24 +482,8 @@
                 rev = "b2ea27dceb6418aabfe9121174c6dbb232942998";
                 sha256 = "sha256-0d1coxOMDh5/Xi0dcI5rMgQVZojVE5j9Wt9LmsES3SM=";
               };
-              # Remove any existing patches since we're using the latest source
               patches = [];
             });
-            # gjs = prev.gjs.overrideAttrs (oldAttrs: {
-            #   doCheck = false; # Disable tests that timeout on aarch64
-            # });
-            # sdl3 = prev.sdl3.overrideAttrs (oldAttrs: {
-            #   doCheck = false; # Disable failing tests
-            # });
-            # libplacebo = prev.libplacebo.overrideAttrs (oldAttrs: {
-            #   patches = (oldAttrs.patches or []) ++ [
-            #     (prev.fetchpatch {
-            #       name = "libplacebo-fix-drm-mapping.patch";
-            #       url = "https://github.com/haasn/libplacebo/commit/45f76a46aaf2958febff2a482a059151b480bf99.patch";
-            #       sha256 = "sha256-0jFZJCgavknBwFbAYWIN7ZHZgyytk8Qu0VaSTIoWwTo=";
-            #     })
-            #   ];
-            # });
           })
         ];
         modules = [
