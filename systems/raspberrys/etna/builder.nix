@@ -31,6 +31,10 @@
       extra-sandbox-paths = [config.programs.ccache.cacheDir];
       download-buffer-size = 524288000;
     };
+    extraOptions = ''
+      min-free = ${toString (16 * 1024 * 1024 * 1024)}
+      max-free = ${toString (128 * 1024 * 1024 * 1024)}
+    '';
   };
 
   programs.ccache = {
