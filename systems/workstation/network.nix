@@ -1,8 +1,4 @@
-{
-  config,
-  sensitive,
-  ...
-}: {
+{sensitive, ...}: {
   networking = {
     hostName = "workstation";
     wireless.enable = false;
@@ -13,7 +9,6 @@
         "wg0"
       ];
     };
-    nameservers = [(sensitive.network.dns-server "lab")];
     # Steamlink
     firewall.allowedTCPPorts = sensitive.network.port.tcp.workstation.list.steamlink;
     firewall.allowedUDPPorts =
@@ -36,19 +31,6 @@
         networkConfig.DHCP = "yes";
         address = [
           "${sensitive.network.ip.workstation.lab}/24"
-        ];
-        routes = [
-          {
-            Gateway = sensitive.network.ip.charon.lab;
-          }
-          {
-            Destination = sensitive.network.vlan-range "rift";
-            Gateway = sensitive.network.ip.charon.lab;
-          }
-          {
-            Destination = sensitive.network.vlan-range "warp";
-            Gateway = sensitive.network.ip.charon.lab;
-          }
         ];
       };
     };

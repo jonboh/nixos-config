@@ -104,7 +104,12 @@ in {
 
   networking = {
     hostName = "palantir";
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      unmanaged = [
+        "end0"
+      ];
+    };
     interfaces = {
       end0 = {
         useDHCP = true;

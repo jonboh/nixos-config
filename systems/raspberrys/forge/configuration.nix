@@ -40,8 +40,6 @@
         ];
       };
     };
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    nameservers = [(sensitive.network.dns-server "lab")];
   };
   systemd.network = {
     enable = true;
@@ -53,11 +51,6 @@
         networkConfig.DHCP = "yes";
         address = [
           "${sensitive.network.ip.forge.lab}/24"
-        ];
-        routes = [
-          {
-            Gateway = sensitive.network.ip.charon.lab;
-          }
         ];
       };
     };

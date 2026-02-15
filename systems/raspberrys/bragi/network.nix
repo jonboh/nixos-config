@@ -17,19 +17,6 @@
       ];
       allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard];
     };
-    interfaces = {
-      end0 = {
-        useDHCP = true;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.bragi.lab;
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    nameservers = [(sensitive.network.dns-server "lab")];
   };
   systemd.network = {
     enable = true;
@@ -41,11 +28,6 @@
         networkConfig.DHCP = "yes";
         address = [
           "${sensitive.network.ip.bragi.lab}/24"
-        ];
-        routes = [
-          {
-            Gateway = sensitive.network.ip.charon.lab;
-          }
         ];
       };
     };

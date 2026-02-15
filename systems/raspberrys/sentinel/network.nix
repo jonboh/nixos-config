@@ -4,12 +4,7 @@
     useDHCP = false;
     useNetworkd = true;
     firewall.enable = true;
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    nameservers = [(sensitive.network.dns-server "lab")];
     usePredictableInterfaceNames = true;
-    extraHosts = ''
-      ${sensitive.network.ip.tars.lab} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
   systemd.network = let
@@ -115,7 +110,6 @@
           address = [
             "${sensitive.network.ip.sentinel.lab}/24"
           ];
-          gateway = [(sensitive.network.gateway "lab")];
         };
       };
   };

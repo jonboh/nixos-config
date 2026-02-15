@@ -3,7 +3,6 @@
     hostName = "lab";
     networkmanager.enable = false;
     wireless.enable = false;
-    nameservers = [(sensitive.network.dns-server "lab")];
     firewall = {
       allowedTCPPorts = with sensitive.network.port.tcp.bragi; [
         samba
@@ -23,11 +22,6 @@
         networkConfig.DHCP = "yes";
         address = [
           "${sensitive.network.ip.lab.lab}/24"
-        ];
-        routes = [
-          {
-            Gateway = sensitive.network.ip.charon.lab;
-          }
         ];
       };
     };

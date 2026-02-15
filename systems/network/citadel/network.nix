@@ -19,8 +19,6 @@
     useDHCP = false;
     nat.enable = false;
     firewall.enable = false;
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    nameservers = [(sensitive.network.dns-server "lab")];
     usePredictableInterfaceNames = true;
     nftables.enable = true;
   };

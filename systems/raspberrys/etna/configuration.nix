@@ -32,9 +32,6 @@
 
   networking = {
     hostName = "etna";
-    firewall = {
-      enable = true;
-    };
     interfaces = {
       end0 = {
         useDHCP = true;
@@ -46,9 +43,6 @@
         ];
       };
     };
-    extraHosts = ''
-      ${sensitive.network.ip.tars.lab} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway on tars
   };
 
   zramSwap = {
