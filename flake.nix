@@ -311,6 +311,28 @@
             ]
             ++ modules;
         };
+      raspberry4 = nixpkgs: args:
+        raspberry nixpkgs (args
+          // {
+            modules = with inputs.nixos-raspberrypi.nixosModules;
+              [
+                raspberry-pi-4.base
+                raspberry-pi-4.display-vc4
+                sd-image
+              ]
+              ++ args.modules;
+          });
+      raspberry5 = nixpkgs: args:
+        raspberry nixpkgs (args
+          // {
+            modules = with inputs.nixos-raspberrypi.nixosModules;
+              [
+                raspberry-pi-5.base
+                raspberry-pi-5.page-size-16k
+                sd-image
+              ]
+              ++ args.modules;
+          });
       # used to build forge with and without klipper-firmware
       mkForgeSystem = extraModules: let
         nixpkgs = inputs.nixpkgs;
@@ -406,21 +428,6 @@
         ];
       };
 
-      "tars" = raspberry inputs.nixpkgs {
-        overlays = [syncstorage-rs-pin-overlay];
-        modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              sd-image
-            ];
-          }
-          inputs.sops.nixosModules.sops
-          ./modules
-          ./systems/raspberrys/tars/configuration.nix
-        ];
-      };
       "bragi" = let
         nixpkgs = inputs.nixpkgs;
       in
@@ -454,21 +461,22 @@
           };
         }
       ];
-      "etna" = raspberry inputs.nixpkgs {
+      "tars" = raspberry5 inputs.nixpkgs {
+        overlays = [syncstorage-rs-pin-overlay];
         modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              sd-image
-            ];
-          }
+          inputs.sops.nixosModules.sops
+          ./modules
+          ./systems/raspberrys/tars/configuration.nix
+        ];
+      };
+      "etna" = raspberry5 inputs.nixpkgs {
+        modules = [
           inputs.sops.nixosModules.default
           ./modules
           ./systems/raspberrys/etna/configuration.nix
         ];
       };
-      "palantir" = raspberry inputs.nixpkgs {
+      "palantir" = raspberry5 inputs.nixpkgs {
         # fullNixosSystem = true;
         overlays = [
           (final: prev: {
@@ -487,36 +495,20 @@
           })
         ];
         modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              nixpkgs-rpi
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              raspberry-pi-5.display-vc4
-              raspberry-pi-5.bluetooth
-              sd-image
-            ];
-          }
+          inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.display-vc4
           inputs.sops.nixosModules.default
           ./modules
           ./systems/raspberrys/palantir/configuration.nix
         ];
       };
-      "thule" = raspberry inputs.nixpkgs {
+      "thule" = raspberry5 inputs.nixpkgs {
         modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              sd-image
-            ];
-          }
           inputs.sops.nixosModules.default
           ./modules
           ./systems/raspberrys/thule/configuration.nix
         ];
       };
-      "sentinel" = raspberry inputs.nixpkgs {
+      "sentinel" = raspberry4 inputs.nixpkgs {
         overlays = [
           (final: prev: {
             valkey = prev.valkey.overrideAttrs (oldAttrs: {
@@ -525,27 +517,13 @@
           })
         ];
         modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              sd-image
-            ];
-          }
           inputs.sops.nixosModules.default
           ./modules
           ./systems/raspberrys/sentinel/configuration.nix
         ];
       };
-      "eva" = raspberry inputs.nixpkgs {
+      "eva" = raspberry5 inputs.nixpkgs {
         modules = [
-          {
-            imports = with inputs.nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.page-size-16k
-              sd-image
-            ];
-          }
           inputs.sops.nixosModules.default
           ./modules
           ./systems/raspberrys/eva/configuration.nix
