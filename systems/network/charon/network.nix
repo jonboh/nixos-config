@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   sensitive,
   ...
@@ -87,6 +88,24 @@
     charonVlanId = sensitive.network.vlan2id.charon;
     riftVlanId = sensitive.network.vlan2id.rift;
     warpVlanId = sensitive.network.vlan2id.warp;
+    staticDhcpLeasesLab = let
+      hosts = [
+        "tars"
+        "forge"
+        # "sentinel"
+        "eva"
+        "workstation"
+        "lab"
+        "bragi"
+        "palantir"
+        "etna"
+      ];
+    in
+      builtins.map (name: {
+        mac = sensitive.network.mac.${name}.ether;
+        ip = sensitive.network.ip.${name}.lab;
+      })
+      hosts;
   in {
     wait-online = {
       enable = true;
@@ -166,7 +185,32 @@
       vlan-dhcp-configuration = {
         name,
         vlan,
-      }: {
+        staticDhcpLeases ? [],
+      }: let
+        dhcpStaticLeasesConfig = builtins.concatStringsSep "\n" (map (
+            lease: ''
+              [DHCPServerStaticLease]
+              MACAddress=${lease.mac}
+              Address=${lease.ip}
+            ''
+          )
+          staticDhcpLeases);
+        # NOTE: we've got a problem with 'yes' where the DHCPServer won't
+        # start if there are static leases. I might have something not ok
+        # with systemd-networkd-persistent-storage.
+        # The lab network is mostly static, so a short lease time for floating
+        # devices will avoid the likelihood of ip conflicts when the router gets
+        # a rebooted and the leases are lost.
+        isEmpty = l: (builtins.length l) == 0;
+        persistLeases =
+          if isEmpty staticDhcpLeases
+          then "yes"
+          else "runtime";
+        leaseTime =
+          if isEmpty staticDhcpLeases
+          then 86400
+          else 3600;
+      in {
         "30-vlan-${name}" = {
           matchConfig.Name = "vlan-${name}";
           address = [
@@ -177,13 +221,16 @@
           };
           extraConfig = ''
             [DHCPServer]
-            DefaultLeaseTimeSec = 86400
-            MaxLeaseTimeSec = 86400
+            DefaultLeaseTimeSec = ${toString leaseTime}
+            MaxLeaseTimeSec = ${toString leaseTime}
             PoolOffset = 50
             EmitDNS = true
             DNS = ${sensitive.network.dns-server vlan}
             EmitNTP = true
             NTP = ${sensitive.network.ntp-server vlan}
+            PersistLeases = ${persistLeases}
+
+            ${dhcpStaticLeasesConfig}
           '';
         };
       };
@@ -278,6 +325,7 @@
       // vlan-dhcp-configuration {
         name = "lab";
         vlan = "lab";
+        staticDhcpLeases = staticDhcpLeasesLab;
       }
       // vlan-dhcp-configuration {
         name = "charon";

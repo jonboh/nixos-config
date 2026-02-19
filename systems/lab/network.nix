@@ -1,16 +1,12 @@
 {sensitive, ...}: {
   networking = {
+    useNetworkd = true;
     hostName = "lab";
-    networkmanager.enable = false;
-    wireless.enable = false;
     firewall = {
-      allowedTCPPorts = with sensitive.network.port.tcp.bragi; [
-        samba
-      ];
-      allowedUDPPorts = [sensitive.network.port.udp.alesia.wireguard sensitive.network.port.udp.lab.ntp];
+      allowedTCPPorts = with sensitive.network.port.tcp.bragi; [samba];
+      allowedUDPPorts = with sensitive.network.port.udp; [alesia.wireguard lab.ntp];
     };
   };
-  networking.useNetworkd = true;
 
   systemd.network = {
     enable = true;

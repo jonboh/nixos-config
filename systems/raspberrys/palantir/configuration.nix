@@ -107,19 +107,8 @@ in {
     networkmanager = {
       enable = true;
       unmanaged = [
-        "end0"
+        "end0" # NOTE: managed with networkd
       ];
-    };
-    interfaces = {
-      end0 = {
-        useDHCP = true;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.palantir.lab;
-            prefixLength = 24;
-          }
-        ];
-      };
     };
   };
 

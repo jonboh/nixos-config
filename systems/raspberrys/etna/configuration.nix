@@ -32,17 +32,8 @@
 
   networking = {
     hostName = "etna";
-    interfaces = {
-      end0 = {
-        useDHCP = true;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.etna.lab;
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
+    useDHCP = true;
+    interfaces.end0.useDHCP = true;
   };
 
   zramSwap = {

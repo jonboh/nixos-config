@@ -1,16 +1,17 @@
 {
   pkgs,
-  lib,
   sensitive,
   ...
 }: {
   imports = [
     ./servers.nix
+    ../raspberrys/common/network.nix
   ];
 
   jonboh.configure = {
     ntpd-rs.enable = true;
     telegraf-metrics.hardware-metrics.thermal_zone0-temperature.enable = true;
+    rpiEthernet.enable = true;
   };
   hardware.enableRedistributableFirmware = true;
 

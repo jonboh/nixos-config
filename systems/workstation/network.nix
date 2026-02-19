@@ -29,9 +29,6 @@
       "10-eno1" = {
         matchConfig.Name = "eno1";
         networkConfig.DHCP = "yes";
-        address = [
-          "${sensitive.network.ip.workstation.lab}/24"
-        ];
       };
     };
   };

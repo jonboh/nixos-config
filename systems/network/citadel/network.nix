@@ -192,6 +192,7 @@
       // {
         "30-vlan-lab" = {
           matchConfig.Name = "vlan-lab";
+          networkConfig.DHCP = "yes";
           address = [
             "${sensitive.network.ip.citadel.lab}/24"
           ];
