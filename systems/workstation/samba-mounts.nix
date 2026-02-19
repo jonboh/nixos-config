@@ -2,41 +2,33 @@
   pkgs,
   config,
   ...
-}: {
+}: let
+  automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
+in {
   fileSystems."/mnt/media_share" = {
     device = "//bragi.lan/writable_media";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
-    in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
   fileSystems."/mnt/file_exchange" = {
     device = "//bragi.lan/writable_file_exchange";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
-    in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
   fileSystems."/mnt/music" = {
     device = "//bragi.lan/writable_music";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
-    in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
   fileSystems."/mnt/doc" = {
     device = "//lab.lan/doc";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
-    in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
   fileSystems."/mnt/archive" = {
     device = "//lab.lan/archive";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=500ms,x-systemd.mount-timeout=500ms";
-    in ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=/run/secrets-derived/smb-credentials,uid=1000,gid=100"];
   };
 
   systemd.services.smb-secrets = {
