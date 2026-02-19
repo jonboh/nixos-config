@@ -1,11 +1,14 @@
-{sensitive, ...}: {
+{
+  lib,
+  sensitive,
+  ...
+}: {
   networking = {
     hostName = "sentinel";
-    useDHCP = false;
     useNetworkd = true;
-    firewall.enable = true;
-    usePredictableInterfaceNames = true;
   };
+
+  jonboh.configure.rpiEthernet.enable = lib.mkForce false;
 
   systemd.network = let
     labVlanId = sensitive.network.vlan2id.lab;
@@ -105,10 +108,34 @@
         egress_untagged = labVlanId;
       }
       // {
+        "30-vlan-charon" = {
+          matchConfig.Name = "vlan-charon";
+          networkConfig.DHCP = "yes";
+        };
+      }
+      // {
+        "30-vlan-warp" = {
+          matchConfig.Name = "vlan-warp";
+          networkConfig.DHCP = "yes";
+        };
+      }
+      // {
+        "30-vlan-rift" = {
+          matchConfig.Name = "vlan-rift";
+          networkConfig.DHCP = "yes";
+        };
+      }
+      // {
         "30-vlan-lab" = {
           matchConfig.Name = "vlan-lab";
+          networkConfig.DHCP = "yes";
           address = [
             "${sensitive.network.ip.sentinel.lab}/24"
+          ];
+          routes = [
+            {
+              Gateway = sensitive.network.ip.charon.lab;
+            }
           ];
         };
       };

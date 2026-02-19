@@ -1,30 +1,11 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../common/raspberrys.nix
     ./filesystems.nix
     ./sops.nix
-    ./rp-configtxt.nix
     ./network.nix
     ./suricata.nix
-    ./kernel.nix
   ];
-
-  systemd.services.rp-fancontrol = {
-    enable = true;
-    description = "RPi GPIO fan control service";
-    after = ["multi-user.target"];
-    wantedBy = ["multi-user.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.rp-fancontrol}/bin/rp-fancontrol --temp 50 --pwm 0 --temp 55 --pwm 0.5 --temp 60 --pwm 0.7 --temp 70 --pwm 1";
-      Type = "simple";
-      Restart = "always";
-      RestartSec = "5";
-    };
-  };
 
   zramSwap = {
     enable = true;
