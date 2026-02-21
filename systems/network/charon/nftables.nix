@@ -87,12 +87,8 @@ in {
             iifname { "wan" } oifname { "lan1" } ct state { established, related } accept comment "Allow established traffic from WAN back to albas"
 
             # # charon wifi
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.tars.lab} } accept comment "Allow charon to tars services"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.tars.lab} } ct state { established, related } comment "Allow established connection from tars services back to charon"
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.bragi.lab} } accept comment "Allow charon to bragi services"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.bragi.lab} } ct state { established, related } comment "Allow established connection from bragi services back to charon"
-            iifname { "vlan-charon" } ip daddr { ${sensitive.network.ip.forge.lab} } accept comment "Allow charon to forge services"
-            oifname { "vlan-charon" } ip saddr { ${sensitive.network.ip.forge.lab} } ct state { established, related } comment "Allow established connection from forge services back to charon"
+            iifname { "vlan-charon" } oifname { "vlan-lab" } accept comment "Allow charon to lab"
+            oifname { "vlan-charon" } iifname { "vlan-lab" } ct state { established, related } comment "Allow established connection from lab back to charon"
             iifname { "vlan-charon" } oifname { "wan" } accept comment "Allow charon to WAN"
             iifname { "wan" } oifname { "vlan-charon" } ct state { established, related } accept comment "Allow established traffic from WAN back to charon wifi"
 

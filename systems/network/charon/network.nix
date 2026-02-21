@@ -106,6 +106,16 @@
         ip = sensitive.network.ip.${name}.lab;
       })
       hosts;
+    staticDhcpLeasesCharon = let
+      hosts = [
+        "eva"
+      ];
+    in
+      builtins.map (name: {
+        mac = sensitive.network.mac.${name}.wifi;
+        ip = sensitive.network.ip.${name}.charon;
+      })
+      hosts;
   in {
     wait-online = {
       enable = true;
@@ -330,6 +340,7 @@
       // vlan-dhcp-configuration {
         name = "charon";
         vlan = "charon";
+        staticDhcpLeases = staticDhcpLeasesCharon;
       }
       // vlan-dhcp-configuration {
         name = "rift";
@@ -369,7 +380,8 @@
             ssid = "charon";
             authentication = {
               enableRecommendedPairwiseCiphers = true;
-              mode = "wpa3-sae";
+              mode = "wpa3-sae-transition";
+              wpaPasswordFile = config.sops.secrets.wifiPasswordCharon.path;
               saePasswordsFile = config.sops.secrets.wifiPasswordCharon.path;
             };
             bssid = "10:1d:21:89:6a:53";
@@ -495,7 +507,8 @@
             ssid = "charon";
             authentication = {
               enableRecommendedPairwiseCiphers = true;
-              mode = "wpa3-sae";
+              mode = "wpa3-sae-transition";
+              wpaPasswordFile = config.sops.secrets.wifiPasswordCharon.path;
               saePasswordsFile = config.sops.secrets.wifiPasswordCharon.path;
             };
             bssid = "10:93:08:27:67:f9";

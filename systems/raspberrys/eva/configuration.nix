@@ -11,26 +11,15 @@
 
   networking = {
     hostName = "eva";
-    firewall = {
+    networkmanager = {
       enable = true;
+      unmanaged = [
+        "end0" # NOTE: managed with networkd
+      ];
+    };
+    firewall = {
       allowedUDPPorts = sensitive.network.port.udp.ros-comms;
     };
-    interfaces = {
-      end0 = {
-        useDHCP = true;
-        ipv4.addresses = [
-          {
-            address = sensitive.network.ip.eva.lab;
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-    timeServers = [(sensitive.network.ntp-server "lab")];
-    defaultGateway = sensitive.network.gateway "lab";
-    extraHosts = ''
-      ${sensitive.network.ip.tars.lab} tars.lan
-    ''; # actually needed to make samba work without timeouts due to missing DNS/Gateway
   };
 
   zramSwap = {

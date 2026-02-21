@@ -72,12 +72,15 @@
             palantir.lan ${sensitive.network.ip.palantir.lab}
             sentinel.lan ${sensitive.network.ip.sentinel.lab}
             eva.lan ${sensitive.network.ip.eva.lab}
+            eva.lab.lan ${sensitive.network.ip.eva.lab}
+            eva.charon.lan ${sensitive.network.ip.eva.charon}
             etna.lan ${sensitive.network.ip.etna.lab}
             iaq-lab.lan ${sensitive.network.ip.iaq-lab.warp}
             iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom.warp}
             iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}
 
-            # Internal Network
+            # Internal Network.
+            # Override alesia DNS to go through internal network
             navidrome.jonboh.dev ${sensitive.network.ip.bragi.lab}
             radicale.jonboh.dev ${sensitive.network.ip.tars.lab}
             firefox.jonboh.dev ${sensitive.network.ip.tars.lab}
@@ -94,7 +97,8 @@
             # Viae Network
             thule.jonboh.dev ${sensitive.network.ip.thule.viae}
             alesia.lan ${sensitive.network.ip.alesia.viae}
-            viae.tars.lan ${sensitive.network.ip.tars.viae}
+            tars.viae.lan ${sensitive.network.ip.tars.viae}
+
           '';
         };
         blocked_names.blocked_names_file = "/var/oisd/domainswild";

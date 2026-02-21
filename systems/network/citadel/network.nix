@@ -267,7 +267,8 @@
               ssid = "charon";
               authentication = {
                 enableRecommendedPairwiseCiphers = true;
-                mode = "wpa3-sae";
+                mode = "wpa3-sae-transition";
+                wpaPasswordFile = config.sops.secrets.wifiPasswordCharon.path;
                 saePasswordsFile = config.sops.secrets.wifiPasswordCharon.path;
               };
               bssid = "90:fa:23:5e:78:13";
@@ -393,7 +394,8 @@
               ssid = "charon";
               authentication = {
                 enableRecommendedPairwiseCiphers = true;
-                mode = "wpa3-sae";
+                mode = "wpa3-sae-transition";
+                wpaPasswordFile = config.sops.secrets.wifiPasswordCharon.path;
                 saePasswordsFile = config.sops.secrets.wifiPasswordCharon.path;
               };
               bssid = "30:98:c1:53:9a:ad";

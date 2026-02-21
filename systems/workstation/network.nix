@@ -9,8 +9,6 @@
         "wg0"
       ];
     };
-    # Steamlink
-    firewall.allowedTCPPorts = sensitive.network.port.tcp.workstation.list.steamlink;
     firewall.allowedUDPPorts =
       [
         sensitive.network.port.udp.alesia.wireguard
@@ -19,7 +17,6 @@
   };
 
   jonboh.configure.ntpd-rs.enable = true;
-  networking.useNetworkd = true;
 
   systemd.network = {
     enable = true;
@@ -29,6 +26,24 @@
       "10-eno1" = {
         matchConfig.Name = "eno1";
         networkConfig.DHCP = "yes";
+        routes = [
+          {
+            Destination = sensitive.network.vlan-range "lab";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+          {
+            Destination = sensitive.network.vlan-range "charon";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+          {
+            Destination = sensitive.network.vlan-range "rift";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+          {
+            Destination = sensitive.network.vlan-range "warp";
+            Gateway = sensitive.network.ip.charon.lab;
+          }
+        ];
       };
     };
   };
