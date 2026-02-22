@@ -5,7 +5,6 @@
 }: {
   imports = [
     ../../common/raspberrys.nix
-    ./network.nix
     ./sops.nix
     ./rp-configtxt.nix
   ];
