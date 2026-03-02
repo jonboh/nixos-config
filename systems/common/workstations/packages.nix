@@ -162,7 +162,6 @@ in
     kdePackages.okular
 
     ## Applications
-    spotify
     feishin
     supersonic
     (pkgs.unstable.anki.withAddons [

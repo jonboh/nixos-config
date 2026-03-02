@@ -219,7 +219,6 @@ in {
           assign [class="Inkscape" instance="org.inkscape.Inkscape"] $draw
           assign [class="krita" instance="krita"] $draw
           assign [class="drawpile" instance="drawpile"] $draw
-          assign [class="Spotify"] $media
           assign [class="feishin"] $media
           assign [class="Supersonic"] $media
           assign [class="Chromium-browser"] $comm
@@ -231,9 +230,6 @@ in {
           assign [class="GLWindow" instance="GLWindow"] $doc # GLMakie figures
           # assign [class="prusa-slicer" instance="PrusaSlicer-alpha"] $3d # don't seem to play nicely
           # assign [class="prusa-slicer" instance="PrusaSlicer"] $3d
-          # turns out spotify is its own beast dealing with workspace assigment
-          for_window [class="Spotify"] move container to workspace $media
-          # assign [class="Spotify" instance="spotify"] $media
           for_window [class="firefox"] move container to workspace $web
           for_window [class="librewolf"] move container to workspace $web
 
