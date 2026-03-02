@@ -124,6 +124,7 @@
     freecad
     samba
     (pkgs.callPackage ../../scripts/shpool-list-all.nix {})
+    (pkgs.callPackage ../../scripts/ping-devices.nix {inherit sensitive;})
   ];
 
   environment.shellAliases = {
