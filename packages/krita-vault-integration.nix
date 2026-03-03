@@ -4,13 +4,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "krita-vault-integration";
-  version = "986206cb2de36b64016f098335a1f4d5b8e38215";
+  version = "9820f393b20dfa6725ba42d1d2851ab5fce1c971";
 
   src = fetchFromGitHub {
     owner = "jonboh";
     repo = "krita-vault-integration";
     rev = version;
-    hash = "sha256-SBCzsdrzqXDtrMpb8EjBuoqnpijygRGw+9wIErR3qBo=";
+    hash = "sha256-kikCkxnhZzqCuA4xM5mZqrzjcEcMP7RXNOCEJ+Ohx1A=";
   };
 
   installPhase = ''
