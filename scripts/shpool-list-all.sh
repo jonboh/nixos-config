@@ -4,6 +4,7 @@
 hosts=(
     "tars.lan"
     "bragi.lan"
+    "forge.lan"
     "lab.lan"
     "thule.jonboh.dev"
     "alesia.lan"
