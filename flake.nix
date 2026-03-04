@@ -113,7 +113,7 @@
         (stable-2505-overlay system)
         (final: prev: {shai = pkgs.callPackage ./packages/shai.nix {};})
         (final: prev: {
-          nixvim = inputs.nixvim-config.packages.${prev.system}.nixvim-nightly-config;
+          nixvim = inputs.nixvim-config.packages.${prev.system}.nixvim-config;
         })
         (final: prev: {
           nixvim-light = inputs.nixvim-config.packages.${prev.system}.nixvim-light-config;

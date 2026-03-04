@@ -544,11 +544,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1762363567,
-        "narHash": "sha256-YRqMDEtSMbitIMj+JLpheSz0pwEr0Rmy5mC7myl17xs=",
+        "lastModified": 1772433332,
+        "narHash": "sha256-izhTDFKsg6KeVBxJS9EblGeQ8y+O8eCa6RcW874vxEc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ae814fd3904b621d8ab97418f1d0f2eb0d3716f4",
+        "rev": "cf59864ef8aa2e178cccedbe2c178185b0365705",
         "type": "github"
       },
       "original": {
@@ -731,11 +731,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1772526012,
-        "narHash": "sha256-9cg4V2tmPJ4II4YtXhZBWDGYlygx3V6p1oW9yVnmY6g=",
+        "lastModified": 1772629255,
+        "narHash": "sha256-ZOjw712mFqlkiJlV+opCFPo8UuWV+lZu66CODGk4jFA=",
         "ref": "main",
-        "rev": "4d46808779f900ec26c900c2eb56441caec9e074",
-        "revCount": 305,
+        "rev": "75a3b11ec103949c2e51e1a290a4e1fee4798a44",
+        "revCount": 310,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       },
