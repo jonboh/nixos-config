@@ -1,6 +1,7 @@
 import signal
 import subprocess
 import sys
+import time
 
 import hid
 
@@ -54,9 +55,10 @@ def send_raw_report(data):
 
 def listen_for_updates():
     interface = get_raw_hid_interface()
-    if interface is None:
-        print("No device found")
-        sys.exit(1)
+    while interface is None:
+        print("No device found, retrying in 5 seconds")
+        time.sleep(5)
+        interface = get_raw_hid_interface()
     while True:
         response_report = interface.read(report_length)
         response_str = response_report.rstrip(b"\x00").decode("ascii", errors="replace")
