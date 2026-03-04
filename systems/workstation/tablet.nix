@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   hardware.opentabletdriver = {
     enable = true;
-    package = pkgs.unstable.opentabletdriver;
+    package = pkgs.opentabletdriver;
   };
 }

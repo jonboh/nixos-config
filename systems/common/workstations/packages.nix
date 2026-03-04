@@ -76,8 +76,8 @@ in
 
     ## Debugging
     gdb
-    unstable.vscode-extensions.ms-vscode.cpptools # for neovim dap
-    unstable.vscode-extensions.vadimcn.vscode-lldb # for neovim dap
+    vscode-extensions.ms-vscode.cpptools # for neovim dap
+    vscode-extensions.vadimcn.vscode-lldb # for neovim dap
 
     ### Python
     (python3.withPackages (ps: [
@@ -152,7 +152,7 @@ in
     ## Video & Image
     ffcast
     ffmpeg
-    unstable.mpv # unstable to fix yt-dlp version with incorrect format requests
+    mpv
     pavucontrol
     alsa-utils
 
