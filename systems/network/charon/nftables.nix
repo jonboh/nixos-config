@@ -62,7 +62,6 @@ in {
             iifname { "vlan-lab", "vlan-charon", "vlan-rift", "vlan-warp" } udp dport { 67, 546, 547 } accept
 
             iifname "vlan-lab" tcp dport 22 accept comment "ssh"
-            iifname {"vlan-lab", "vlan-charon", "vlan-rift", "vlan-warp"} udp dport 123 accept comment "ntp"
 
             # ICMPv4/6.
             ${icmp_rules}
@@ -75,7 +74,7 @@ in {
           chain forward {
             type filter hook forward priority filter; policy accept;
 
-            iifname "lan3" counter log prefix "nftables, forward, drop, lan3" level warn flags all drop
+            iifname {"vlan-lab", "vlan-charon", "vlan-rift", "vlan-warp"} oifname { "vlan-lab" } udp dport 123 accept comment "ntp"
 
             # lan0: lab
             ## lab itself
