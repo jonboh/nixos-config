@@ -85,6 +85,6 @@
   # Ensure XDG_RUNTIME_DIR is properly set for all users
   # This is needed for the socket path
   environment.sessionVariables = {
-    XDG_RUNTIME_DIR = "/run/user/$UID";
+    XDG_RUNTIME_DIR = ''/run/user/''${UID}'';
   };
 }
