@@ -12,6 +12,7 @@
     ./network.nix
     ./navidrome.nix
     ./ftp.nix
+    ./home-assistant.nix
     ./backups.nix
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
@@ -44,27 +45,6 @@
       recommendedBrotliSettings = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
-      virtualHosts."navidrome.jonboh.dev" = {
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-            ssl = false;
-          }
-          {
-            port = 443;
-            addr = "0.0.0.0";
-            ssl = true;
-          }
-        ];
-        forceSSL = true;
-        sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
-        sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
-        locations."/" = {
-          proxyPass = "http://${config.services.navidrome.settings.Address}:${toString config.services.navidrome.settings.Port}";
-          recommendedProxySettings = true;
-        };
-      };
     };
     samba = {
       enable = true;

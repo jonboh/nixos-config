@@ -297,20 +297,24 @@
               acl = [
                 "write iaq-lab/#"
               ];
-              passwordFile = "/run/secrets/iaq-lab-mqtt-password";
+              passwordFile = "${config.sops.secrets.iaq-lab-mqtt-password.path}";
             };
             iaq-bedroom = {
               acl = [
                 "write iaq-bedroom/#"
               ];
-              passwordFile = "/run/secrets/iaq-bedroom-mqtt-password";
+              passwordFile = "${config.sops.secrets.iaq-bedroom-mqtt-password.path}";
             };
             iaq-outside = {
               acl = [
                 "write iaq-outside/#"
                 "write iaq-livingroom/#"
               ];
-              passwordFile = "/run/secrets/iaq-outside-mqtt-password";
+              passwordFile = "${config.sops.secrets.iaq-outside-mqtt-password.path}";
+            };
+            smoke = {
+              acl = ["write smoke/#"];
+              passwordFile = "${config.sops.secrets.smoke-mqtt-password.path}";
             };
             influx = {
               acl = [
@@ -318,8 +322,9 @@
                 "read iaq-bedroom/#"
                 "read iaq-outside/#"
                 "read iaq-livingroom/#"
+                "read smoke/#"
               ];
-              passwordFile = "/run/secrets/influx-mqtt-password";
+              passwordFile = "${config.sops.secrets.influx-mqtt-password.path}";
             };
           };
         }

@@ -28,6 +28,10 @@
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/iaq-lab-mqtt-password;
   };
+  sops.secrets.smoke-mqtt-password = {
+    format = "binary";
+    sopsFile = self.inputs.nixos-config-sensitive + /secrets/smoke-mqtt-password;
+  };
   sops.secrets.influx-mqtt-password = {
     format = "binary";
     group = "influx-secrets";

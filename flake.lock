@@ -392,11 +392,11 @@
     "nixos-config-sensitive": {
       "flake": false,
       "locked": {
-        "lastModified": 1771963072,
-        "narHash": "sha256-k/7eAEMLNrTlR9frBkXNgOu+14QPpA3golhW48H+Gc8=",
+        "lastModified": 1772653899,
+        "narHash": "sha256-I84JOuVXLDgzuoB1E62fZP9FA6ZN0FnEQKfWaNxcKZw=",
         "ref": "main",
-        "rev": "0f5c4e83e50d73340cf6adda183ddbf27b1d2726",
-        "revCount": 84,
+        "rev": "aba2ba8576cf7aeda20fe8b5802906841cfdc417",
+        "revCount": 85,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixos-config-sensitive.git"
       },
@@ -731,11 +731,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1772629255,
-        "narHash": "sha256-ZOjw712mFqlkiJlV+opCFPo8UuWV+lZu66CODGk4jFA=",
+        "lastModified": 1772705873,
+        "narHash": "sha256-k98ja2bAAk4JkWE8W3v7ARVutmx0R8sgyam8/imA4q0=",
         "ref": "main",
-        "rev": "75a3b11ec103949c2e51e1a290a4e1fee4798a44",
-        "revCount": 310,
+        "rev": "9af19ba1b9f98c37d16b09db321f5bd8b43a0e0c",
+        "revCount": 312,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       },

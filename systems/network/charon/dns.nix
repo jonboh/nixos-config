@@ -82,6 +82,7 @@
             # Internal Network.
             # Override alesia DNS to go through internal network
             navidrome.jonboh.dev ${sensitive.network.ip.bragi.lab}
+            ha.jonboh.dev ${sensitive.network.ip.bragi.lab}
             radicale.jonboh.dev ${sensitive.network.ip.tars.lab}
             firefox.jonboh.dev ${sensitive.network.ip.tars.lab}
             influx.jonboh.dev ${sensitive.network.ip.tars.lab}

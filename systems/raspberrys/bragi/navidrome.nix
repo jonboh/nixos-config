@@ -12,26 +12,71 @@
     group = config.services.navidrome.group;
   };
 
-  services.navidrome = {
-    enable = true;
-    package = pkgs.navidrome;
-    settings = {
-      Agents = "lastfm,deezer";
-      MusicFolder = "/mnt/storage/music/main";
-      DataFolder = "/mnt/storage/navidrome";
-      CacheFolder = "/mnt/storage/navidrome/cache";
-      Address = "127.0.0.1";
-      Port = 4533;
-      # Scanner.PurgeMissing = "full";
-      BaseUrl = "https://navidrome.jonboh.dev";
-      Backup = {
-        Path = "/mnt/storage/navidrome-backup";
-        Count = 7;
-        Schedule = "0 0 * * *";
+  services = {
+    navidrome = {
+      enable = true;
+      package = pkgs.navidrome;
+      settings = {
+        Agents = "lastfm,deezer";
+        MusicFolder = "/mnt/storage/music/main";
+        DataFolder = "/mnt/storage/navidrome";
+        CacheFolder = "/mnt/storage/navidrome/cache";
+        Address = "127.0.0.1";
+        Port = 4533;
+        # Scanner.PurgeMissing = "full";
+        BaseUrl = "https://navidrome.jonboh.dev";
+        Backup = {
+          Path = "/mnt/storage/navidrome-backup";
+          Count = 7;
+          Schedule = "0 0 * * *";
+        };
+      };
+      environmentFile = config.sops.secrets.navidrome-env.path;
+    };
+
+    nginx. virtualHosts."navidrome.jonboh.dev" = {
+      listen = [
+        {
+          port = 80;
+          addr = sensitive.network.ip.bragi.viae;
+          ssl = false;
+        }
+        {
+          port = 443;
+          addr = sensitive.network.ip.bragi.viae;
+          ssl = true;
+        }
+        {
+          port = 80;
+          addr = sensitive.network.ip.bragi.hodos;
+          ssl = false;
+        }
+        {
+          port = 443;
+          addr = sensitive.network.ip.bragi.hodos;
+          ssl = true;
+        }
+        {
+          port = 80;
+          addr = sensitive.network.ip.bragi.lab;
+          ssl = false;
+        }
+        {
+          port = 443;
+          addr = sensitive.network.ip.bragi.lab;
+          ssl = true;
+        }
+      ];
+      forceSSL = true;
+      sslCertificate = "/var/lib/acme/jonboh.dev/fullchain.pem";
+      sslCertificateKey = "/var/lib/acme/jonboh.dev/key.pem";
+      locations."/" = {
+        proxyPass = "http://${config.services.navidrome.settings.Address}:${toString config.services.navidrome.settings.Port}";
+        recommendedProxySettings = true;
       };
     };
-    environmentFile = config.sops.secrets.navidrome-env.path;
   };
+
   # NOTE: additional libraries need to be read by navidrome
   systemd.services.navidrome.serviceConfig.BindReadOnlyPaths = [
     "/mnt/storage/music/private"
