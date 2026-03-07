@@ -218,15 +218,6 @@
       inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     devShells.x86_64-linux = {
-      esp = pkgs.mkShell {
-        name = "esp-devshell";
-        packages = with pkgs; [
-          esphome
-          esptool
-          mosquitto
-          influxdb2-cli
-        ];
-      };
       terraform = pkgs.mkShell {
         name = "terraform-devshell";
         packages = with pkgs; [terraform];
