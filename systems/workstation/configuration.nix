@@ -138,13 +138,14 @@
     dockerCompat = true;
   };
 
-  #   services.nextjs-ollama-llm-ui = {
-  #     enable = true;
-  #   };
-  #   services.ollama = {
-  #     enable = true;
-  # acceleration = "cuda";
-  #   };
+  # services.nextjs-ollama-llm-ui = {
+  #   enable = true;
+  # };
+  # services.ollama = {
+  #   package = pkgs.unstable.ollama;
+  #   enable = true;
+  #   acceleration = "cuda";
+  # };
 
   programs.ccache = {
     enable = true;
