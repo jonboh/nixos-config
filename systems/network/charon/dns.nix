@@ -78,6 +78,8 @@
             iaq-lab.lan ${sensitive.network.ip.iaq-lab.warp}
             iaq-bedroom.lan ${sensitive.network.ip.iaq-bedroom.warp}
             iaq-outside.lan ${sensitive.network.ip.iaq-outside.warp}
+            smoke-lab.lan ${sensitive.network.ip.smoke-lab.warp}
+            smoke-kitchen.lan ${sensitive.network.ip.smoke-kitchen.warp}
 
             # Internal Network.
             # Override alesia DNS to go through internal network

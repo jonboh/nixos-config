@@ -81,6 +81,10 @@ in {
             iifname { "vlan-lab" } accept comment "Allow traffic coming from lan0"
             oifname { "vlan-lab" } ct state { established, related } accept comment "Allow established back to lab"
 
+            # Allow devices on warp to connect to home-assistant
+            iifname { "vlan-warp" } oifname { "vlan-lab" } ip daddr ${sensitive.network.ip.bragi.lab} tcp dport { 80, 443 } accept comment "Allow traffic coming from lan0 on ports 80 and 443"
+            iifname { "vlan-warp" } oifname { "vlan-lab" } ip saddr ${sensitive.network.ip.bragi.lab} ct state { established, related } tcp sport { 80, 443 } accept comment "Allow established back to lab on ports 80 and 443"
+
             # lan1: alba's office
             iifname { "lan1" } oifname { "wan" } accept comment "Allow albas to go to wan"
             iifname { "wan" } oifname { "lan1" } ct state { established, related } accept comment "Allow established traffic from WAN back to albas"
