@@ -318,11 +318,13 @@
             };
             influx = {
               acl = [
-                "read iaq-lab/#"
-                "read iaq-bedroom/#"
-                "read iaq-outside/#"
-                "read iaq-livingroom/#"
-                "read smoke/#"
+                "read #"
+              ];
+              passwordFile = "${config.sops.secrets.influx-mqtt-password.path}";
+            };
+            admin = {
+              acl = [
+                "readwrite #"
               ];
               passwordFile = "${config.sops.secrets.influx-mqtt-password.path}";
             };

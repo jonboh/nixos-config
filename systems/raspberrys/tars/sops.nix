@@ -19,18 +19,30 @@
   sops.secrets.iaq-bedroom-mqtt-password = {
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/iaq-bedroom-mqtt-password;
+    owner = "mosquitto";
+    group = "influx-secrets";
+    mode = "0440";
   };
   sops.secrets.iaq-outside-mqtt-password = {
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/iaq-outside-mqtt-password;
+    owner = "mosquitto";
+    group = "influx-secrets";
+    mode = "0440";
   };
   sops.secrets.iaq-lab-mqtt-password = {
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/iaq-lab-mqtt-password;
+    owner = "mosquitto";
+    group = "influx-secrets";
+    mode = "0440";
   };
   sops.secrets.smoke-mqtt-password = {
     format = "binary";
     sopsFile = self.inputs.nixos-config-sensitive + /secrets/smoke-mqtt-password;
+    owner = "mosquitto";
+    group = "influx-secrets";
+    mode = "0440";
   };
   sops.secrets.influx-mqtt-password = {
     format = "binary";
