@@ -312,10 +312,6 @@
               ];
               passwordFile = "${config.sops.secrets.iaq-outside-mqtt-password.path}";
             };
-            smoke = {
-              acl = ["write smoke/#"];
-              passwordFile = "${config.sops.secrets.smoke-mqtt-password.path}";
-            };
             influx = {
               acl = [
                 "read #"

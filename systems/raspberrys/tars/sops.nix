@@ -37,13 +37,6 @@
     group = "influx-secrets";
     mode = "0440";
   };
-  sops.secrets.smoke-mqtt-password = {
-    format = "binary";
-    sopsFile = self.inputs.nixos-config-sensitive + /secrets/smoke-mqtt-password;
-    owner = "mosquitto";
-    group = "influx-secrets";
-    mode = "0440";
-  };
   sops.secrets.influx-mqtt-password = {
     format = "binary";
     group = "influx-secrets";
