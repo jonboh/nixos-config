@@ -731,11 +731,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1773067300,
-        "narHash": "sha256-pD/uyUmkMUtT59+VYTw3QLB6ub1Dk69DZ9lxAe1AayI=",
+        "lastModified": 1773320283,
+        "narHash": "sha256-EPtijd9H0b0riPqS3XXzVaMsUMG+B6NGblFEInDHhZw=",
         "ref": "main",
-        "rev": "7635ae6acb6a51d19522c9cdb779908bb98c8a08",
-        "revCount": 316,
+        "rev": "23f30e98dbb937fb74e171b65d5da8d2abedc0c4",
+        "revCount": 317,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixvim-config.git"
       },
