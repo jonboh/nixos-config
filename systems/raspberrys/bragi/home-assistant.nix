@@ -194,9 +194,7 @@ in {
             triggerEntity = "input_boolean.debug_lab_notification_button";
             debugPrefix = "Debug: ";
           })
-          ++
-          # Additional utility automations
-          [
+          ++ [
             {
               alias = "Clear SmokeAlarm Channel";
               mode = "single";
@@ -221,9 +219,22 @@ in {
                 }
               ];
             }
+            {
+              alias = "Reset Smoke Alarm Acknowledgement Every 30 Minutes";
+              description = "Automatically reset smoke alarm acknowledgement every 30 minutes";
+              mode = "single";
+              trigger = [
+                {
+                  platform = "time_pattern";
+                  minutes = "/30";
+                }
+              ];
+              condition = [];
+              action = [smokeAlarmConfig.clearAcknowledgement];
+            }
           ];
       };
-      configWritable = false; # TODO: just to play around
+      configWritable = false;
 
       extraComponents = [
         "default_config"
