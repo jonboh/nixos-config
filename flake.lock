@@ -375,11 +375,11 @@
     "nixos-config-extra-private": {
       "flake": false,
       "locked": {
-        "lastModified": 1770741390,
-        "narHash": "sha256-k+fcYJ65AqL1JGTkqHfaikPKrSFg0GPQYJcvhu5DTh8=",
+        "lastModified": 1773685826,
+        "narHash": "sha256-s5Pcx7bUWYG0h/qU8nk0TOb/0qXWAeiNC/BHc19a/Lw=",
         "ref": "main",
-        "rev": "68ef4641af2f3839b42ba08f534b39a620de07ef",
-        "revCount": 9,
+        "rev": "074e74aecd65efe205639bdf7cb5158624385e00",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@tars.lan/home/git/nixos-config-extra-private.git"
       },
