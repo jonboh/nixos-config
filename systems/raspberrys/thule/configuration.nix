@@ -19,6 +19,8 @@
     };
   };
 
+  networking.hostName = "thule";
+
   zramSwap = {
     enable = true;
     priority = 20;
