@@ -7,6 +7,7 @@
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-2411.url = "github:nixos/nixpkgs/nixos-24.11";
     # app pins
+    telegraf-138-pin.url = "github:nixos/nixpkgs?ref=b40629efe5d6ec48dd1efba650c797ddbd39ace0"; # NOTE: fixes mqtt_consumer see: https://github.com/influxdata/telegraf/issues/16293
     immich-pin.url = "github:nixos/nixpkgs?ref=ae814fd3904b621d8ab97418f1d0f2eb0d3716f4";
     # NOTE: update to 19.1 breaks server, see: https://github.com/NixOS/nixpkgs/issues/455602#issuecomment-3497326152
     firefox-syncserver-pin.url = "github:nixos/nixpkgs?ref=a9a56ab2e6d85f8047fb5de6c7bfdd571eff307d";
@@ -76,10 +77,13 @@
     ...
   } @ inputs: let
     immich-pin-overlay = final: prev: {
-      immich = inputs.immich-pin.legacyPackages.x86_64-linux.immich;
+      immich = inputs.immich-pin.legacyPackages.${final.system}.immich;
     };
     syncstorage-rs-pin-overlay = final: prev: {
-      syncstorage-rs = inputs.firefox-syncserver-pin.legacyPackages.aarch64-linux.syncstorage-rs;
+      syncstorage-rs = inputs.firefox-syncserver-pin.legacyPackages.${final.system}.syncstorage-rs;
+    };
+    telegraf-138-pin-overaly = final: prev: {
+      telegraf = inputs.telegraf-138-pin.legacyPackages.${final.system}.telegraf;
     };
     unstable-overlay = system: final: prev: {
       unstable = import inputs.nixpkgs-unstable {
@@ -443,7 +447,7 @@
         }
       ];
       "tars" = raspberry5 inputs.nixpkgs {
-        overlays = [syncstorage-rs-pin-overlay];
+        overlays = [syncstorage-rs-pin-overlay telegraf-138-pin-overaly];
         modules = [
           inputs.sops.nixosModules.sops
           ./modules

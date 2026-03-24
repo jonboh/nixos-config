@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   sensitive,
   ...
@@ -123,6 +124,7 @@
     picard
     freecad
     samba
+    mqtt-explorer
     (pkgs.callPackage ../../scripts/shpool-list-all.nix {})
     (pkgs.callPackage ../../scripts/ping-devices.nix {inherit sensitive;})
   ];
