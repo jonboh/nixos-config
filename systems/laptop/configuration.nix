@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ../common/servers.nix # for openssh
     ../common/workstations
     ../common/workstations/optionals/timers.nix
     ./hardware-configuration.nix
